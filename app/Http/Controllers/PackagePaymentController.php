@@ -67,6 +67,12 @@ class PackagePaymentController extends Controller
         $request->session()->put('payment_type', 'package_payment');
         $request->session()->put('payment_data', $data);
 
+        if ($request->payment_option == 'free' || $request->package_id == 1) {
+            $data['payment_method'] = 'free';
+            $request->session()->put('payment_data', $data);
+            return $this->package_payment_done($request->session()->get('payment_data'), null);
+        }
+
         if ($request->payment_option == 'paypal') {
             $paypal = new PaypalController();
             return $paypal->pay();
@@ -181,7 +187,11 @@ class PackagePaymentController extends Controller
         $member->remaining_profile_image_view   = $member->remaining_profile_image_view + $package->profile_image_view;
         $member->remaining_gallery_image_view   = $member->remaining_gallery_image_view + $package->gallery_image_view;
         $member->auto_profile_match             = $package->auto_profile_match;
-        $member->package_validity               = date('Y-m-d', strtotime($member->package_validity . ' +' . $package->validity . 'days'));
+        if (empty($member->package_validity) || strtotime($member->package_validity) < time()) {
+            $member->package_validity = date('Y-m-d', strtotime('+' . $package->validity . 'days'));
+        } else {
+            $member->package_validity = date('Y-m-d', strtotime($member->package_validity . ' +' . $package->validity . 'days'));
+        }
 
         if ($member->save()) {
             $user->membership = 2;

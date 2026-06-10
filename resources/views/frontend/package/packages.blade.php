@@ -161,14 +161,10 @@
                                 <span class="text-secondary d-block">{{$package->validity}} {{translate('Days')}}</span>
                             </div>
                             <div class="text-center">
-                                @if ($package->id != 1)
-                                    @if(Auth::check())
-                                        <a href="{{ route('package_payment_methods', encrypt($package->id)) }}" type="submit" class="btn btn-primary" >{{translate('Purchase This Package')}}</a>
-                                    @else
-                                        <button type="submit" onclick="loginModal()" class="btn btn-primary" >{{translate('Purchase This Package')}}</button>
-                                    @endif
+                                @if(Auth::check())
+                                    <a href="{{ route('package_payment_methods', encrypt($package->id)) }}" type="submit" class="btn btn-primary" >{{translate('Purchase This Package')}}</a>
                                 @else
-                                    <a href="javascript:void(0);" class="btn btn-light" ><del>{{translate('Purchase This Package')}}</del></a>
+                                    <button type="submit" onclick="loginModal()" class="btn btn-primary" >{{translate('Purchase This Package')}}</button>
                                 @endif
                             </div>
                         </div>

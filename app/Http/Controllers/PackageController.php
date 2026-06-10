@@ -205,7 +205,7 @@ class PackageController extends Controller
 
     public function select_package()
     {
-        $packages = Package::where('active', '1')->where('id', '!=', 1)->get();
+        $packages = Package::where('active', '1')->get();
         return view('frontend.package.packages', compact('packages'));
     }
 

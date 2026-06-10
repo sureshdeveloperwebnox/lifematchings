@@ -97,6 +97,23 @@
                                 <div class="row">
                                     <div class="col-xxl-8 col-xl-10 mx-auto">
                                         <div class="row gutters-10">
+                                            @if ($package->id == 1)
+                                                <div class="col-6 col-md-4">
+                                                    <label class="aiz-megabox d-block mb-3">
+                                                        <input value="free" class="online_payment" type="radio"
+                                                            name="payment_option" checked>
+                                                        <span class="d-block p-3 aiz-megabox-elem">
+                                                            <div class="text-center">
+                                                                <i class="las la-gift la-3x text-primary mb-2"></i>
+                                                                <span class="d-block text-center">
+                                                                    <span
+                                                                        class="d-block fw-600 fs-15">{{ translate('Free Activation') }}</span>
+                                                                </span>
+                                                            </div>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            @else
                                             @if (get_setting('paypal_payment_activation') == 1)
                                                 <div class="col-6 col-md-4">
                                                     <label class="aiz-megabox d-block mb-3">
@@ -279,6 +296,7 @@
                                                     </label>
                                                 </div>
                                             @endforeach
+                                            @endif
 
                                             {{--  --}}
                                         </div>
@@ -357,7 +375,7 @@
                         <div class=" text-right pt-3">
                             <button type="button" onclick="package_purchase(this)"
                                 class="btn btn-primary fw-600 purchase_button"
-                                disabled>{{ translate('Confirm') }}</button>
+                                @if($package->id == 1) @else disabled @endif>{{ translate('Confirm') }}</button>
                         </div>
                     </form>
                 </div>
@@ -368,34 +386,58 @@
 
 @section('script')
     <script type="text/javascript">
-        // $(document).ready(function() {
-        $(".online_payment").click(function() {
-            $('.manual_payment_description').addClass('d-none');
-            $('#purchase_by_manual_payment').addClass('d-none');
-            $(".purchase_button").prop('disabled', false);
-            $("#payment_type").val('online_payment');
-        });
-        $(".manual_payment").click(function() {
-            $(".purchase_button").prop('disabled', false);
-            $("#payment_type").val('manual_payment');
-            $('.manual_payment_description').removeClass('d-none');
-        });
-
         function package_purchase(el) {
-            $(el).prop('disabled', true);
-            var payment_type = $("#payment_type").val();
+            el.disabled = true;
+            var paymentTypeEl = document.getElementById('payment_type');
+            var payment_type = paymentTypeEl ? paymentTypeEl.value : '';
             if (payment_type == 'manual_payment') {
-                var transaction_id = $("#transaction_id").val();
-                var payment_proof = $("#payment_proof").val();
+                var transaction_id = document.getElementById('transaction_id') ? document.getElementById('transaction_id').value : '';
+                var payment_proof = document.getElementById('payment_proof') ? document.getElementById('payment_proof').value : '';
                 if (transaction_id == '' || payment_proof == '') {
-                    AIZ.plugins.notify('danger', '{{ translate('Please Provide transaction id and payemnt proof.') }}');
-                    $(el).prop('disabled', false);
+                    if (typeof AIZ !== 'undefined' && AIZ.plugins && AIZ.plugins.notify) {
+                        AIZ.plugins.notify('danger', '{{ translate('Please Provide transaction id and payemnt proof.') }}');
+                    } else {
+                        alert('Please Provide transaction id and payment proof.');
+                    }
+                    el.disabled = false;
                 } else {
-                    $('#package-payment-form').submit();
+                    document.getElementById('package-payment-form').submit();
                 }
             } else {
-                $('#package-payment-form').submit();
+                var form = document.getElementById('package-payment-form');
+                if (form) {
+                    form.submit();
+                } else {
+                    el.disabled = false;
+                }
             }
+        }
+
+        @if($package->id == 1)
+            document.addEventListener("DOMContentLoaded", function() {
+                var paymentTypeEl = document.getElementById('payment_type');
+                if (paymentTypeEl) {
+                    paymentTypeEl.value = 'online_payment';
+                }
+                var purchaseBtn = document.querySelector('.purchase_button');
+                if (purchaseBtn) {
+                    purchaseBtn.disabled = false;
+                }
+            });
+        @endif
+
+        if (typeof $ !== 'undefined') {
+            $(".online_payment").click(function() {
+                $('.manual_payment_description').addClass('d-none');
+                $('#purchase_by_manual_payment').addClass('d-none');
+                $(".purchase_button").prop('disabled', false);
+                $("#payment_type").val('online_payment');
+            });
+            $(".manual_payment").click(function() {
+                $(".purchase_button").prop('disabled', false);
+                $("#payment_type").val('manual_payment');
+                $('.manual_payment_description').removeClass('d-none');
+            });
         }
         // manual payment
         function toggleManualPaymentData(id) {

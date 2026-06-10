@@ -165,14 +165,10 @@
                                 <span class="text-secondary d-block"><?php echo e($package->validity); ?> <?php echo e(translate('Days')); ?></span>
                             </div>
                             <div class="text-center">
-                                <?php if($package->id != 1): ?>
-                                    <?php if(Auth::check()): ?>
-                                        <a href="<?php echo e(route('package_payment_methods', encrypt($package->id))); ?>" type="submit" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></a>
-                                    <?php else: ?>
-                                        <button type="submit" onclick="loginModal()" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></button>
-                                    <?php endif; ?>
+                                <?php if(Auth::check()): ?>
+                                    <a href="<?php echo e(route('package_payment_methods', encrypt($package->id))); ?>" type="submit" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></a>
                                 <?php else: ?>
-                                    <a href="javascript:void(0);" class="btn btn-light" ><del><?php echo e(translate('Purchase This Package')); ?></del></a>
+                                    <button type="submit" onclick="loginModal()" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></button>
                                 <?php endif; ?>
                             </div>
                         </div>

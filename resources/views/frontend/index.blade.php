@@ -1364,28 +1364,26 @@
         <a href="https://lifematchings.com/packages" class="btn btn-outline-light mt-3 px-4 py-2 rounded-pill">View More Details</a>
 
         <div class="pricing-scroller mt-5 pt-6 pb-6 s-padding">
-            @foreach (\App\Models\Package::where('active', '1')->where('id', '!=', 1)->get() as $key => $package)
+            @foreach (\App\Models\Package::where('active', '1')->get() as $key => $package)
                 <div class="pricing-item s-package" data-aos="fade-up" 
                 data-aos-delay="{{ $loop->index * 200 }}">
                     <div class="pricing-card">
                         <div class="pricing-header">{{ $package->name }}</div>
                         <div class="pricing-body vip">
-                            <h2>{{ single_price($package->price) }}</h2>
+                            @if ($package->id == 1)
+                                <h2>{{ translate('Free') }}</h2>
+                            @else
+                                <h2>{{ single_price($package->price) }}</h2>
+                            @endif
                             <p>For {{ $package->validity }} Days</p>
-                            @if ($package->id != 1)
-                                    @if (Auth::check())
-                                        <a href="{{ route('package_payment_methods', encrypt($package->id)) }}"
-                                            class="btn btn-package w-60">Purchase This Package</a>
-                                    @else
-                                        <button type="button" onclick="loginModal()" class=" btn-package w-4">
-                                            Purchase This Package
-                                        </button>
-                                    @endif
-                                @else
-                                    <button class="btn btn-secondary w-100 " disabled>
-                                        <del>Purchase This Package</del>
-                                    </button>
-                                @endif
+                            @if (Auth::check())
+                                <a href="{{ route('package_payment_methods', encrypt($package->id)) }}"
+                                    class="btn btn-package w-60">Purchase This Package</a>
+                            @else
+                                <button type="button" onclick="loginModal()" class=" btn-package w-4">
+                                    Purchase This Package
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -1413,7 +1411,7 @@
                 </div>
                 <div class="aiz-carousel" data-items="4" data-xl-items="3" data-md-items="2" data-sm-items="1"
                     data-dots='true' data-infinite='true' data-autoplay='true'>
-                    @foreach (\App\Models\Package::where('active', '1')->where('id', '!=', 1)->get() as $key => $package)
+                    @foreach (\App\Models\Package::where('active', '1')->get() as $key => $package)
                         <div class="carousel-box">
                             <div class="overflow-hidden shadow-none mb-3 border-right">
                                 <div class="card-body">
@@ -1433,18 +1431,13 @@
                                             {{ translate('Months') }}</span>
                                     </div>
                                     <div class="text-center mb-3">
-                                        @if ($package->id != 1)
-                                            @if (Auth::check())
-                                                <a href="{{ route('package_payment_methods', encrypt($package->id)) }}"
-                                                    type="submit"
-                                                    class="btn btn-primary">{{ translate('Purchase This Package') }}</a>
-                                            @else
-                                                <button type="submit" onclick="loginModal()"
-                                                    class="btn btn-primary">{{ translate('Purchase This Package') }}</button>
-                                            @endif
+                                        @if (Auth::check())
+                                            <a href="{{ route('package_payment_methods', encrypt($package->id)) }}"
+                                                type="submit"
+                                                class="btn btn-primary">{{ translate('Purchase This Package') }}</a>
                                         @else
-                                            <a href="javascript:void(0);"
-                                                class="btn btn-light"><del>{{ translate('Purchase This Package') }}</del></a>
+                                            <button type="submit" onclick="loginModal()"
+                                                class="btn btn-primary">{{ translate('Purchase This Package') }}</button>
                                         @endif
                                     </div>
                                 </div>
@@ -1594,7 +1587,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <a href="https://lifematchings.com/packages" class="btn btn-outline-light mt-3">View More Details</a>
 
     <div class="pricing-scroller mt-5">
-      @foreach (\App\Models\Package::where('active', '1')->where('id', '!=', 1)->get() as $key => $package)
+      @foreach (\App\Models\Package::where('active', '1')->get() as $key => $package)
         <div class="pricing-item">
           <div class="pricing-card">
             <div class="pricing-header">{{ $package->name }}</div>
@@ -1606,7 +1599,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 <h2>{{ single_price($package->price) }}</h2>
               @endif
               <p>For {{ $package->validity }} Days</p>
-              @if ($package->id != 1)
                 @if (Auth::check())
                   <a href="{{ route('package_payment_methods', encrypt($package->id)) }}" class="btn btn-package">
                     Purchase This Package
@@ -1616,11 +1608,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     Purchase This Package
                   </button>
                 @endif
-              @else
-                <button class="btn btn-secondary w-100" disabled>
-                  <del>Purchase This Package</del>
-                </button>
-              @endif
             </div>
           </div>
         </div>
