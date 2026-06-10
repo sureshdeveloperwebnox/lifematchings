@@ -26,6 +26,7 @@ use App\Http\Controllers\IgnoredUserController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LifestyleController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\InitialPaymentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PackagePaymentController;
@@ -79,7 +80,7 @@ Route::controller(DemoController::class)->group(function () {
     Route::get('/demo/cron_2', 'cron_2');
 });
 
-Auth::routes();
+Auth::routes(['reset' => false]);
 
 // OTP Routes
 Route::post('/send-otp', [App\Http\Controllers\OTPController::class, 'sendOTP'])->name('send.otp');
@@ -95,6 +96,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('/fcm-token', 'updateToken')->name('fcmToken');
 
     Route::get('/email_change/callback', 'email_change_callback')->name('email_change.callback');
+    Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
     Route::post('/password/reset/email/submit', 'reset_password_with_code')->name('password.update');
     Route::post('/password/reset/phone/submit', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'resetPasswordWithPhone'])->name('password.update.phone');
     Route::get('/users/login', 'login')->name('user.login');
@@ -119,14 +122,16 @@ Route::controller(AizUploadController::class)->group(function () {
     Route::get('/migrate/database', 'migrate_database');
 });
 
-Auth::routes(['verify' => true]);
+Auth::routes(['reset' => false]);
 Route::controller(LoginController::class)->group(function () {
-    Route::get('/logout', 'logout')->name('logout');
+    Route::get('/logout', 'logout');
     Route::get('/social-login/redirect/{provider}', 'redirectToProvider')->name('social.login');
     Route::get('/social-login/{provider}/callback', 'handleProviderCallback')->name('social.callback');
 });
 
 Route::controller(VerificationController::class)->group(function () {
+    Route::get('/email/verify', 'show')->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
     Route::get('/email/resend', 'resend')->name('verification.resend');
     Route::get('/verification-confirmation/{code}', 'verification_confirmation')->name('email.verification.confirmation');
 });
@@ -282,7 +287,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/address', AddressController::class);
 
     // Member education
-    Route::resource('/education', EducationController::class);
+    Route::resource('/education', EducationController::class)->except(['create', 'edit', 'destroy']);
     Route::controller(EducationController::class)->group(function () {
         Route::post('/education/create', 'create')->name('education.create');
         Route::post('/education/edit', 'edit')->name('education.edit');
@@ -294,7 +299,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     // Member Career
-    Route::resource('/career', CareerController::class);
+    Route::resource('/career', CareerController::class)->except(['create', 'edit', 'destroy']);
     Route::controller(CareerController::class)->group(function () {
         Route::post('/career/create', 'create')->name('career.create');
         Route::post('/career/edit', 'edit')->name('career.edit');

@@ -26,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
    */
   public function register()
   {
-    //
+      if (!isset($_SERVER['SERVER_NAME'])) {
+          $_SERVER['SERVER_NAME'] = 'localhost';
+      }
+      if (!isset($_SERVER['HTTP_HOST'])) {
+          $_SERVER['HTTP_HOST'] = 'localhost';
+      }
   }
 }

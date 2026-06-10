@@ -68,14 +68,14 @@ Route::get('/admin/login', [HomeController::class, 'admin_login'])->name('admin.
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/dashboard', [HomeController::class, 'admin_dashboard'])->name('admin.dashboard');
 
-    Route::resource('profile', ProfileController::class);
+    Route::resource('profile', ProfileController::class)->only(['index', 'update']);
 
     // Contact Us page
-    Route::resource('/contact-us', ContactUsController::class);
+    Route::resource('/contact-us', ContactUsController::class)->except(['store']);
     Route::get('/contact-us/destroy/{id}', [ContactUsController::class, 'destroy'])->name('contact-us.delete');
 
     // Member Manage
-    Route::resource('members', MemberController::class);
+    Route::resource('members', MemberController::class)->except(['index', 'destroy']);
     Route::controller(MemberController::class)->group(function () {
         Route::get('/members/member_list/{id}', 'index')->name('members.index');
         Route::post('/members/block', 'block')->name('members.block');
@@ -116,7 +116,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     });
 
     // Premium Packages
-    Route::resource('/packages', PackageController::class);
+    Route::resource('/packages', PackageController::class)->except(['destroy']);
     Route::controller(PackageController::class)->group(function () {
         Route::post('/packages/update_status', 'update_status')->name('packages.update_status');
         Route::get('/packages/destroy/{id}', 'destroy')->name('packages.destroy');
@@ -141,10 +141,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::post('/happy-story/update-story-status',[HappyStoryController::class, 'approval_status'])->name('happy_story_approval.status');
 
     //Blog Section
-    Route::resource('blog-category', BlogCategoryController::class);
+    Route::resource('blog-category', BlogCategoryController::class)->except(['destroy']);
     Route::get('/blog-category/destroy/{id}', [BlogCategoryController::class, 'destroy'])->name('blog-category.destroy');
 
-    Route::resource('blog', BlogController::class);
+    Route::resource('blog', BlogController::class)->except(['destroy']);
     Route::controller(BlogController::class)->group(function () {
         Route::get('/blog/destroy/{id}', 'destroy')->name('blog.destroy');
         Route::post('/blog/change-status', 'change_status')->name('blog.change-status');
@@ -152,32 +152,32 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 
     // Member profile attributes
     // religions
-    Route::resource('/religions', ReligionController::class);
+    Route::resource('/religions', ReligionController::class)->except(['destroy']);
     Route::controller(ReligionController::class)->group(function () {
         Route::get('/religions/destroy/{id}', 'destroy')->name('religions.destroy');
         Route::post('/religion/bulk_destroy', 'religion_bulk_delete')->name('religion.bulk_delete');
     });
 
     // Caste
-    Route::resource('/castes', CasteController::class);
+    Route::resource('/castes', CasteController::class)->except(['destroy']);
     Route::controller(CasteController::class)->group(function () {
         Route::get('/castes/destroy/{id}', 'destroy')->name('castes.destroy');
         Route::post('/caste/bulk_destroy', 'caste_bulk_delete')->name('caste.bulk_delete');
     });
 
     // SubCaste
-    Route::resource('/sub-castes', SubCasteController::class);
+    Route::resource('/sub-castes', SubCasteController::class)->except(['destroy']);
     Route::controller(SubCasteController::class)->group(function () {
         Route::get('/sub-castes/destroy/{id}', 'destroy')->name('sub-castes.destroy');
         Route::post('/sub-caste/bulk_destroy', 'sub_caste_bulk_delete')->name('sub-castes.bulk_delete');
     });
 
     // Member Language
-    Route::resource('member-languages', MemberLanguageController::class);
+    Route::resource('member-languages', MemberLanguageController::class)->except(['destroy']);
     Route::get('/member-language/destroy/{id}', [MemberLanguageController::class, 'destroy'])->name('member-languages.destroy');
 
     // Country
-    Route::resource('/countries', CountryController::class);
+    Route::resource('/countries', CountryController::class)->except(['destroy']);
     Route::controller(CountryController::class)->group(function () {
         Route::post('/countries/status', 'updateStatus')->name('countries.status');
         Route::get('/countries/destroy/{id}', 'destroy')->name('countries.destroy');
@@ -185,44 +185,44 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     
 
     // State
-    Route::resource('/states', StateController::class);
+    Route::resource('/states', StateController::class)->except(['destroy']);
     Route::get('/states/destroy/{id}', [StateController::class,'destroy'])->name('states.destroy');
 
     // City
-    Route::resource('/cities', CityController::class);
+    Route::resource('/cities', CityController::class)->except(['destroy']);
     Route::get('/cities/destroy/{id}', [CityController::class, 'destroy'])->name('cities.destroy');
 
     // Family Status
-    Route::resource('/family-status', FamilyStatusController::class);
+    Route::resource('/family-status', FamilyStatusController::class)->except(['destroy']);
     Route::get('/family-status/destroy/{id}', [FamilyStatusController::class, 'destroy'])->name('family-status.destroy');
 
     // Family Value
-    Route::resource('/family-values', FamilyValueController::class);
+    Route::resource('/family-values', FamilyValueController::class)->except(['destroy']);
     Route::get('/family-values/destroy/{id}', [FamilyValueController::class, 'destroy'])->name('family-values.destroy');
 
     // On Behalf
-    Route::resource('/on-behalf', OnBehalfController::class);
+    Route::resource('/on-behalf', OnBehalfController::class)->except(['destroy']);
     Route::get('/on-behalf/destroy/{id}', [OnBehalfController::class, 'destroy'])->name('on-behalf.destroy');
 
-    Route::resource('marital-statuses', MaritalStatusController::class);
+    Route::resource('marital-statuses', MaritalStatusController::class)->except(['destroy']);
     Route::get('/marital-statuses/destroy/{id}', [MaritalStatusController::class, 'destroy'])->name('marital-statuses.destroy');
 
     // Sun Sign
-    Route::resource('sun-signs', SunSignController::class);
+    Route::resource('sun-signs', SunSignController::class)->except(['destroy']);
     Route::get('/sun-signs/destroy/{id}', [SunSignController::class, 'destroy'])->name('sun-signs.destroy');
     Route::get('/sun-signs/mapping/{id}', [SunSignController::class, 'showMapping'])->name('sun-signs.mapping');
     Route::post('/sun-signs/mapping/{id}', [SunSignController::class, 'updateMapping'])->name('sun-signs.update-mapping');
 
     // Moon Sign
-    Route::resource('moon-signs', MoonSignController::class);
+    Route::resource('moon-signs', MoonSignController::class)->except(['destroy']);
     Route::get('/moon-signs/destroy/{id}', [MoonSignController::class, 'destroy'])->name('moon-signs.destroy');
 
     // Annual Slary Range
-    Route::resource('/annual-salaries', AnnualSalaryRangeyController::class);
+    Route::resource('/annual-salaries', AnnualSalaryRangeyController::class)->except(['destroy']);
     Route::get('/annual-salaries/destroy/{id}', [AnnualSalaryRangeyController::class, 'destroy'])->name('annual-salaries.destroy');
 
     // Email Templates
-    Route::resource('/email-templates', EmailTemplateController::class);
+    Route::resource('/email-templates', EmailTemplateController::class)->except(['update']);
     Route::post('/email-templates/update', [EmailTemplateController::class, 'update'])->name('email-templates.update');
 
     // Marketing
@@ -233,7 +233,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     });
 
     // Language
-    Route::resource('/languages', LanguageController::class);
+    Route::resource('/languages', LanguageController::class)->except(['destroy']);
     Route::controller(LanguageController::class)->group(function () {
         Route::post('/languages/update_rtl_status', 'update_rtl_status')->name('languages.update_rtl_status');
         Route::post('/languages/key_value_store', 'key_value_store')->name('languages.key_value_store');
@@ -241,7 +241,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     });
 
     // Setting
-    Route::resource('/settings', SettingController::class);
+    Route::resource('/settings', SettingController::class)->except(['update']);
     Route::controller(SettingController::class)->group(function () {
         Route::post('/settings/update', 'update')->name('settings.update');
         Route::post('/settings/activation/update', 'updateActivationSettings')->name('settings.activation.update');
@@ -273,10 +273,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
         Route::get('/system/server-status', 'system_server')->name('system_server');
     });
 
-    Route::resource('/additional-attributes', AdditionalAttributeController::class);
+    Route::resource('/additional-attributes', AdditionalAttributeController::class)->except(['update']);
     Route::post('/additional-attributes/update', [AdditionalAttributeController::class, 'update'])->name('additional-attributes.update');
 
-    Route::resource('/languages', LanguageController::class);
+    Route::resource('/languages', LanguageController::class)->except(['destroy']);
 
     // Currency settings
     Route::resource('currencies', CurrencyController::class);
@@ -293,17 +293,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
             Route::get('/appearances', 'website_appearances')->name('website.appearances');
         });
 
-        Route::resource('custom-pages', PageController::class);
+        Route::resource('custom-pages', PageController::class)->except(['destroy', 'edit']);
         Route::controller(PageController::class)->group(function () {
             Route::get('/custom-pages/edit/{id}', 'edit')->name('custom-pages.edit');
             Route::get('/custom-pages/destroy/{id}', 'destroy')->name('custom-pages.destroy');
         });
     });
 
-    Route::resource('staffs', StaffController::class);
+    Route::resource('staffs', StaffController::class)->except(['destroy']);
     Route::get('/staffs/destroy/{id}', [StaffController::class, 'destroy'])->name('staffs.destroy');
 
-    Route::resource('roles', RoleController::class);
+    Route::resource('roles', RoleController::class)->except(['destroy']);
     Route::get('/roles/destroy/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
     // permission add
@@ -315,7 +315,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::post('/addons/activation', [AddonController::class, 'activation'])->name('addons.activation');
 
     // uploaded files
-    Route::resource('/uploaded-files', AizUploadController::class);
+    Route::resource('/uploaded-files', AizUploadController::class)->except(['destroy']);
     Route::controller(AizUploadController::class)->group(function() {
         Route::any('/uploaded-files/file-info', 'file_info')->name('uploaded-files.info');
         Route::get('/uploaded-files/destroy/{id}', 'destroy')->name('uploaded-files.destroy');
@@ -325,6 +325,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::get('/cache-cache', [HomeController::class, 'clearCache'])->name('cache.clear');
 
     // Manual Payment
-    Route::resource('manual_payment_methods', ManualPaymentMethodController::class);
+    Route::resource('manual_payment_methods', ManualPaymentMethodController::class)->except(['destroy']);
     Route::get('/manual_payment_methods/destroy/{id}', [ManualPaymentMethodController::class, 'destroy'])->name('manual_payment_methods.destroy');
 });

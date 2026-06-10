@@ -86,23 +86,29 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapSupportTicketRoutes()
     {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/support_tickets.php'));
+        if (file_exists(app_path('Http/Controllers/SupportTicketController.php'))) {
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/support_tickets.php'));
+        }
     }
 
     protected function mapOtpRoutes()
     {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/otp.php'));
+        if (file_exists(app_path('Http/Controllers/OTPVerificationController.php'))) {
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/otp.php'));
+        }
     }
 
     protected function mapReferralRoutes()
     {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/referral.php'));
+        if (file_exists(app_path('Http/Controllers/ReferralSystemController.php'))) {
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/referral.php'));
+        }
     }
 
     protected function mapInstallRoutes()
