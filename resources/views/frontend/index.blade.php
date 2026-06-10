@@ -1433,7 +1433,6 @@
                                     <div class="text-center mb-3">
                                         @if (Auth::check())
                                             <a href="{{ route('package_payment_methods', encrypt($package->id)) }}"
-                                                type="submit"
                                                 class="btn btn-primary">{{ translate('Purchase This Package') }}</a>
                                         @else
                                             <button type="submit" onclick="loginModal()"
@@ -1600,9 +1599,15 @@ document.addEventListener('DOMContentLoaded', function () {
               @endif
               <p>For {{ $package->validity }} Days</p>
                 @if (Auth::check())
-                  <a href="{{ route('package_payment_methods', encrypt($package->id)) }}" class="btn btn-package">
-                    Purchase This Package
-                  </a>
+                  @if (Auth::user()->user_type == 'member' && Auth::user()->member && Auth::user()->member->current_package_id == $package->id)
+                    <a href="{{ route('dashboard') }}" class="btn btn-package" style="background-color: #28a745 !important; color: white !important; border-color: #28a745 !important;">
+                      {{ translate('Purchased') }}
+                    </a>
+                  @else
+                    <a href="{{ route('package_payment_methods', encrypt($package->id)) }}" class="btn btn-package">
+                      Purchase This Package
+                    </a>
+                  @endif
                 @else
                   <button type="button" onclick="loginModal()" class="btn btn-package">
                     Purchase This Package

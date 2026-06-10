@@ -355,7 +355,7 @@
 </header>
 
 <script>
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Fix mobile navigation toggle
     $('.navbar-toggler').on('click', function() {
         var target = $(this).data('target');

@@ -166,7 +166,11 @@
                             </div>
                             <div class="text-center">
                                 <?php if(Auth::check()): ?>
-                                    <a href="<?php echo e(route('package_payment_methods', encrypt($package->id))); ?>" type="submit" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></a>
+                                    <?php if(Auth::user()->user_type == 'member' && Auth::user()->member && Auth::user()->member->current_package_id == $package->id): ?>
+                                        <a href="<?php echo e(route('dashboard')); ?>" class="btn btn-success" ><?php echo e(translate('Purchased')); ?></a>
+                                    <?php else: ?>
+                                        <a href="<?php echo e(route('package_payment_methods', encrypt($package->id))); ?>" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></a>
+                                    <?php endif; ?>
                                 <?php else: ?>
                                     <button type="submit" onclick="loginModal()" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></button>
                                 <?php endif; ?>

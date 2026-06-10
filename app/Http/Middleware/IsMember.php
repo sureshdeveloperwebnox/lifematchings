@@ -34,6 +34,12 @@ class IsMember
             Cache::put('user-is-online-' . Auth::user()->id, true, $expiresAt);
 
             if (Auth::user()->approved == 0) {
+                if ($request->routeIs('package_payment_methods') ||
+                    $request->routeIs('package.payment') ||
+                    $request->routeIs('package_payment.invoice') ||
+                    $request->routeIs('package_purchase_history')) {
+                    return $next($request);
+                }
                 flash(translate("Please verify your account."));
                 return redirect()->route('dashboard');
             } else {

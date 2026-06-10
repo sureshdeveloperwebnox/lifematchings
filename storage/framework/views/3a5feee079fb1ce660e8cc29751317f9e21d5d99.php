@@ -592,10 +592,12 @@
   // 👇 Function to toggle blur condition
   function toggleFormVisibility(blurred) {
     const form = document.getElementById('formContainer');
-    if (blurred) {
-      form.classList.add('blurred');
-    } else {
-      form.classList.remove('blurred');
+    if (form) {
+      if (blurred) {
+        form.classList.add('blurred');
+      } else {
+        form.classList.remove('blurred');
+      }
     }
   }
 

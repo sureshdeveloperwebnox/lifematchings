@@ -162,7 +162,11 @@
                             </div>
                             <div class="text-center">
                                 @if(Auth::check())
-                                    <a href="{{ route('package_payment_methods', encrypt($package->id)) }}" type="submit" class="btn btn-primary" >{{translate('Purchase This Package')}}</a>
+                                    @if(Auth::user()->user_type == 'member' && Auth::user()->member && Auth::user()->member->current_package_id == $package->id)
+                                        <a href="{{ route('dashboard') }}" class="btn btn-success" >{{translate('Purchased')}}</a>
+                                    @else
+                                        <a href="{{ route('package_payment_methods', encrypt($package->id)) }}" class="btn btn-primary" >{{translate('Purchase This Package')}}</a>
+                                    @endif
                                 @else
                                     <button type="submit" onclick="loginModal()" class="btn btn-primary" >{{translate('Purchase This Package')}}</button>
                                 @endif
