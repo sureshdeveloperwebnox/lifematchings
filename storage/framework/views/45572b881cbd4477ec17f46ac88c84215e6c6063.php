@@ -68,6 +68,25 @@
 <ul class="list-group list-group-raw mb-5" style="font-size:13px;">
 
     
+    <?php if($package->name == 'Free Package' || $package->name == 'Default'): ?>
+        <li class="list-group-item py-2">
+            <i class="las la-heart text-success mr-2"></i> <b>15</b> <?php echo e(translate('Express Interests')); ?>
+
+        </li>
+        <li class="list-group-item py-2">
+            <i class="las la-image text-success mr-2"></i> <b>2</b> <?php echo e(translate('Gallery Image Uploads')); ?>
+
+        </li>
+        <li class="list-group-item py-2 text-muted">
+            <i class="las la-times text-danger mr-2"></i> <?php echo e(translate('No Contact Info View')); ?>
+
+        </li>
+        <li class="list-group-item py-2 mb-5 text-muted">
+            <i class="las la-times text-danger mr-2"></i> <?php echo e(translate('No Profile Viewer View')); ?>
+
+        </li>
+    <?php endif; ?>
+
     <?php if($package->name == 'Elite'): ?>
         <li class="list-group-item py-2">
             <i class="las la-user-tie text-success mr-2"></i> Relationship Manager

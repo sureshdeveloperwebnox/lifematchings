@@ -1364,7 +1364,7 @@
         <a href="https://lifematchings.com/packages" class="btn btn-outline-light mt-3 px-4 py-2 rounded-pill">View More Details</a>
 
         <div class="pricing-scroller mt-5 pt-6 pb-6 s-padding">
-            @foreach (\App\Models\Package::where('active', '1')->get() as $key => $package)
+            @foreach (\App\Models\Package::where('active', '1')->where('id', '!=', 1)->get() as $key => $package)
                 <div class="pricing-item s-package" data-aos="fade-up" 
                 data-aos-delay="{{ $loop->index * 200 }}">
                     <div class="pricing-card">
@@ -1413,7 +1413,7 @@
                 </div>
                 <div class="aiz-carousel" data-items="4" data-xl-items="3" data-md-items="2" data-sm-items="1"
                     data-dots='true' data-infinite='true' data-autoplay='true'>
-                    @foreach (\App\Models\Package::where('active', '1')->get() as $key => $package)
+                    @foreach (\App\Models\Package::where('active', '1')->where('id', '!=', 1)->get() as $key => $package)
                         <div class="carousel-box">
                             <div class="overflow-hidden shadow-none mb-3 border-right">
                                 <div class="card-body">
@@ -1594,7 +1594,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <a href="https://lifematchings.com/packages" class="btn btn-outline-light mt-3">View More Details</a>
 
     <div class="pricing-scroller mt-5">
-      @foreach (\App\Models\Package::where('active', '1')->get() as $key => $package)
+      @foreach (\App\Models\Package::where('active', '1')->where('id', '!=', 1)->get() as $key => $package)
         <div class="pricing-item">
           <div class="pricing-card">
             <div class="pricing-header">{{ $package->name }}</div>
