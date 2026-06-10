@@ -64,82 +64,75 @@
     
 
     <div class="row gutters-5">
-        <?php if(false): ?> 
-         <div class="col-lg-5 col-md-8">
-            <?php echo $__env->make('frontend.package._initial_card', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-         </div>
-         <?php else: ?>
         <div class="col-md-6">
-    <div class="card">
-        <div class="card-header">
-            <h2 class="fs-16 mb-0"><?php echo e(translate('Current package')); ?></h2>
-        </div>
-        <div class="card-body">
-            <div class="text-center mb-4 mt-3">
-                <img class="mw-100 mx-auto mb-4" src="<?php echo e(uploaded_asset($user->member->package->image)); ?>" height="130">
-                <h5 class="mb-3 h5 fw-600"><?php echo e($user->member->package->id == 1 ? translate('Free') : $user->member->package->name); ?></h5>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="fs-16 mb-0"><?php echo e(translate('Current package')); ?></h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4 mt-3">
+                        <img class="mw-100 mx-auto mb-4" src="<?php echo e(uploaded_asset($user->member->package->image)); ?>" height="130">
+                        <h5 class="mb-3 h5 fw-600"><?php echo e($user->member->package->name); ?></h5>
+                    </div>
+                    <ul class="list-group list-group-raw fs-15 mb-4 pb-4 border-bottom">
+                        <li class="list-group-item py-2">
+                            <i class="las la-check text-success mr-2"></i>
+                            <?php echo e($user->member->package->express_interest); ?> <?php echo e(translate('Express Interests')); ?>
+
+                        </li>
+                        <li class="list-group-item py-2">
+                            <i class="las la-check text-success mr-2"></i>
+                            <?php echo e($user->member->package->photo_gallery); ?> <?php echo e(translate('Gallery Photo Upload')); ?>
+
+                        </li>
+                        <li class="list-group-item py-2">
+                            <i class="las la-check text-success mr-2"></i>
+                            <?php echo e($user->member->package->contact); ?> <?php echo e(translate('Contact Info View')); ?>
+
+                        </li>
+                        <li class="list-group-item py-2">
+                            <i class="las la-check text-success mr-2"></i>
+                            <?php echo e($user->member->package->profile_viewers_view); ?> <?php echo e(translate('Profile Viewer View')); ?>
+
+                        </li>
+                        <?php if($profile_picture_privacy == 'only_me'): ?>
+                            <li class="list-group-item py-2">
+                                <i class="las la-check text-success mr-2"></i>
+                                <?php echo e($user->member->package->profile_image_view); ?> <?php echo e(translate('Profile Image View')); ?>
+
+                            </li>
+                        <?php endif; ?>
+                        <?php if($gallery_image_privacy == 'only_me'): ?>
+                            <li class="list-group-item py-2">
+                                <i class="las la-check text-success mr-2"></i>
+                                <?php echo e($user->member->package->gallery_image_view); ?> <?php echo e(translate('Gallery Image View')); ?>
+
+                            </li>
+                        <?php endif; ?>
+                        <li class="list-group-item py-2 text-line-through">
+                            <?php if( $user->member->package->auto_profile_match == 0 ): ?>
+                                <i class="las la-times text-danger mr-2"></i>
+                                <del class="opacity-60"><?php echo e(translate('Show Auto Profile Match')); ?></del>
+                            <?php else: ?>
+                                <i class="las la-check text-success mr-2"></i>
+                                <?php echo e(translate('Show Auto Profile Match')); ?>
+
+                            <?php endif; ?>
+                        </li>
+                    </ul>
+                    <h4 class="fs-18 mb-3">
+                      <?php echo e(translate('Package expiry date')); ?>:
+                      <?php if(package_validity($user->id)): ?>
+                        <?php echo e($user->member->package_validity); ?>
+
+                      <?php else: ?>
+                          <span class="text-danger"><?php echo e(translate('Expired')); ?></span>
+                      <?php endif; ?>
+                    </h4>
+                    <a href="<?php echo e(route('packages')); ?>" class="btn btn-success d-inline-block"><?php echo e(translate('Upgrade Package')); ?></a>
+                </div>
             </div>
-            <ul class="list-group list-group-raw fs-15 mb-4 pb-4 border-bottom">
-                <li class="list-group-item py-2">
-                    <i class="las la-check text-success mr-2"></i>
-                    <?php echo e($user->member->package->express_interest); ?> <?php echo e(translate('Express Interests')); ?>
-
-                </li>
-                <li class="list-group-item py-2">
-                    <i class="las la-check text-success mr-2"></i>
-                    <?php echo e($user->member->package->photo_gallery); ?> <?php echo e(translate('Gallery Photo Upload')); ?>
-
-                </li>
-                <li class="list-group-item py-2">
-                    <i class="las la-check text-success mr-2"></i>
-                    <?php echo e($user->member->package->contact); ?> <?php echo e(translate('Contact Info View')); ?>
-
-                </li>
-                <li class="list-group-item py-2">
-                    <i class="las la-check text-success mr-2"></i>
-                    <?php echo e($user->member->package->profile_viewers_view); ?> <?php echo e(translate('Profile Viewer View')); ?>
-
-                </li>
-                <?php if($profile_picture_privacy == 'only_me'): ?>
-                    <li class="list-group-item py-2">
-                        <i class="las la-check text-success mr-2"></i>
-                        <?php echo e($user->member->package->profile_image_view); ?> <?php echo e(translate('Profile Image View')); ?>
-
-                    </li>
-                <?php endif; ?>
-                <?php if($gallery_image_privacy == 'only_me'): ?>
-                    <li class="list-group-item py-2">
-                        <i class="las la-check text-success mr-2"></i>
-                        <?php echo e($user->member->package->gallery_image_view); ?> <?php echo e(translate('Gallery Image View')); ?>
-
-                    </li>
-                <?php endif; ?>
-                <li class="list-group-item py-2 text-line-through">
-                    <?php if( $user->member->package->auto_profile_match == 0 ): ?>
-                        <i class="las la-times text-danger mr-2"></i>
-                        <del class="opacity-60"><?php echo e(translate('Show Auto Profile Match')); ?></del>
-                    <?php else: ?>
-                        <i class="las la-check text-success mr-2"></i>
-                        <?php echo e(translate('Show Auto Profile Match')); ?>
-
-                    <?php endif; ?>
-                </li>
-            </ul>
-            <h4 class="fs-18 mb-3">
-              <?php echo e(translate('Package expiry date')); ?>:
-              <?php if(package_validity($user->id)): ?>
-                <?php echo e($user->member->package_validity); ?>
-
-              <?php else: ?>
-                  <span class="text-danger"><?php echo e(translate('Expired')); ?></span>
-              <?php endif; ?>
-            </h4>
-            <a href="<?php echo e(route('packages')); ?>" class="btn btn-success d-inline-block"><?php echo e(translate('Upgrade Package')); ?></a>
         </div>
-    </div>
-</div>
-
-        <?php endif; ?>
 
         <div class="col-md-6">
             <?php if(get_setting('member_verification')): ?>

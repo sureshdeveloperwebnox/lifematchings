@@ -61,7 +61,7 @@
                         <div class="card-body">
                             <div class="text-center mb-4 mt-3">
                                 <img class="mw-100 mx-auto mb-4" src="<?php echo e(uploaded_asset($package->image)); ?>" height="130">
-                                <h5 class="mb-3 h5 fw-600"><?php echo e($package->id == 1 ? translate('Free') : $package->name); ?></h5>
+                                <h5 class="mb-3 h5 fw-600"><?php echo e($package->name); ?></h5>
                             </div>
 
 
@@ -146,10 +146,14 @@
                                 <span class="text-secondary d-block"><?php echo e($package->validity); ?> <?php echo e(translate('Days')); ?></span>
                             </div>
                             <div class="text-center">
-                                <?php if(Auth::check()): ?>
-                                    <a href="<?php echo e(route('package_payment_methods', encrypt($package->id))); ?>" type="submit" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></a>
+                                <?php if($package->id != 1): ?>
+                                    <?php if(Auth::check()): ?>
+                                        <a href="<?php echo e(route('package_payment_methods', encrypt($package->id))); ?>" type="submit" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></a>
+                                    <?php else: ?>
+                                        <button type="submit" onclick="loginModal()" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></button>
+                                    <?php endif; ?>
                                 <?php else: ?>
-                                    <button type="submit" onclick="loginModal()" class="btn btn-primary" ><?php echo e(translate('Purchase This Package')); ?></button>
+                                    <a href="javascript:void(0);" class="btn btn-light" ><del><?php echo e(translate('Purchase This Package')); ?></del></a>
                                 <?php endif; ?>
                             </div>
                         </div>

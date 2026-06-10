@@ -1,0 +1,14 @@
+[09-Jul-2025 11:32:31 UTC] PHP Warning:  require(/home/u153587521/domains/lifematchings.com/public_html/vendor/composer/../symfony/polyfill-php72/bootstrap.php): Failed to open stream: No such file or directory in /home/u153587521/domains/lifematchings.com/public_html/vendor/composer/autoload_real.php on line 69
+[09-Jul-2025 11:32:31 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/u153587521/domains/lifematchings.com/public_html/vendor/composer/../symfony/polyfill-php72/bootstrap.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/u153587521/domains/lifematchings.com/public_html/vendor/composer/autoload_real.php:69
+Stack trace:
+#0 /home/u153587521/domains/lifematchings.com/public_html/vendor/composer/autoload_real.php(59): composerRequire8423c261f3bb4be0b2a327b13e03592a()
+#1 /home/u153587521/domains/lifematchings.com/public_html/vendor/autoload.php(7): ComposerAutoloaderInit8423c261f3bb4be0b2a327b13e03592a::getLoader()
+#2 Command line code(1): require('/home/u15358752...')
+#3 {main}
+  thrown in /home/u153587521/domains/lifematchings.com/public_html/vendor/composer/autoload_real.php on line 69
+[09-Jul-2025 11:44:07 UTC] PHP Parse error:  syntax error, unexpected identifier "AnsiColorMode" in /home/u153587521/domains/lifematchings.com/public_html/vendor/symfony/console/Output/AnsiColorMode.php on line 20
+[10-Jul-2025 09:16:32 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Application" not found in /home/u153587521/domains/lifematchings.com/public_html/bootstrap/app.php:14
+Stack trace:
+#0 Command line code(1): require()
+#1 {main}
+  thrown in /home/u153587521/domains/lifematchings.com/public_html/bootstrap/app.php on line 14
