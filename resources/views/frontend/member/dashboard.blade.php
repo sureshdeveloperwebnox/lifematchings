@@ -391,6 +391,7 @@
 </style>             
                 
 
+@if($user->member->current_package_id != 1)
 <div class="reportContent">
   @if($report)
     <div class="report-header">
@@ -555,6 +556,7 @@
     </div>
   @endif
 </div>
+@endif
         
        
 </div>

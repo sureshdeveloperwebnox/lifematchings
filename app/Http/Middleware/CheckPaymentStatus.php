@@ -13,7 +13,9 @@ class CheckPaymentStatus
      */
     public function handle(Request $request, Closure $next)
     {
-        if( Auth::user()->isInitialPaymentPaid == 1 || (Auth::user()->member && Auth::user()->member->current_package_id == 1) || Auth::user()->membership == 2) {
+        $isFreePackageEnabled = get_setting('free_package_activation') == 1;
+
+        if( Auth::user()->isInitialPaymentPaid == 1 || ($isFreePackageEnabled && Auth::user()->member && Auth::user()->member->current_package_id == 1) || Auth::user()->membership == 2) {
             return $next($request);
         } else {
             return redirect()->route('initialPaymentpackage');

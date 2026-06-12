@@ -116,7 +116,11 @@ class HomeController extends Controller
     public function home_packages()
     {
         // packages
-        $packages = get_setting('show_homapege_package_section') == 'on' ? (PackageResource::collection(Package::where('active', '1')->get())) : [];
+        $packagesQuery = Package::where('active', '1');
+        if (get_setting('free_package_activation') != 1) {
+            $packagesQuery = $packagesQuery->where('id', '!=', 1);
+        }
+        $packages = get_setting('show_homapege_package_section') == 'on' ? (PackageResource::collection($packagesQuery->get())) : [];
         return $this->response_data($packages);
     }
     public function home_reviews()
@@ -323,7 +327,11 @@ class HomeController extends Controller
         $data['happy_stories'] = $happy_stories;
 
         // packages
-        $packages = get_setting('show_homapege_package_section') == 'on' ? (PackageResource::collection(Package::where('active', '1')->get())) : [];
+        $packagesQuery = Package::where('active', '1');
+        if (get_setting('free_package_activation') != 1) {
+            $packagesQuery = $packagesQuery->where('id', '!=', 1);
+        }
+        $packages = get_setting('show_homapege_package_section') == 'on' ? (PackageResource::collection($packagesQuery->get())) : [];
         $data['packages'] = $packages;
 
         // reviews

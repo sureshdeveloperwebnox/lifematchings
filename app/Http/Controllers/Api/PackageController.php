@@ -22,7 +22,11 @@ class PackageController extends Controller
 {
     public function active_packages()
     {
-        $packages = Package::where('active', '1')->get();
+        $packages = Package::where('active', '1');
+        if (get_setting('free_package_activation') != 1) {
+            $packages = $packages->where('id', '!=', 1);
+        }
+        $packages = $packages->get();
         return PackageResource::collection($packages)->additional([
             'result' => true
         ]);

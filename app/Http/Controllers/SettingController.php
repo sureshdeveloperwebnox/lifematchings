@@ -304,29 +304,28 @@ class SettingController extends Controller
         }
 
         $settings = Setting::where('type', $request->type)->first();
-        if($settings!=null){
-
-            if ($request->type == 'maintenance_mode' && $request->value == '1') {
-                if(env('DEMO_MODE') != 'On'){
-                    Artisan::call('down');
-                }
-            }
-            elseif ($request->type == 'maintenance_mode' && $request->value == '0') {
-                if(env('DEMO_MODE') != 'On') {
-                    Artisan::call('up');
-                }
-            }
-
-            $settings->value = $request->value;
-            $settings->save();
-            
-            Artisan::call('cache:clear');
-
-            return '1';
+        if($settings == null){
+            $settings = new Setting;
+            $settings->type = $request->type;
         }
-        else {
-            return '0';
+
+        if ($request->type == 'maintenance_mode' && $request->value == '1') {
+            if(env('DEMO_MODE') != 'On'){
+                Artisan::call('down');
+            }
         }
+        elseif ($request->type == 'maintenance_mode' && $request->value == '0') {
+            if(env('DEMO_MODE') != 'On') {
+                Artisan::call('up');
+            }
+        }
+
+        $settings->value = $request->value;
+        $settings->save();
+        
+        Artisan::call('cache:clear');
+
+        return '1';
     }
 
 

@@ -205,7 +205,11 @@ class PackageController extends Controller
 
     public function select_package()
     {
-        $packages = Package::where('active', '1')->get();
+        $packages = Package::where('active', '1');
+        if (get_setting('free_package_activation') != 1) {
+            $packages = $packages->where('id', '!=', 1);
+        }
+        $packages = $packages->get();
         return view('frontend.package.packages', compact('packages'));
     }
 

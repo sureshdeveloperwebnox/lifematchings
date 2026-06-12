@@ -151,7 +151,7 @@ Route::controller(BlogController::class)->group(function () {
 
 
 Route::group(['middleware' => ['verified']], function () {
-    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('checkPayment');
 
     Route::controller(MemberController::class)->group(function () {
         Route::get('/member/verification', 'verification_form')->name('member.verification');
@@ -173,7 +173,7 @@ Route::group(['middleware' => ['member', 'verified']], function () {
         Route::post('/new-user-verification', 'new_verify')->name('user.new.verify');
 
         Route::any('/member-listing', 'member_listing')->name('member.listing')->middleware('checkPayment');
-        Route::get('/member-profile/{id}', 'view_member_profile')->name('member_profile');
+        Route::get('/member-profile/{id}', 'view_member_profile')->name('member_profile')->middleware('checkPayment');
 
         Route::post('/user/remaining_package_value', 'user_remaining_package_value')->name('user.remaining_package_value');
     });

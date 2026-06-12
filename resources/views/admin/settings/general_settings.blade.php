@@ -180,6 +180,19 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label
+                            class="col-sm-8 col-from-label">{{ translate('Free Package Activation') }}</label>
+                        <div class="col-sm-4">
+                            <label class="aiz-switch aiz-switch-success mb-0">
+                                <input type="checkbox" onchange="updateSettings(this, 'free_package_activation')"
+                                    <?php if (get_setting('free_package_activation') == 1) {
+                                        echo 'checked';
+                                    } ?>>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <div class="col-sm-8">
                             <label
                                 class="col-from-label">{{ translate('Only Premium Member Can See Other Members Full Profile.') }}
