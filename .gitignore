@@ -31,3 +31,7 @@ install.zip
 /nbproject/private/
 /nbproject
 matrimonial_laravel.zip
+
+# Backups
+backup-18feb.tar.gz
+*.tar.gz
