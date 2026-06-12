@@ -68,19 +68,14 @@ class RegisterController extends Controller
 
     protected function validator(array $data)
     {
-        $emailRules = ['nullable', 'email', 'unique:users'];
-        if (isset($data['country_code']) && $data['country_code'] !== '91') {
-            $emailRules = ['required', 'email', 'unique:users'];
-        }
+        $regMethod = $data['registration_method'] ?? 'email';
 
-        return Validator::make($data, [
+        $rules = [
             'on_behalf'            => 'required|integer',
             'first_name'           => ['required', 'string', 'max:255'],
             'last_name'            => ['required', 'string', 'max:255'],
             'gender'               => 'required',
             'date_of_birth'        => 'required|date',
-            'phone'                 => 'required|string|unique:users',
-            'email'                 => $emailRules,
             'password'             => ['required', 'string', 'min:8', 'confirmed'],
             'otp'                  => 'required|string|size:6',
             'g-recaptcha-response' => [
@@ -89,7 +84,17 @@ class RegisterController extends Controller
             'checkbox_example_1'   => ['required', 'string'],
             'timeOfBirth'          => ['required', 'string', 'max:255'],
             'birthPlace'           => ['required', 'string', 'max:255'],
-        ],
+        ];
+
+        if ($regMethod === 'phone') {
+            $rules['phone'] = 'required|string|unique:users';
+            $rules['email'] = 'nullable|email|unique:users';
+        } else {
+            $rules['email'] = 'required|email|unique:users';
+            $rules['phone'] = 'nullable|string';
+        }
+
+        return Validator::make($data, $rules,
         [
             'on_behalf.required' => translate('on_behalf is required'),
             'on_behalf.integer' => translate('on_behalf should be integer value'),
@@ -123,13 +128,17 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $approval = get_setting('member_verification') == 1 ? 0 : 1;
+        $regMethod = $data['registration_method'] ?? 'email';
+        
+        $email = ($regMethod === 'email' || !empty($data['email'])) ? $data['email'] : null;
+        $phone = ($regMethod === 'phone' && !empty($data['phone'])) ? '+' . $data['country_code'] . $data['phone'] : null;
         
         $user = User::create([
             'first_name'  => $data['first_name'],
             'last_name'   => $data['last_name'],
             'membership'  => 1,
-            'email'       => $data['email'] ?? null,
-            'phone'       => '+' . $data['country_code'] . $data['phone'],
+            'email'       => $email,
+            'phone'       => $phone,
             'password'    => Hash::make($data['password']),
             'code'        => unique_code(),
             'approved'    => $approval,
@@ -172,7 +181,7 @@ class RegisterController extends Controller
         $astrologies->city_of_birth = $data['birthPlace'];
         $astrologies->save();
 
-        if ($data['email'] != null  && env('MAIL_USERNAME') != null) {
+        if ($email != null  && env('MAIL_USERNAME') != null) {
             $account_oppening_email = EmailTemplate::where('identifier', 'account_oppening_email')->first();
             if ($account_oppening_email->status == 1) {
                 EmailUtility::account_oppening_email($user->id, $data['password']);
@@ -184,16 +193,22 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // Check if phone already exists
-        if (User::where('phone', '+' . $request->country_code . $request->phone)->first() != null) {
-            flash(translate('Phone already exists.'));
-            return back();
+        $regMethod = $request->registration_method ?? 'email';
+
+        // Check if phone already exists (if registering via phone)
+        if ($regMethod === 'phone') {
+            if ($request->phone && User::where('phone', '+' . $request->country_code . $request->phone)->first() != null) {
+                flash(translate('Phone already exists.'));
+                return back();
+            }
         }
 
-        // Check if email already exists (if provided)
-        if ($request->email && User::where('email', $request->email)->first() != null) {
-            flash(translate('Email already exists.'));
-            return back();
+        // Check if email already exists (if registering via email)
+        if ($regMethod === 'email') {
+            if ($request->email && User::where('email', $request->email)->first() != null) {
+                flash(translate('Email already exists.'));
+                return back();
+            }
         }
 
         // Validate OTP
@@ -208,13 +223,16 @@ class RegisterController extends Controller
         $phoneMatches = ($registrationPhone && $registrationPhone === $currentPhone);
         $emailMatches = ($registrationEmail && $registrationEmail === $currentEmail);
 
-        if (!$storedOTP || !$otpVerified || (!$phoneMatches && !$emailMatches)) {
-            if ($request->country_code === '91') {
-                flash(translate('Please verify your phone number or email address with OTP first.'));
-            } else {
-                flash(translate('Please verify your email address with OTP first.'));
+        if ($regMethod === 'phone') {
+            if (!$storedOTP || !$otpVerified || !$phoneMatches) {
+                flash(translate('Please verify your phone number with OTP first.'));
+                return back();
             }
-            return back();
+        } else {
+            if (!$storedOTP || !$otpVerified || !$emailMatches) {
+                flash(translate('Please verify your email address with OTP first.'));
+                return back();
+            }
         }
 
         $this->validator($request->all())->validate();

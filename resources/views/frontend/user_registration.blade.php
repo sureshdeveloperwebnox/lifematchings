@@ -1,6 +1,45 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+<style>
+	.otp-segmented-control {
+		display: flex;
+		background: #f8f9fa;
+		padding: 6px;
+		border-radius: 30px;
+		position: relative;
+		border: 1px solid #e9ecef;
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+	}
+	.otp-segment-btn {
+		flex: 1;
+		border: none;
+		background: transparent;
+		padding: 12px 20px;
+		border-radius: 26px;
+		font-size: 14px;
+		font-weight: 600;
+		color: #495057;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		cursor: pointer;
+	}
+	.otp-segment-btn i {
+		font-size: 18px;
+	}
+	.otp-segment-btn.active {
+		background: linear-gradient(135deg, var(--primary, #FD2C79) 0%, var(--secondary, #FD655B) 100%);
+		color: #fff !important;
+		box-shadow: 0 4px 15px rgba(253, 44, 121, 0.35);
+	}
+	.otp-segment-btn:hover:not(.active) {
+		background: rgba(0, 0, 0, 0.04);
+		color: #212529;
+	}
+</style>
 <div class="py-4 py-lg-5">
 	<div class="container">
 		<div class="row">
@@ -99,13 +138,29 @@
 								</div>
 							</div>
 
-							<div class="row">
+							<!-- Segmented Control for OTP sending option -->
+							<div class="row mb-3">
+								<div class="col-lg-12">
+									<div class="otp-segmented-control">
+										<button type="button" class="otp-segment-btn active" id="segment-email" onclick="switchOtpTab('email')">
+											<i class="las la-envelope"></i> {{ translate('Email Address') }}
+										</button>
+										<button type="button" class="otp-segment-btn" id="segment-phone" onclick="switchOtpTab('phone')">
+											<i class="las la-phone"></i> {{ translate('Phone Number') }}
+										</button>
+									</div>
+									<input type="hidden" name="registration_method" id="registration_method" value="{{ old('registration_method', 'email') }}">
+								</div>
+							</div>
+
+							<!-- Email address field -->
+							<div class="row" id="email-field-wrapper">
 								<div class="col-lg-12">
 								  <div class="form-group mb-3">
 										<label class="form-label" for="email">{{ translate('Email address') }}</label>
 										<div class="d-flex">
-											<input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="signinSrEmail" placeholder="{{ translate('Email Address') }}" >
-											<button type="button" class="btn btn-outline-primary flex-shrink-0" id="send-email-otp-btn" onclick="sendEmailOTP()">{{ translate('Send OTP') }}</button>
+											<input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="signinSrEmail" placeholder="{{ translate('Email Address') }}" value="{{ old('email') }}">
+											<button type="button" class="btn btn-outline-primary flex-shrink-0 ms-2" id="send-email-otp-btn" onclick="sendEmailOTP()">{{ translate('Send OTP') }}</button>
 										</div>
 								        @error('email')
 								            <span class="invalid-feedback" role="alert">{{ $message }}</span>
@@ -114,13 +169,14 @@
 								</div>
 							</div>
 
-							<div class="row">
+							<!-- Phone number field -->
+							<div class="row" id="phone-field-wrapper" style="display: none;">
 								<div class="col-lg-12">
 									<div class="form-group mb-3">
 										<label class="form-label" for="phone">{{ translate('Phone Number') }}</label>
 										<div class="d-flex">
-											<input type="tel" id="phone-code" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone') }}" placeholder="{{ translate('Enter phone number') }}" name="phone" autocomplete="off" required>
-											<button type="button" class="btn btn-outline-primary flex-shrink-0" id="send-otp-btn" onclick="sendOTP()">{{ translate('Send OTP') }}</button>
+											<input type="tel" id="phone-code" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone') }}" placeholder="{{ translate('Enter phone number') }}" name="phone" autocomplete="off">
+											<button type="button" class="btn btn-outline-primary flex-shrink-0 ms-2" id="send-otp-btn" onclick="sendOTP()">{{ translate('Send OTP') }}</button>
 										</div>
 										@error('phone')
 											<span class="invalid-feedback" role="alert">{{ $message }}</span>
@@ -310,48 +366,42 @@
 
 			var country = iti.getSelectedCountryData();
 			$('input[name=country_code]').val(country.dialCode);
-			updateEmailLabel(country.dialCode);
+
+			// Initialize tab based on old value or default to email
+			var initialMethod = $('#registration_method').val() || 'email';
+			switchOtpTab(initialMethod);
 
 			input.addEventListener("countrychange", function(e) {
 				var country = iti.getSelectedCountryData();
 				$('input[name=country_code]').val(country.dialCode);
-				updateEmailLabel(country.dialCode);
 			});
 		});
 
-		function updateEmailLabel(dialCode) {
-			var label = $('label[for=email]');
-			if (dialCode !== '91') {
-				label.html('{{ translate("Email address") }} <span class="text-danger">* (Required for OTP)</span>');
+		function switchOtpTab(method) {
+			$('#registration_method').val(method);
+			$('.otp-segment-btn').removeClass('active');
+			if (method === 'email') {
+				$('#segment-email').addClass('active');
+				$('#email-field-wrapper').show();
+				$('#phone-field-wrapper').hide();
 				$('#signinSrEmail').prop('required', true);
+				$('#phone-code').prop('required', false);
 			} else {
-				label.html('{{ translate("Email address") }}');
+				$('#segment-phone').addClass('active');
+				$('#email-field-wrapper').hide();
+				$('#phone-field-wrapper').show();
 				$('#signinSrEmail').prop('required', false);
+				$('#phone-code').prop('required', true);
 			}
 		}
 
 		function sendOTP() {
 			var phone = $('#phone-code').val();
 			var countryCode = $('input[name=country_code]').val();
-			var email = $('#signinSrEmail').val();
 			
 			if (!phone) {
 				AIZ.plugins.notify('warning', '{{ translate("Please enter phone number") }}');
 				return;
-			}
-			
-			if (countryCode !== '91') {
-				if (!email) {
-					AIZ.plugins.notify('warning', '{{ translate("Please enter email address to receive OTP") }}');
-					$('#signinSrEmail').focus();
-					return;
-				}
-				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-				if (!emailReg.test(email)) {
-					AIZ.plugins.notify('warning', '{{ translate("Please enter a valid email address") }}');
-					$('#signinSrEmail').focus();
-					return;
-				}
 			}
 			
 			$('#send-otp-btn').prop('disabled', true).text('{{ translate("Sending...") }}');
@@ -362,17 +412,12 @@
 				data: {
 					phone: phone,
 					country_code: countryCode,
-					email: email,
-					delivery_method: (countryCode === '91') ? 'phone' : 'email',
+					delivery_method: 'phone',
 					_token: '{{ csrf_token() }}'
 				},
 				success: function(response) {
 					if (response.success) {
-						if (countryCode === '91') {
-							AIZ.plugins.notify('success', 'OTP sent to your phone successfully!');
-						} else {
-							AIZ.plugins.notify('success', 'OTP sent to your email successfully!');
-						}
+						AIZ.plugins.notify('success', 'OTP sent to your phone successfully!');
 						$('#otp').focus();
 						// Start 30 second countdown
 						startOTPCountdown();
@@ -503,10 +548,11 @@
 		$('#reg-form').on('submit', function(e) {
 			var otp = $('#otp').val();
 			var otpVerified = $('#verify-otp-btn').hasClass('btn-success');
-			var countryCode = $('input[name=country_code]').val();
+			var regMethod = $('#registration_method').val() || 'email';
 			var email = $('#signinSrEmail').val();
+			var phone = $('#phone-code').val();
 
-			if (countryCode !== '91') {
+			if (regMethod === 'email') {
 				if (!email) {
 					AIZ.plugins.notify('warning', 'Please enter email address');
 					$('#signinSrEmail').focus();
@@ -517,6 +563,13 @@
 				if (!emailReg.test(email)) {
 					AIZ.plugins.notify('warning', 'Please enter a valid email address');
 					$('#signinSrEmail').focus();
+					e.preventDefault();
+					return false;
+				}
+			} else {
+				if (!phone) {
+					AIZ.plugins.notify('warning', 'Please enter phone number');
+					$('#phone-code').focus();
 					e.preventDefault();
 					return false;
 				}
