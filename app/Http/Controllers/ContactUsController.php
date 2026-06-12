@@ -121,4 +121,44 @@ class ContactUsController extends Controller
     {
         return view('frontend.contact_us');
     }
+
+    public function show_delete_account_page()
+    {
+        return view('frontend.delete_account');
+    }
+
+    public function submit_delete_account(\Illuminate\Http\Request $request)
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'reason' => 'nullable|string|max:1000',
+        ];
+
+        if (get_setting('google_recaptcha_activation') == 1) {
+            $rules['g-recaptcha-response'] = ['required', new \App\Rules\RecaptchaRule()];
+        }
+
+        $request->validate($rules);
+
+        $description = "Account Deletion Request submitted via public page.\n";
+        $description .= "Phone: " . $request->phone . "\n";
+        $description .= "Reason: " . ($request->reason ?? 'Not provided') . "\n";
+
+        ContactUs::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => 'Account Deletion Request',
+            'description' => $description,
+        ]);
+
+        $admin = User::where('user_type', 'admin')->first();
+        if ($admin) {
+            Notification::send($admin, new EmailNotification('Account Deletion Request', $description));
+        }
+
+        flash(translate('Your account deletion request has been submitted successfully. The administrator will review and process your request.'))->success();
+        return back();
+    }
 }

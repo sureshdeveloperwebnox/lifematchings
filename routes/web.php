@@ -337,6 +337,8 @@ Route::group(['middleware' => ['auth']], function () {
 Route::controller(ContactUsController::class)->group(function () {
     Route::get('/contact-us/page', 'show_contact_us_page')->name('contact_us');
     Route::post('/contact-us', 'store')->name('contact-us.store');
+    Route::get('/delete-account', 'show_delete_account_page')->name('delete_account.page');
+    Route::post('/delete-account/submit', 'submit_delete_account')->name('delete_account.submit');
 });
 
 // Payment gateway Redirect
