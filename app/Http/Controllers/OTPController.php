@@ -14,56 +14,54 @@ class OTPController extends Controller
     public function sendOTP(Request $request)
     {
         $request->validate([
-            'phone' => 'required|string',
-            'country_code' => 'required|string',
-            'email' => 'required_unless:country_code,91|nullable|email',
+            'phone' => 'required_without:email|nullable|string',
+            'country_code' => 'required_without:email|nullable|string',
+            'email' => 'required_without:phone|nullable|email',
+            'delivery_method' => 'nullable|string|in:phone,email',
         ]);
 
-        $phone = $request->phone;
-        $countryCode = $request->country_code;
-        $fullPhone = '+' . $countryCode . $phone;
-
-        // If India, check phone uniqueness
-        if ($countryCode === '91') {
-            $isPhoneExist = User::where(function ($query) use ($phone, $fullPhone) {
-                $query->where('phone', $fullPhone)
-                      ->orWhereRaw("REPLACE(phone, '+', '') LIKE ?", ["%{$phone}"]);
-            })->first();
-
-            if ($isPhoneExist) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Phone number already exists'
-                ]);
-            }
-        } else {
-            // Check email uniqueness
-            $isEmailExist = User::where('email', $request->email)->first();
-            if ($isEmailExist) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Email address already exists'
-                ]);
-            }
+        $deliveryMethod = $request->delivery_method;
+        if (!$deliveryMethod) {
+            // Fallback to old behavior if not specified
+            $deliveryMethod = ($request->country_code === '91' && $request->phone) ? 'phone' : 'email';
         }
 
-        // Generate OTP
-        $otp = rand(100000, 999999);
-        
-        // Store OTP in session as string
-        Session::put('registration_otp', (string)$otp);
-        Session::put('otp_created_at', now());
+        if ($deliveryMethod === 'phone') {
+            $phone = $request->phone;
+            $countryCode = $request->country_code;
+            $fullPhone = '+' . $countryCode . $phone;
 
-        // Debug logging for OTP generation
-        \Log::info('OTP Generated', [
-            'otp' => $otp,
-            'otp_string' => (string)$otp,
-            'phone' => $fullPhone,
-            'email' => $request->email
-        ]);
+            // If India, check phone uniqueness
+            if ($countryCode === '91') {
+                $isPhoneExist = User::where(function ($query) use ($phone, $fullPhone) {
+                    $query->where('phone', $fullPhone)
+                          ->orWhereRaw("REPLACE(phone, '+', '') LIKE ?", ["%{$phone}"]);
+                })->first();
 
-        if ($countryCode === '91') {
+                if ($isPhoneExist) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Phone number already exists'
+                    ]);
+                }
+            }
+
+            // Generate OTP
+            $otp = rand(100000, 999999);
+            
+            // Store OTP in session as string
+            Session::put('registration_otp', (string)$otp);
+            Session::put('otp_created_at', now());
             Session::put('registration_phone', $fullPhone);
+            Session::forget('registration_email');
+
+            // Debug logging for OTP generation
+            \Log::info('OTP Generated for Phone', [
+                'otp' => $otp,
+                'otp_string' => (string)$otp,
+                'phone' => $fullPhone
+            ]);
+
             // Send OTP via 2factor API
             $apiKey = '6a8e6cd2-b3bc-11ef-8b17-0200cd936042';
             $url = "https://2factor.in/API/V1/{$apiKey}/SMS/{$fullPhone}/{$otp}/" . self::OTP_TEMPLATE_NAME;
@@ -91,7 +89,31 @@ class OTPController extends Controller
                 ]);
             }
         } else {
+            // Check email uniqueness
+            $isEmailExist = User::where('email', $request->email)->first();
+            if ($isEmailExist) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email address already exists'
+                ]);
+            }
+
+            // Generate OTP
+            $otp = rand(100000, 999999);
+            
+            // Store OTP in session as string
+            Session::put('registration_otp', (string)$otp);
+            Session::put('otp_created_at', now());
             Session::put('registration_email', $request->email);
+            Session::forget('registration_phone');
+
+            // Debug logging for OTP generation
+            \Log::info('OTP Generated for Email', [
+                'otp' => $otp,
+                'otp_string' => (string)$otp,
+                'email' => $request->email
+            ]);
+
             // Send OTP via Email using EmailManager
             $array = [];
             $array['view'] = 'emails.newsletter';

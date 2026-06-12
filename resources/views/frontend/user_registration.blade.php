@@ -103,7 +103,10 @@
 								<div class="col-lg-12">
 								  <div class="form-group mb-3">
 										<label class="form-label" for="email">{{ translate('Email address') }}</label>
-										<input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="signinSrEmail" placeholder="{{ translate('Email Address') }}" >
+										<div class="d-flex">
+											<input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="signinSrEmail" placeholder="{{ translate('Email Address') }}" >
+											<button type="button" class="btn btn-outline-primary flex-shrink-0" id="send-email-otp-btn" onclick="sendEmailOTP()">{{ translate('Send OTP') }}</button>
+										</div>
 								        @error('email')
 								            <span class="invalid-feedback" role="alert">{{ $message }}</span>
 								        @enderror
@@ -360,6 +363,7 @@
 					phone: phone,
 					country_code: countryCode,
 					email: email,
+					delivery_method: (countryCode === '91') ? 'phone' : 'email',
 					_token: '{{ csrf_token() }}'
 				},
 				success: function(response) {
@@ -387,6 +391,65 @@
 		function startOTPCountdown() {
 			var countdown = 30;
 			var $btn = $('#send-otp-btn');
+			
+			$btn.prop('disabled', true);
+			
+			var timer = setInterval(function() {
+				$btn.text('{{ translate("Resend OTP") }} (' + countdown + 's)');
+				countdown--;
+				
+				if (countdown < 0) {
+					clearInterval(timer);
+					$btn.prop('disabled', false).text('{{ translate("Send OTP") }}');
+				}
+			}, 1000);
+		}
+
+		function sendEmailOTP() {
+			var email = $('#signinSrEmail').val();
+			
+			if (!email) {
+				AIZ.plugins.notify('warning', '{{ translate("Please enter email address") }}');
+				$('#signinSrEmail').focus();
+				return;
+			}
+			var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+			if (!emailReg.test(email)) {
+				AIZ.plugins.notify('warning', '{{ translate("Please enter a valid email address") }}');
+				$('#signinSrEmail').focus();
+				return;
+			}
+			
+			$('#send-email-otp-btn').prop('disabled', true).text('{{ translate("Sending...") }}');
+			
+			$.ajax({
+				url: '{{ route("send.otp") }}',
+				type: 'POST',
+				data: {
+					email: email,
+					delivery_method: 'email',
+					_token: '{{ csrf_token() }}'
+				},
+				success: function(response) {
+					if (response.success) {
+						AIZ.plugins.notify('success', 'OTP sent to your email successfully!');
+						$('#otp').focus();
+						startEmailOTPCountdown();
+					} else {
+						AIZ.plugins.notify('danger', response.message || 'Failed to send OTP');
+						$('#send-email-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+					}
+				},
+				error: function() {
+					AIZ.plugins.notify('danger', 'Failed to send OTP');
+					$('#send-email-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+				}
+			});
+		}
+
+		function startEmailOTPCountdown() {
+			var countdown = 30;
+			var $btn = $('#send-email-otp-btn');
 			
 			$btn.prop('disabled', true);
 			

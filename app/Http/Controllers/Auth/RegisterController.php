@@ -199,23 +199,22 @@ class RegisterController extends Controller
         // Validate OTP
         $storedOTP = session('registration_otp');
         $otpVerified = session('otp_verified');
+        $registrationPhone = session('registration_phone');
+        $registrationEmail = session('registration_email');
 
-        if ($request->country_code === '91') {
-            $registrationPhone = session('registration_phone');
-            $currentPhone = '+' . $request->country_code . $request->phone;
+        $currentPhone = '+' . $request->country_code . $request->phone;
+        $currentEmail = $request->email;
 
-            if (!$storedOTP || !$otpVerified || $registrationPhone !== $currentPhone) {
-                flash(translate('Please verify your phone number with OTP first.'));
-                return back();
-            }
-        } else {
-            $registrationEmail = session('registration_email');
-            $currentEmail = $request->email;
+        $phoneMatches = ($registrationPhone && $registrationPhone === $currentPhone);
+        $emailMatches = ($registrationEmail && $registrationEmail === $currentEmail);
 
-            if (!$storedOTP || !$otpVerified || $registrationEmail !== $currentEmail) {
+        if (!$storedOTP || !$otpVerified || (!$phoneMatches && !$emailMatches)) {
+            if ($request->country_code === '91') {
+                flash(translate('Please verify your phone number or email address with OTP first.'));
+            } else {
                 flash(translate('Please verify your email address with OTP first.'));
-                return back();
             }
+            return back();
         }
 
         $this->validator($request->all())->validate();
