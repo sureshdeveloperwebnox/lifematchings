@@ -55,6 +55,17 @@ class OTPController extends Controller
             Session::put('registration_phone', $fullPhone);
             Session::forget('registration_email');
 
+            // Store in Cache for stateless verification (10 minutes)
+            $phoneKey1 = $countryCode . '_' . $phone;
+            $phoneKey2 = $fullPhone;
+            $phoneKey3 = $countryCode . $phone;
+            \Cache::put('registration_otp_phone_' . $phoneKey1, (string)$otp, 600);
+            \Cache::put('registration_otp_phone_time_' . $phoneKey1, now()->toISOString(), 600);
+            \Cache::put('registration_otp_phone_' . $phoneKey2, (string)$otp, 600);
+            \Cache::put('registration_otp_phone_time_' . $phoneKey2, now()->toISOString(), 600);
+            \Cache::put('registration_otp_phone_' . $phoneKey3, (string)$otp, 600);
+            \Cache::put('registration_otp_phone_time_' . $phoneKey3, now()->toISOString(), 600);
+
             // Debug logging for OTP generation
             \Log::info('OTP Generated for Phone', [
                 'otp' => $otp,
@@ -107,6 +118,10 @@ class OTPController extends Controller
             Session::put('registration_email', $request->email);
             Session::forget('registration_phone');
 
+            // Store in Cache for stateless verification (10 minutes)
+            \Cache::put('registration_otp_email_' . $request->email, (string)$otp, 600);
+            \Cache::put('registration_otp_email_time_' . $request->email, now()->toISOString(), 600);
+
             // Debug logging for OTP generation
             \Log::info('OTP Generated for Email', [
                 'otp' => $otp,
@@ -154,41 +169,108 @@ class OTPController extends Controller
     {
         $request->validate([
             'otp' => 'required|string|size:6',
+            'phone' => 'nullable|string',
+            'country_code' => 'nullable|string',
+            'email' => 'nullable|email',
         ]);
 
         $inputOTP = $request->otp;
-        $storedOTP = Session::get('registration_otp');
-        $otpCreatedAt = Session::get('otp_created_at');
+        $isStateless = false;
+        $phoneKey1 = null;
+        $phoneKey2 = null;
+        $phoneKey3 = null;
+        $email = null;
+
+        if ($request->has('phone') && $request->has('country_code')) {
+            $isStateless = true;
+            $phone = $request->phone;
+            $countryCode = $request->country_code;
+            $phoneKey1 = $countryCode . '_' . $phone;
+            $phoneKey2 = '+' . $countryCode . $phone;
+            $phoneKey3 = $countryCode . $phone;
+
+            $storedOTP = \Cache::get('registration_otp_phone_' . $phoneKey1);
+            $otpCreatedAtStr = \Cache::get('registration_otp_phone_time_' . $phoneKey1);
+
+            if (!$storedOTP) {
+                $storedOTP = \Cache::get('registration_otp_phone_' . $phoneKey2);
+                $otpCreatedAtStr = \Cache::get('registration_otp_phone_time_' . $phoneKey2);
+            }
+            if (!$storedOTP) {
+                $storedOTP = \Cache::get('registration_otp_phone_' . $phoneKey3);
+                $otpCreatedAtStr = \Cache::get('registration_otp_phone_time_' . $phoneKey3);
+            }
+
+            $otpCreatedAt = $otpCreatedAtStr ? \Carbon\Carbon::parse($otpCreatedAtStr) : null;
+        } elseif ($request->has('email')) {
+            $isStateless = true;
+            $email = $request->email;
+            $storedOTP = \Cache::get('registration_otp_email_' . $email);
+            $otpCreatedAtStr = \Cache::get('registration_otp_email_time_' . $email);
+            $otpCreatedAt = $otpCreatedAtStr ? \Carbon\Carbon::parse($otpCreatedAtStr) : null;
+        } else {
+            // Web/Session fallback
+            $storedOTP = Session::get('registration_otp');
+            $otpCreatedAt = Session::get('otp_created_at');
+        }
 
         // Debug logging
         \Log::info('OTP Verification Debug', [
             'input_otp' => $inputOTP,
-            'input_otp_type' => gettype($inputOTP),
             'stored_otp' => $storedOTP,
-            'stored_otp_type' => gettype($storedOTP),
+            'is_stateless' => $isStateless,
+            'otp_created_at' => $otpCreatedAt ? $otpCreatedAt->toDateTimeString() : null,
             'string_comparison' => (string)$inputOTP === (string)$storedOTP
         ]);
 
-        // Check if OTP exists and is not expired (10 minutes)
+        // Check if OTP exists
         if (!$storedOTP || !$otpCreatedAt) {
             return response()->json([
                 'success' => false,
-                'message' => 'OTP not found or expired'
+                'message' => 'Invalid or expired OTP'
             ]);
         }
 
         // Check if OTP is expired (10 minutes)
         if (now()->diffInMinutes($otpCreatedAt) > 10) {
-            Session::forget(['registration_otp', 'registration_phone', 'registration_email', 'otp_created_at']);
+            if ($isStateless) {
+                if ($phoneKey1) {
+                    \Cache::forget('registration_otp_phone_' . $phoneKey1);
+                    \Cache::forget('registration_otp_phone_time_' . $phoneKey1);
+                    \Cache::forget('registration_otp_phone_' . $phoneKey2);
+                    \Cache::forget('registration_otp_phone_time_' . $phoneKey2);
+                    \Cache::forget('registration_otp_phone_' . $phoneKey3);
+                    \Cache::forget('registration_otp_phone_time_' . $phoneKey3);
+                } elseif ($email) {
+                    \Cache::forget('registration_otp_email_' . $email);
+                    \Cache::forget('registration_otp_email_time_' . $email);
+                }
+            } else {
+                Session::forget(['registration_otp', 'registration_phone', 'registration_email', 'otp_created_at']);
+            }
             return response()->json([
                 'success' => false,
-                'message' => 'OTP has expired'
+                'message' => 'Invalid or expired OTP'
             ]);
         }
 
         // Verify OTP - convert both to strings for comparison
         if ((string)$inputOTP === (string)$storedOTP) {
-            Session::put('otp_verified', true);
+            if ($isStateless) {
+                if ($phoneKey1) {
+                    \Cache::forget('registration_otp_phone_' . $phoneKey1);
+                    \Cache::forget('registration_otp_phone_time_' . $phoneKey1);
+                    \Cache::forget('registration_otp_phone_' . $phoneKey2);
+                    \Cache::forget('registration_otp_phone_time_' . $phoneKey2);
+                    \Cache::forget('registration_otp_phone_' . $phoneKey3);
+                    \Cache::forget('registration_otp_phone_time_' . $phoneKey3);
+                } elseif ($email) {
+                    \Cache::forget('registration_otp_email_' . $email);
+                    \Cache::forget('registration_otp_email_time_' . $email);
+                }
+            } else {
+                Session::put('otp_verified', true);
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'OTP verified successfully'
@@ -196,7 +278,7 @@ class OTPController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid OTP'
+                'message' => 'Invalid or expired OTP'
             ]);
         }
     }

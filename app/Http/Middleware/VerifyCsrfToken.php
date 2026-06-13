@@ -22,6 +22,7 @@ class VerifyCsrfToken extends Middleware
         '/phonepe*',
         '/getAstrologyReport',
         '/initial-payment-done',
-        'send-otp'
+        'send-otp',
+        'verify-otp'
     ];
 }

@@ -371,7 +371,7 @@ class AuthController extends Controller
             $user->verification_code = null;
 
             $user->save();
-            return $this->success_message('Your account is now verified');
+            return $this->success_message('Account verified successfully');
         }
         return $this->failure_message('Verification code does not match!!');
     }
@@ -390,7 +390,7 @@ class AuthController extends Controller
         return response()->json(
             [
                 'result' => true,
-                'message' => 'OTP resend successfull.',
+                'message' => 'Verification code resent',
 
             ],
             200
