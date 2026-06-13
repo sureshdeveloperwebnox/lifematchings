@@ -119,9 +119,7 @@
                                                     @endif
                                                 @endcan
                                                 @can ('approve_member')
-                                                    @if(get_setting('member_verification') == 1 && $member->verification_info != null)
-                                                        <a class="dropdown-item" href="{{ route('member.show_verification_info', encrypt($member->id)) }}" >{{translate('View Verification Info')}}</a>
-                                                    @endif
+                                                    <a class="dropdown-item" href="{{ route('member.show_verification_info', encrypt($member->id)) }}">{{translate('Verify Document (Aadhar)')}}</a>
                                                 @endcan
 
                                                 @can ('update_member_package')
