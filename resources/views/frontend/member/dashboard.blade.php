@@ -127,23 +127,21 @@
         </div>
 
         <div class="col-md-6">
-            @if(get_setting('member_verification'))
-                <div class="card mb-0 p-5 h-20 d-flex align-items-center justify-content-center mb-2">
-                    @if ($user->approved == 0)
-                        <div class="my-n4 py-1 text-center">
-                            <p class="text-center t-17px ">Aadhaar card needs to be used for verification</p>
-                            <img style="margin-left: 120px;" src="{{ static_asset('assets/img/non_verified.png') }}" alt=""
-                                class="w-xxl-130px w-90px d-block">
-                            <a href="{{ route('member.verification') }}"
-                                class="btn btn-sm btn-primary">{{ translate('Verify Now') }}</a>
-                        </div>
-                    @else
-                        <div class="my-2 py-1">
-                            <img style="width: 400px; text-center" src="{{ static_asset('assets/img/verified-green-button-with-icon-transparent-template-sticker.png') }}" alt="" width="">
-                        </div>
-                    @endif
-                </div>
-            @endif
+            <div class="card mb-0 p-5 h-20 d-flex align-items-center justify-content-center mb-2">
+                @if ($user->approved == 0)
+                    <div class="my-n4 py-1 text-center">
+                        <p class="text-center t-17px ">Aadhaar card needs to be used for verification</p>
+                        <img style="margin-left: 120px;" src="{{ static_asset('assets/img/non_verified.png') }}" alt=""
+                            class="w-xxl-130px w-90px d-block">
+                        <a href="{{ route('member.verification') }}"
+                            class="btn btn-sm btn-primary">{{ translate('Verify Now') }}</a>
+                    </div>
+                @else
+                    <div class="my-2 py-1">
+                        <img style="width: 400px; text-center" src="{{ static_asset('assets/img/verified-green-button-with-icon-transparent-template-sticker.png') }}" alt="" width="">
+                    </div>
+                @endif
+            </div>
             
             <div class="card">
                 <div class="card-header">
