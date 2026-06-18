@@ -168,7 +168,7 @@ class AuthController extends Controller
             $newUser->provider_id        = $request->provider;
             $newUser->code               = unique_code();
             $newUser->membership         = 1;
-            $newUser->approved           = get_setting('member_verification') == 1 ? 0 : 1;
+            $newUser->approved           = 0;
             $newUser->save();
 
             $member                             = new Member;

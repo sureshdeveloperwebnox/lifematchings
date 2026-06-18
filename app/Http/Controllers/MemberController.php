@@ -462,6 +462,7 @@ class MemberController extends Controller
     {
         $user             = User::findOrFail($id);
         $user->verification_info   = null;
+        $user->approved   = 0;
         if ($user->save()) {
             $status = 'Rejected';
             

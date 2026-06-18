@@ -127,7 +127,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $approval = get_setting('member_verification') == 1 ? 0 : 1;
         $regMethod = $data['registration_method'] ?? 'email';
         
         $email = ($regMethod === 'email' || !empty($data['email'])) ? $data['email'] : null;
@@ -141,7 +140,7 @@ class RegisterController extends Controller
             'phone'       => $phone,
             'password'    => Hash::make($data['password']),
             'code'        => unique_code(),
-            'approved'    => $approval,
+            'approved'    => 0,
             'verification_code' => rand(100000, 999999)
         ]);
 
@@ -193,6 +192,12 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        if (!$request->filled('password_confirmation') && $request->filled('confirm_password')) {
+            $request->merge([
+                'password_confirmation' => $request->confirm_password,
+            ]);
+        }
+
         $regMethod = $request->registration_method ?? 'email';
 
         // Check if phone already exists (if registering via phone)
