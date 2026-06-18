@@ -90233,3 +90233,58 @@ Stack trace:
 "} 
 [2026-06-12 10:02:52] production.INFO: OTP Generated for Email {"otp":372578,"otp_string":"372578","email":"penilor512@afterdo.com"} 
 [2026-06-12 10:03:29] production.INFO: OTP Verification Debug {"input_otp":"372578","input_otp_type":"string","stored_otp":"372578","stored_otp_type":"string","string_comparison":true} 
+[2026-06-18 04:39:51] production.INFO: OTP Generated for Email {"otp":391801,"otp_string":"391801","email":"ksssanolla@gmail.com"} 
+[2026-06-18 04:39:55] production.ERROR: OTP Email Send Failed {"error":"Failed to authenticate on SMTP server with username \"lifematchings@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-c8661b5b207sm15988252a12.5 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-c8661b5b207sm15988252a12.5 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\"."} 
+[2026-06-18 04:40:06] production.INFO: OTP Generated for Email {"otp":496641,"otp_string":"496641","email":"ksssanolla@gmail.com"} 
+[2026-06-18 04:40:10] production.ERROR: OTP Email Send Failed {"error":"Failed to authenticate on SMTP server with username \"lifematchings@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c432d8a039sm179362335ad.62 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c432d8a039sm179362335ad.62 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\"."} 
+[2026-06-18 04:40:13] production.INFO: OTP Generated for Email {"otp":457360,"otp_string":"457360","email":"ksssanolla@gmail.com"} 
+[2026-06-18 04:40:17] production.ERROR: OTP Email Send Failed {"error":"Failed to authenticate on SMTP server with username \"lifematchings@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c433558449sm187429975ad.78 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c433558449sm187429975ad.78 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\"."} 
+[2026-06-18 04:40:25] production.INFO: OTP Generated for Email {"otp":347360,"otp_string":"347360","email":"ksssanolla@gmail.com"} 
+[2026-06-18 04:40:29] production.ERROR: OTP Email Send Failed {"error":"Failed to authenticate on SMTP server with username \"lifematchings@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c4327ac7fbsm192904495ad.42 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c4327ac7fbsm192904495ad.42 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\"."} 
+[2026-06-18 04:41:05] production.INFO: OTP Generated for Email {"otp":605190,"otp_string":"605190","email":"ksssanolla@gmail.com"} 
+[2026-06-18 04:41:09] production.ERROR: OTP Email Send Failed {"error":"Failed to authenticate on SMTP server with username \"lifematchings@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c6bb1297ebsm43606715ad.33 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c6bb1297ebsm43606715ad.33 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\"."} 
+[2026-06-18 04:41:25] production.INFO: OTP Generated for Email {"otp":921205,"otp_string":"921205","email":"kanolldfsdfsdfsa@gmail.com"} 
+[2026-06-18 04:41:28] production.ERROR: OTP Email Send Failed {"error":"Failed to authenticate on SMTP server with username \"lifematchings@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c6a403b242sm60827115ad.31 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c6a403b242sm60827115ad.31 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\"."} 
+[2026-06-18 04:43:12] production.INFO: OTP Generated for Phone {"otp":343974,"otp_string":"343974","phone":"+919565006565"} 
+[2026-06-18 04:44:56] production.INFO: OTP Generated for Email {"otp":735527,"otp_string":"735527","email":"kandffsdfsolla@gmail.com"} 
+[2026-06-18 04:45:00] production.ERROR: OTP Email Send Failed {"error":"Failed to authenticate on SMTP server with username \"lifematchings@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c6db2969b8sm14432425ad.1 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c6db2969b8sm14432425ad.1 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\"."} 
+[2026-06-18 04:45:06] production.INFO: OTP Generated for Email {"otp":343150,"otp_string":"343150","email":"kandffsdfsolla@gmail.com"} 
+[2026-06-18 04:45:09] production.ERROR: OTP Email Send Failed {"error":"Failed to authenticate on SMTP server with username \"lifematchings@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-8434b057461sm21087051b3a.58 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-8434b057461sm21087051b3a.58 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\"."} 
+[2026-06-18 04:48:38] production.INFO: OTP Generated for Email {"otp":764989,"otp_string":"764989","email":"sewsses50200@synsky.com"} 
+[2026-06-18 08:14:10] production.INFO: OTP Generated for Email {"otp":176569,"otp_string":"176569","email":"kassnolla@gmail.com"} 
+[2026-06-18 08:15:15] production.INFO: OTP Generated for Email {"otp":815232,"otp_string":"815232","email":"xiwik50983@preparmy.com"} 
+[2026-06-18 08:15:35] production.INFO: OTP Verification Debug {"input_otp":"815232","stored_otp":"815232","is_stateless":false,"otp_created_at":"2026-06-18 08:15:15","string_comparison":true} 
+[2026-06-18 08:18:31] production.INFO: OTP Generated for Email {"otp":479182,"otp_string":"479182","email":"tamekam775@preparmy.com"} 
+[2026-06-18 08:19:17] production.INFO: OTP Verification Debug {"input_otp":"479182","stored_otp":"479182","is_stateless":false,"otp_created_at":"2026-06-18 08:18:31","string_comparison":true} 

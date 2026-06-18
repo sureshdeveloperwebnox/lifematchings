@@ -274,6 +274,13 @@ class SettingController extends Controller
          foreach ($request->types as $key => $type) {
              $this->overWriteEnvFile($type, $request[$type]);
          }
+         
+         try {
+             Artisan::call('optimize:clear');
+         } catch (\Exception $e) {
+             // Fail-safe
+         }
+
          flash(translate("Settings has been updated successfully"))->success();
          return back();
      }

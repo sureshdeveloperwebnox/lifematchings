@@ -50,6 +50,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        // Log non-validation exceptions for debugging if needed
+        if (!($exception instanceof \Illuminate\Validation\ValidationException)) {
+            $logPath = public_path('error_log_debug.txt');
+            $data = date('Y-m-d H:i:s') . "\n";
+            $data .= "URL: " . $request->fullUrl() . "\n";
+            $data .= "Exception: " . $exception->getMessage() . "\n";
+            $data .= "File: " . $exception->getFile() . " on line " . $exception->getLine() . "\n";
+            $data .= "Trace:\n" . $exception->getTraceAsString() . "\n";
+            $data .= "--------------------------------------------------\n\n";
+            @file_put_contents($logPath, $data, FILE_APPEND);
+        }
+
         return parent::render($request, $exception);
     }
 }
