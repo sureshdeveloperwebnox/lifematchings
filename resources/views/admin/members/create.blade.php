@@ -58,7 +58,6 @@
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        @if(addon_activation('otp_system'))
                           <div class="form-group row">
                               <label class="col-md-2 col-form-label">{{translate('Phone Number')}}</label>
                               <div class="col-md-9">
@@ -69,7 +68,6 @@
                                   @enderror
                               </div>
                           </div>
-                        @endif
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">{{translate('On Behalf')}}<span class="text-danger"> *</span></label>
                             <div class="col-md-9">
@@ -195,8 +193,6 @@
             }
         });
     </script>
-    @if(addon_activation('otp_system'))
-        @include('partials.emailOrPhone')
-    @endif
+    @include('partials.emailOrPhone')
 
 @endsection

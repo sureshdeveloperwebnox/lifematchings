@@ -216,13 +216,19 @@ class LoginController extends Controller
             // For phone numbers, remove any country code and compare only the digits
             $phoneInput = $request->get('email');
             $phoneDigits = preg_replace('/[^0-9]/', '', $phoneInput);
+            $countryCode = preg_replace('/[^0-9]/', '', $request->get('country_code', ''));
             
             // If it's a 10-digit number, remove any country code prefix
             if (strlen($phoneDigits) > 10) {
                 $phoneDigits = substr($phoneDigits, -10); // Take last 10 digits
             }
             
-            return ['phone' => $phoneDigits, 'password' => $request->get('password')];
+            return [
+                'phone' => $phoneDigits,
+                'country_code' => $countryCode,
+                'phone_input' => $phoneInput,
+                'password' => $request->get('password'),
+            ];
         }
     }
 
@@ -243,12 +249,31 @@ class LoginController extends Controller
             // For phone numbers, handle custom authentication without country code
             // But only for regular users, not admin users
             $phoneDigits = $credentials['phone'];
+            $countryCode = $credentials['country_code'];
+            $phoneInput = $credentials['phone_input'];
             $password = $credentials['password'];
+            $phoneCandidates = array_values(array_unique(array_filter([
+                $phoneInput,
+                '+' . $phoneInput,
+                $countryCode ? $countryCode . $phoneDigits : null,
+                $countryCode ? '+' . $countryCode . $phoneDigits : null,
+                '91' . $phoneDigits,
+                '+91' . $phoneDigits,
+                $phoneDigits,
+            ])));
             
-            // Find user by phone number (comparing only the last 10 digits)
+            // Find user by phone number, allowing country code and common separators.
             // Exclude admin and staff users from phone authentication
-            $user = User::whereRaw('RIGHT(REPLACE(phone, "+", ""), 10) = ?', [$phoneDigits])
-                       ->whereNotIn('user_type', ['admin', 'staff'])
+            $normalizedPhoneSql = "RIGHT(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(phone, '+', ''), ' ', ''), '-', ''), '(', ''), ')', ''), 10)";
+            $user = User::where(function ($query) use ($phoneCandidates, $phoneDigits, $normalizedPhoneSql) {
+                           $query->whereIn('phone', $phoneCandidates)
+                               ->orWhere('phone', 'like', '%' . $phoneDigits)
+                               ->orWhereRaw($normalizedPhoneSql . ' = ?', [$phoneDigits]);
+                       })
+                       ->where(function ($query) {
+                           $query->whereNull('user_type')
+                               ->orWhereNotIn('user_type', ['admin', 'staff']);
+                       })
                        ->first();
             
             if ($user && Hash::check($password, $user->password)) {
@@ -258,6 +283,17 @@ class LoginController extends Controller
             
             return false;
         }
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        flash(translate('These credentials do not match our records.'))->error();
+
+        return back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors([
+                $this->username() => translate('These credentials do not match our records.'),
+            ]);
     }
 
     public function authenticated()

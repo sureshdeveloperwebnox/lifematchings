@@ -1,4 +1,4 @@
-2026-06-18 04:40:10
+2026-06-18 12:06:53
 URL: http://127.0.0.1:8000/.well-known/appspecific/com.chrome.devtools.json
 Exception: The route .well-known/appspecific/com.chrome.devtools.json could not be found.
 File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
@@ -31,7 +31,7 @@ Trace:
 #25 {main}
 --------------------------------------------------
 
-2026-06-18 04:40:11
+2026-06-18 12:07:02
 URL: http://127.0.0.1:8000/public/assets/js/uppy.min.js.map
 Exception: The route public/assets/js/uppy.min.js.map could not be found.
 File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
@@ -64,7 +64,7 @@ Trace:
 #25 {main}
 --------------------------------------------------
 
-2026-06-18 04:40:12
+2026-06-18 12:07:05
 URL: http://127.0.0.1:8000/public/assets/css/slick.min.css.map
 Exception: The route public/assets/css/slick.min.css.map could not be found.
 File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
@@ -97,7 +97,7 @@ Trace:
 #25 {main}
 --------------------------------------------------
 
-2026-06-18 04:41:15
+2026-06-18 12:07:59
 URL: http://127.0.0.1:8000/.well-known/appspecific/com.chrome.devtools.json
 Exception: The route .well-known/appspecific/com.chrome.devtools.json could not be found.
 File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
@@ -130,7 +130,40 @@ Trace:
 #25 {main}
 --------------------------------------------------
 
-2026-06-18 04:41:16
+2026-06-18 12:08:01
+URL: http://127.0.0.1:8000/public/assets/css/slick.min.css.map
+Exception: The route public/assets/css/slick.min.css.map could not be found.
+File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
+Trace:
+#0 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\RouteCollection.php(162): Illuminate\Routing\AbstractRouteCollection->handleMatchedRoute(Object(Illuminate\Http\Request), NULL)
+#1 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\RouteCollection->match(Object(Illuminate\Http\Request))
+#2 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(740): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
+#3 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(729): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#4 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(190): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#5 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(141): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#6 D:\PHP-Projects\lifematchings\httpdocs\vendor\barryvdh\laravel-debugbar\src\Middleware\InjectDebugbar.php(66): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#7 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Barryvdh\Debugbar\Middleware\InjectDebugbar->handle(Object(Illuminate\Http\Request), Object(Closure))
+#8 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#9 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#10 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
+#11 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#12 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(40): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#13 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#14 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#15 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
+#16 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(49): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#17 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
+#18 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(39): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#19 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#20 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(116): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#21 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(165): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#22 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(134): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#23 D:\PHP-Projects\lifematchings\httpdocs\public\index.php(51): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#24 D:\PHP-Projects\lifematchings\httpdocs\server.php(46): require_once('D:\\PHP-Projects...')
+#25 {main}
+--------------------------------------------------
+
+2026-06-18 12:08:03
 URL: http://127.0.0.1:8000/public/assets/js/uppy.min.js.map
 Exception: The route public/assets/js/uppy.min.js.map could not be found.
 File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
@@ -163,205 +196,7 @@ Trace:
 #25 {main}
 --------------------------------------------------
 
-2026-06-18 04:41:16
-URL: http://127.0.0.1:8000/public/assets/css/slick.min.css.map
-Exception: The route public/assets/css/slick.min.css.map could not be found.
-File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
-Trace:
-#0 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\RouteCollection.php(162): Illuminate\Routing\AbstractRouteCollection->handleMatchedRoute(Object(Illuminate\Http\Request), NULL)
-#1 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\RouteCollection->match(Object(Illuminate\Http\Request))
-#2 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(740): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
-#3 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(729): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#4 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(190): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#5 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(141): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#6 D:\PHP-Projects\lifematchings\httpdocs\vendor\barryvdh\laravel-debugbar\src\Middleware\InjectDebugbar.php(66): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#7 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Barryvdh\Debugbar\Middleware\InjectDebugbar->handle(Object(Illuminate\Http\Request), Object(Closure))
-#8 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#9 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#10 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
-#11 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#12 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(40): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#13 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
-#14 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#15 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
-#16 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(49): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#17 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
-#18 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(39): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#19 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#20 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(116): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#21 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(165): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#22 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(134): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#23 D:\PHP-Projects\lifematchings\httpdocs\public\index.php(51): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#24 D:\PHP-Projects\lifematchings\httpdocs\server.php(46): require_once('D:\\PHP-Projects...')
-#25 {main}
---------------------------------------------------
-
-2026-06-18 04:43:26
-URL: http://127.0.0.1:8000/.well-known/appspecific/com.chrome.devtools.json
-Exception: The route .well-known/appspecific/com.chrome.devtools.json could not be found.
-File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
-Trace:
-#0 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\RouteCollection.php(162): Illuminate\Routing\AbstractRouteCollection->handleMatchedRoute(Object(Illuminate\Http\Request), NULL)
-#1 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\RouteCollection->match(Object(Illuminate\Http\Request))
-#2 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(740): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
-#3 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(729): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#4 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(190): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#5 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(141): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#6 D:\PHP-Projects\lifematchings\httpdocs\vendor\barryvdh\laravel-debugbar\src\Middleware\InjectDebugbar.php(66): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#7 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Barryvdh\Debugbar\Middleware\InjectDebugbar->handle(Object(Illuminate\Http\Request), Object(Closure))
-#8 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#9 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#10 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
-#11 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#12 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(40): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#13 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
-#14 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#15 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
-#16 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(49): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#17 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
-#18 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(39): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#19 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#20 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(116): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#21 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(165): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#22 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(134): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#23 D:\PHP-Projects\lifematchings\httpdocs\public\index.php(51): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#24 D:\PHP-Projects\lifematchings\httpdocs\server.php(46): require_once('D:\\PHP-Projects...')
-#25 {main}
---------------------------------------------------
-
-2026-06-18 04:43:27
-URL: http://127.0.0.1:8000/public/assets/js/uppy.min.js.map
-Exception: The route public/assets/js/uppy.min.js.map could not be found.
-File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
-Trace:
-#0 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\RouteCollection.php(162): Illuminate\Routing\AbstractRouteCollection->handleMatchedRoute(Object(Illuminate\Http\Request), NULL)
-#1 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\RouteCollection->match(Object(Illuminate\Http\Request))
-#2 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(740): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
-#3 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(729): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#4 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(190): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#5 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(141): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#6 D:\PHP-Projects\lifematchings\httpdocs\vendor\barryvdh\laravel-debugbar\src\Middleware\InjectDebugbar.php(66): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#7 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Barryvdh\Debugbar\Middleware\InjectDebugbar->handle(Object(Illuminate\Http\Request), Object(Closure))
-#8 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#9 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#10 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
-#11 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#12 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(40): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#13 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
-#14 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#15 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
-#16 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(49): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#17 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
-#18 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(39): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#19 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#20 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(116): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#21 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(165): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#22 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(134): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#23 D:\PHP-Projects\lifematchings\httpdocs\public\index.php(51): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#24 D:\PHP-Projects\lifematchings\httpdocs\server.php(46): require_once('D:\\PHP-Projects...')
-#25 {main}
---------------------------------------------------
-
-2026-06-18 04:43:28
-URL: http://127.0.0.1:8000/public/assets/css/slick.min.css.map
-Exception: The route public/assets/css/slick.min.css.map could not be found.
-File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
-Trace:
-#0 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\RouteCollection.php(162): Illuminate\Routing\AbstractRouteCollection->handleMatchedRoute(Object(Illuminate\Http\Request), NULL)
-#1 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\RouteCollection->match(Object(Illuminate\Http\Request))
-#2 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(740): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
-#3 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(729): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#4 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(190): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#5 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(141): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#6 D:\PHP-Projects\lifematchings\httpdocs\vendor\barryvdh\laravel-debugbar\src\Middleware\InjectDebugbar.php(66): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#7 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Barryvdh\Debugbar\Middleware\InjectDebugbar->handle(Object(Illuminate\Http\Request), Object(Closure))
-#8 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#9 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#10 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
-#11 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#12 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(40): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#13 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
-#14 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#15 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
-#16 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(49): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#17 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
-#18 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(39): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#19 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#20 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(116): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#21 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(165): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#22 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(134): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#23 D:\PHP-Projects\lifematchings\httpdocs\public\index.php(51): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#24 D:\PHP-Projects\lifematchings\httpdocs\server.php(46): require_once('D:\\PHP-Projects...')
-#25 {main}
---------------------------------------------------
-
-2026-06-18 04:48:16
-URL: http://127.0.0.1:8000/.well-known/appspecific/com.chrome.devtools.json
-Exception: The route .well-known/appspecific/com.chrome.devtools.json could not be found.
-File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
-Trace:
-#0 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\RouteCollection.php(162): Illuminate\Routing\AbstractRouteCollection->handleMatchedRoute(Object(Illuminate\Http\Request), NULL)
-#1 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\RouteCollection->match(Object(Illuminate\Http\Request))
-#2 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(740): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
-#3 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(729): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#4 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(190): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#5 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(141): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#6 D:\PHP-Projects\lifematchings\httpdocs\vendor\barryvdh\laravel-debugbar\src\Middleware\InjectDebugbar.php(66): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#7 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Barryvdh\Debugbar\Middleware\InjectDebugbar->handle(Object(Illuminate\Http\Request), Object(Closure))
-#8 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#9 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#10 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
-#11 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#12 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(40): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#13 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
-#14 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#15 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
-#16 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(49): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#17 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
-#18 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(39): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#19 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#20 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(116): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#21 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(165): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#22 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(134): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#23 D:\PHP-Projects\lifematchings\httpdocs\public\index.php(51): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#24 D:\PHP-Projects\lifematchings\httpdocs\server.php(46): require_once('D:\\PHP-Projects...')
-#25 {main}
---------------------------------------------------
-
-2026-06-18 04:48:18
-URL: http://127.0.0.1:8000/public/assets/css/slick.min.css.map
-Exception: The route public/assets/css/slick.min.css.map could not be found.
-File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44
-Trace:
-#0 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\RouteCollection.php(162): Illuminate\Routing\AbstractRouteCollection->handleMatchedRoute(Object(Illuminate\Http\Request), NULL)
-#1 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\RouteCollection->match(Object(Illuminate\Http\Request))
-#2 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(740): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
-#3 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\Router.php(729): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#4 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(190): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#5 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(141): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#6 D:\PHP-Projects\lifematchings\httpdocs\vendor\barryvdh\laravel-debugbar\src\Middleware\InjectDebugbar.php(66): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#7 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Barryvdh\Debugbar\Middleware\InjectDebugbar->handle(Object(Illuminate\Http\Request), Object(Closure))
-#8 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#9 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#10 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
-#11 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#12 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(40): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
-#13 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
-#14 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#15 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
-#16 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(49): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#17 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
-#18 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(39): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#19 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#20 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(116): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#21 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(165): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#22 D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(134): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#23 D:\PHP-Projects\lifematchings\httpdocs\public\index.php(51): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#24 D:\PHP-Projects\lifematchings\httpdocs\server.php(46): require_once('D:\\PHP-Projects...')
-#25 {main}
---------------------------------------------------
-
-2026-06-18 04:48:22
+2026-06-18 12:08:11
 URL: http://127.0.0.1:8000/public/assets/js/uppy.min.js.map
 Exception: The route public/assets/js/uppy.min.js.map could not be found.
 File: D:\PHP-Projects\lifematchings\httpdocs\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php on line 44

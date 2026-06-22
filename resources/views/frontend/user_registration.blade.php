@@ -60,7 +60,7 @@
 										@php $on_behalves = \App\Models\OnBehalf::all(); @endphp
 										<select class="form-control aiz-selectpicker @error('on_behalf') is-invalid @enderror" name="on_behalf" required>
 											@foreach ($on_behalves as $on_behalf)
-												<option value="{{$on_behalf->id}}">{{$on_behalf->name}}</option>
+												<option value="{{$on_behalf->id}}" @if(old('on_behalf') == $on_behalf->id) selected @endif>{{$on_behalf->name}}</option>
 											@endforeach
 										</select>
 										@error('on_behalf')
@@ -73,7 +73,7 @@
 						        <div class="col-lg-6">
 						            <div class="form-group mb-3">
 										<label class="form-label" for="name">{{ translate('First Name') }}</label>
-										<input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" placeholder="{{translate('First Name')}}"  required>
+										<input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" placeholder="{{translate('First Name')}}" value="{{ old('first_name') }}" required>
 										@error('first_name')
 											<span class="invalid-feedback" role="alert">{{ $message }}</span>
 										@enderror
@@ -82,7 +82,7 @@
 								<div class="col-lg-6">
 									<div class="form-group mb-3">
 										<label class="form-label" for="name">{{ translate('Last Name') }}</label>
-										<input type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" id="last_name" placeholder="{{ translate('Last Name') }}"  required>
+										<input type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" id="last_name" placeholder="{{ translate('Last Name') }}" value="{{ old('last_name') }}" required>
 										@error('last_name')
 										<span class="invalid-feedback" role="alert">{{ $message }}</span>
 										@enderror
@@ -94,8 +94,8 @@
 									<div class="form-group mb-3">
 										<label class="form-label" for="gender">{{ translate('Gender') }}</label>
 										<select class="form-control aiz-selectpicker @error('gender') is-invalid @enderror" name="gender" required>
-											<option value="1">{{translate('Male')}}</option>
-											<option value="2">{{translate('Female')}}</option>
+											<option value="1" @if(old('gender') == 1) selected @endif>{{translate('Male')}}</option>
+											<option value="2" @if(old('gender') == 2) selected @endif>{{translate('Female')}}</option>
 										</select>
 										@error('gender')
 										<span class="invalid-feedback" role="alert">{{ $message }}</span>
@@ -105,7 +105,7 @@
 								<div class="col-lg-6">
 									<div class="form-group mb-3">
 										<label class="form-label" for="name">{{ translate('Date Of Birth') }}</label>
-										<input type="text" class="form-control aiz-date-range @error('date_of_birth') is-invalid @enderror" name="date_of_birth" id="date_of_birth" placeholder="{{ translate('Date Of Birth') }}" data-single="true" data-show-dropdown="true" data-max-date="{{ get_max_date() }}" autocomplete="off" required>
+										<input type="text" class="form-control aiz-date-range @error('date_of_birth') is-invalid @enderror" name="date_of_birth" id="date_of_birth" placeholder="{{ translate('Date Of Birth') }}" value="{{ old('date_of_birth') }}" data-single="true" data-show-dropdown="true" data-max-date="{{ get_max_date() }}" autocomplete="off" required>
 										@error('date_of_birth')
 										<span class="invalid-feedback" role="alert">{{ $message }}</span>
 										@enderror
@@ -120,6 +120,7 @@
 										<input type="time" class="form-control @error('timeOfBirth') is-invalid @enderror" 
 											name="timeOfBirth" id="timeOfBirth" 
 											placeholder="{{ translate('HH:MM') }}" 
+											value="{{ old('timeOfBirth') }}" 
 											required>
 										@error('timeOfBirth')
 										<span class="invalid-feedback" role="alert">{{ $message }}</span>
@@ -130,7 +131,7 @@
 								<div class="col-lg-6">
 									<div class="form-group mb-3">
 										<label class="form-label" for="birthPlace">{{ translate('Birth Place') }}</label>
-										<input type="text" class="form-control @error('birthPlace') is-invalid @enderror" name="birthPlace" id="birthPlace" placeholder="{{ translate('Birth Place') }}"  required>
+										<input type="text" class="form-control @error('birthPlace') is-invalid @enderror" name="birthPlace" id="birthPlace" placeholder="{{ translate('Birth Place') }}" value="{{ old('birthPlace') }}" required>
 										@error('birthPlace')
 										<span class="invalid-feedback" role="alert">{{ $message }}</span>
 										@enderror
@@ -142,10 +143,10 @@
 							<div class="row mb-3">
 								<div class="col-lg-12">
 									<div class="otp-segmented-control">
-										<button type="button" class="otp-segment-btn active" id="segment-email" onclick="switchOtpTab('email')">
+										<button type="button" class="otp-segment-btn active" id="segment-email" onclick="switchOtpTab('email', true)">
 											<i class="las la-envelope"></i> {{ translate('Email Address') }}
 										</button>
-										<button type="button" class="otp-segment-btn" id="segment-phone" onclick="switchOtpTab('phone')">
+										<button type="button" class="otp-segment-btn" id="segment-phone" onclick="switchOtpTab('phone', true)">
 											<i class="las la-phone"></i> {{ translate('Phone Number') }}
 										</button>
 									</div>
@@ -192,8 +193,13 @@
 									<div class="form-group mb-3">
 										<label class="form-label" for="otp">{{ translate('OTP Verification') }}</label>
 										<div class="input-group d-flex">
-											<input type="text" class="form-control @error('otp') is-invalid @enderror" name="otp" id="otp" placeholder="{{ translate('Enter OTP') }}" maxlength="6" required>
-											<button type="button" class="btn btn-outline-success flex-shrink-0" id="verify-otp-btn" onclick="verifyOTP()">{{ translate('Verify OTP') }}</button>
+											@if(session('otp_verified'))
+												<input type="text" class="form-control @error('otp') is-invalid @enderror" name="otp" id="otp" value="{{ session('registration_otp') }}" placeholder="{{ translate('Enter OTP') }}" maxlength="6" readonly required>
+												<button type="button" class="btn btn-success flex-shrink-0" id="verify-otp-btn" disabled>{{ translate('Verified') }}</button>
+											@else
+												<input type="text" class="form-control @error('otp') is-invalid @enderror" name="otp" id="otp" placeholder="{{ translate('Enter OTP') }}" maxlength="6" required>
+												<button type="button" class="btn btn-outline-success flex-shrink-0" id="verify-otp-btn" onclick="verifyOTP()">{{ translate('Verify OTP') }}</button>
+											@endif
 										</div>
 										@error('otp')
 											<span class="invalid-feedback" role="alert">{{ $message }}</span>
@@ -375,9 +381,16 @@
 				var country = iti.getSelectedCountryData();
 				$('input[name=country_code]').val(country.dialCode);
 			});
+
+			$('#signinSrEmail').on('input', function() {
+				resetVerification();
+			});
+			$('#phone-code').on('input', function() {
+				resetVerification();
+			});
 		});
 
-		function switchOtpTab(method) {
+		function switchOtpTab(method, isUserClick = false) {
 			$('#registration_method').val(method);
 			$('.otp-segment-btn').removeClass('active');
 			if (method === 'email') {
@@ -386,12 +399,30 @@
 				$('#phone-field-wrapper').hide();
 				$('#signinSrEmail').prop('required', true);
 				$('#phone-code').prop('required', false);
+				$('#phone-code').val('');
 			} else {
 				$('#segment-phone').addClass('active');
 				$('#email-field-wrapper').hide();
 				$('#phone-field-wrapper').show();
 				$('#signinSrEmail').prop('required', false);
 				$('#phone-code').prop('required', true);
+				$('#signinSrEmail').val('');
+			}
+			if (isUserClick) {
+				resetVerification();
+			}
+		}
+
+		function resetVerification() {
+			var $otpInput = $('#otp');
+			var $verifyBtn = $('#verify-otp-btn');
+			
+			if ($verifyBtn.hasClass('btn-success') || $otpInput.prop('readonly')) {
+				$otpInput.val('').prop('readonly', false);
+				$verifyBtn.prop('disabled', false)
+					.text('{{ translate("Verify OTP") }}')
+					.removeClass('btn-success')
+					.addClass('btn-outline-success');
 			}
 		}
 
@@ -533,12 +564,11 @@
 						$('#verify-otp-btn').prop('disabled', true).text('{{ translate("Verified") }}').removeClass('btn-outline-success').addClass('btn-success');
 					} else {
 						AIZ.plugins.notify('danger', response.message || 'Invalid OTP');
+						$('#verify-otp-btn').prop('disabled', false).text('{{ translate("Verify OTP") }}');
 					}
 				},
 				error: function() {
 					AIZ.plugins.notify('danger', 'Failed to verify OTP');
-				},
-				complete: function() {
 					$('#verify-otp-btn').prop('disabled', false).text('{{ translate("Verify OTP") }}');
 				}
 			});

@@ -46,7 +46,7 @@ class AuthController extends Controller
         $request->merge(['user_id' => $user->id]);
         $member = $member_service->store($request->only(['gender', 'birthday', 'on_behalves_id', 'user_id']), $package);
 
-        if (addon_activation('otp_system') && $request->phone != null) {
+        if (addon_activation('otp_system') && $request->phone != null && class_exists('App\Http\Controllers\OTPVerificationController')) {
             $otpController = new OTPVerificationController();
             $otpController->send_code($user);
         }
@@ -80,14 +80,19 @@ class AuthController extends Controller
         }
         if (get_setting('email_verification') != 1) {
             if ($user->email != null || $user->phone != null) {
-                $user->email_verified_at = date('Y-m-d H:m:s');
+                $user->email_verified_at = date('Y-m-d H:i:s');
                 $user->save();
             }
         } else {
-            try {
-                // verification code send to user
-                $user->notify(new VerificationCode($user));
-            } catch (\Exception $e) {
+            if ($user->phone != null && !addon_activation('otp_system')) {
+                $user->email_verified_at = date('Y-m-d H:i:s');
+                $user->save();
+            } elseif ($user->email != null) {
+                try {
+                    // verification code send to user
+                    $user->notify(new VerificationCode($user));
+                } catch (\Exception $e) {
+                }
             }
         }
 

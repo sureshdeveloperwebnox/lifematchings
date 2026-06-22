@@ -63,6 +63,9 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
+        if (!session()->has('errors') && !session()->has('_old_input')) {
+            session()->forget(['registration_otp', 'registration_phone', 'registration_email', 'otp_created_at', 'otp_verified']);
+        }
         return view('frontend.user_registration');
     }
 
@@ -192,6 +195,11 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        \Log::info('Register method called', [
+            'request_all' => $request->except(['password', 'password_confirmation', 'confirm_password']),
+            'session_all' => $request->session()->all(),
+        ]);
+
         if (!$request->filled('password_confirmation') && $request->filled('confirm_password')) {
             $request->merge([
                 'password_confirmation' => $request->confirm_password,
@@ -199,6 +207,12 @@ class RegisterController extends Controller
         }
 
         $regMethod = $request->registration_method ?? 'email';
+
+        if ($regMethod === 'phone') {
+            $request->merge(['email' => null]);
+        } else {
+            $request->merge(['phone' => null]);
+        }
 
         // Check if phone already exists (if registering via phone)
         if ($regMethod === 'phone') {
@@ -272,20 +286,10 @@ class RegisterController extends Controller
             EmailUtility::account_opening_email_to_admin($user, $admin);
         }
 
-        if (get_setting('email_verification') == 0) {
-            if ($user->email != null) {
-                $user->email_verified_at = date('Y-m-d H:i:s');
-            }
-            $user->save();
-            flash(translate('Registration successful.'))->success();
-        } else if ($user->email != null) {
-            $user->save();
-            event(new Registered($user));
-            flash(translate('Registration successful. Please verify your email.'))->success();
-        } else {
-            $user->save();
-            flash(translate('Registration successful.'))->success();
-        }
+        $user->email_verified_at = date('Y-m-d H:i:s');
+        $user->save();
+        event(new Registered($user));
+        flash(translate('Registration successful.'))->success();
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
@@ -293,11 +297,6 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        //?? where should redirect user after registration
-        if (get_setting('member_verification') == 1) {
-            return redirect()->route('login');
-        } else {
-            return redirect()->route('dashboard');
-        }
+        return redirect()->route('dashboard');
     }
 }

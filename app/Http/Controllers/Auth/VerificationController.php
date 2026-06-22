@@ -51,9 +51,21 @@ class VerificationController extends Controller
                             : view('auth.verify');
         }
         else {
-            $otpController = new OTPVerificationController;
-            $otpController->send_code($request->user());
-            return redirect()->route('verification');
+            if ($request->user()->hasVerifiedEmail()) {
+                return redirect($this->redirectPath());
+            }
+
+            if (addon_activation('otp_system') && class_exists('App\Http\Controllers\OTPVerificationController')) {
+                $otpController = new \App\Http\Controllers\OTPVerificationController;
+                $otpController->send_code($request->user());
+                return redirect()->route('verification');
+            } else {
+                $user = $request->user();
+                $user->email_verified_at = Carbon::now();
+                $user->save();
+                flash(translate('Your account has been verified successfully'))->success();
+                return redirect($this->redirectPath());
+            }
         }
     }
 
