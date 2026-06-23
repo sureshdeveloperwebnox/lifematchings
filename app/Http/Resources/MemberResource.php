@@ -45,7 +45,7 @@ class MemberResource extends JsonResource
 
             $profile_picture_show = show_profile_picture($this); //something is wrong
 
-            $package_update_alert = get_setting('full_profile_show_according_to_membership') == 1 && ($token &&  $user->membership) == 1 ? true : false;
+            $package_update_alert = ($token && $user) ? is_profile_viewer_view_blocked($user) : false;
 
             
             if ($token) {

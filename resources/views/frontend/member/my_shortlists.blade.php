@@ -31,7 +31,7 @@
                           <td>{{ ($key+1) + ($shortlists->currentPage() - 1)*$shortlists->perPage() }}</td>
                           <td>
                             <a
-                              @if(get_setting('full_profile_show_according_to_membership') == 1 && Auth::user()->membership == 1)
+                              @if(is_profile_viewer_view_blocked(Auth::user()))
                                   href="javascript:void(0);" onclick="package_update_alert()"
                               @else
                                   href="{{ route('member_profile', $shortlist->user_id) }}"
@@ -47,7 +47,7 @@
                           </td>
                           <td>
                               <a
-                                @if(get_setting('full_profile_show_according_to_membership') == 1 && Auth::user()->membership == 1)
+                                @if(is_profile_viewer_view_blocked(Auth::user()))
                                     href="javascript:void(0);" onclick="package_update_alert()"
                                 @else
                                     href="{{ route('member_profile', $shortlist->user_id) }}"

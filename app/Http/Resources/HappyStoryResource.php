@@ -19,7 +19,7 @@ class HappyStoryResource extends JsonResource
         foreach ($images as  $value) {
             $photos[] = uploaded_asset($value);
         }
-        $package_update_alert = (get_setting('full_profile_show_according_to_membership') == 1 && (auth()->check() && auth()->user()->membership == 1)) ? true : false;
+        $package_update_alert = auth()->check() ? is_profile_viewer_view_blocked(auth()->user()) : false;
         return [
             'id'                   => $this->id,
             'user_id'              => $this->user_id,

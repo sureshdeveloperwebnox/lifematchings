@@ -20,7 +20,7 @@ class ActiveUserResource extends JsonResource
     {
         $avatar_image = $this->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
         $profile_picture_show = show_profile_picture($this);
-        $package_update_alert = get_setting('full_profile_show_according_to_membership') == 1 && auth()->user()->membership == 1 ? true : false;
+        $package_update_alert = is_profile_viewer_view_blocked(auth()->user());
 
         return [
             'user_id'              => $this->id,

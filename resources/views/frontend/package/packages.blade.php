@@ -70,17 +70,29 @@
     {{-- ✅ Extra Content for Each Package --}}
     @if($package->name == 'Free Package' || $package->name == 'Default')
         <li class="list-group-item py-2">
-            <i class="las la-heart text-success mr-2"></i> <b>15</b> {{ translate('Express Interests') }}
+            <i class="las la-heart text-success mr-2"></i> <b>{{ $package->express_interest }}</b> {{ translate('Express Interests') }}
         </li>
         <li class="list-group-item py-2">
-            <i class="las la-image text-success mr-2"></i> <b>2</b> {{ translate('Gallery Image Uploads') }}
+            <i class="las la-image text-success mr-2"></i> <b>{{ $package->photo_gallery }}</b> {{ translate('Gallery Image Uploads') }}
         </li>
-        <li class="list-group-item py-2 text-muted">
-            <i class="las la-times text-danger mr-2"></i> {{ translate('No Contact Info View') }}
-        </li>
-        <li class="list-group-item py-2 mb-5 text-muted">
-            <i class="las la-times text-danger mr-2"></i> {{ translate('No Profile Viewer View') }}
-        </li>
+        @if($package->contact > 0)
+            <li class="list-group-item py-2">
+                <i class="las la-phone text-success mr-2"></i> <b>{{ $package->contact }}</b> {{ translate('Contact Info View') }}
+            </li>
+        @else
+            <li class="list-group-item py-2 text-muted">
+                <i class="las la-times text-danger mr-2"></i> {{ translate('No Contact Info View') }}
+            </li>
+        @endif
+        @if($package->profile_viewers_view > 0)
+            <li class="list-group-item py-2 mb-5">
+                <i class="las la-eye text-success mr-2"></i> <b>{{ $package->profile_viewers_view }}</b> {{ translate('Profile Viewer View') }}
+            </li>
+        @else
+            <li class="list-group-item py-2 mb-5 text-muted">
+                <i class="las la-times text-danger mr-2"></i> {{ translate('No Profile Viewer View') }}
+            </li>
+        @endif
     @endif
 
     @if($package->name == 'Elite')

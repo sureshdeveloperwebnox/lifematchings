@@ -19,7 +19,7 @@ class ExpressInterestResource extends JsonResource
     {
         $interested_by = User::find($this->interested_by);
         if ($interested_by != null) {
-            $package_update_alert = (get_setting('full_profile_show_according_to_membership') == 1 && auth()->user()->membership == 1) ? true : false;
+            $package_update_alert = is_profile_viewer_view_blocked(auth()->user());
             $default_image = $interested_by->member->gender == 1 ? static_asset('assets/img/avatar-place.png') : static_asset('assets/img/female-avatar-place.png');
             return [
                 'id'                   => $this->id,

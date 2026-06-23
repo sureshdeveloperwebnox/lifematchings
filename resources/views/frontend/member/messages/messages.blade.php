@@ -113,7 +113,7 @@
 
                     <div class="text-center mb-3 px-3 mt-3">
                         <a
-                            @if(get_setting('full_profile_show_according_to_membership') == 1 && Auth::user()->membership == 1)
+                            @if(is_profile_viewer_view_blocked(Auth::user()))
                                 href="javascript:void(0);" onclick="package_update_alert()"
                             @else
                                 href="{{ route('member_profile', $chat_thread->$user_to_show->id) }}"

@@ -27,7 +27,7 @@
                                 <td>{{ ($key+1) + ($my_gallery_image_view_requests->currentPage() - 1)*$my_gallery_image_view_requests->perPage() }}</td>
                                 <td>
                                     <a
-                                        @if(get_setting('full_profile_show_according_to_membership') == 1 && Auth::user()->membership == 1)
+                                        @if(is_profile_viewer_view_blocked(Auth::user()))
                                             href="javascript:void(0);" onclick="package_update_alert()"
                                         @else
                                             href="{{ route('member_profile', $gallery_image_view_requester->id) }}"
@@ -50,7 +50,7 @@
                                 </td>
                                 <td>
                                     <a
-                                        @if(get_setting('full_profile_show_according_to_membership') == 1 && Auth::user()->membership == 1)
+                                        @if(is_profile_viewer_view_blocked(Auth::user()))
                                             href="javascript:void(0);" onclick="package_update_alert()"
                                         @else
                                             href="{{ route('member_profile', $gallery_image_view_requester->id) }}"

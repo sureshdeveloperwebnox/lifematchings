@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{ $key + 1 + ($profileViewers->currentPage() - 1) * $profileViewers->perPage() }}</td>
                             <td>
-                                <a @if (get_setting('full_profile_show_according_to_membership') == 1 && $user->membership == 1) href="javascript:void(0);" onclick="package_update_alert()"
+                                <a @if (is_profile_viewer_view_blocked($user)) href="javascript:void(0);" onclick="package_update_alert()"
                                     @else
                                         href="{{ route('member_profile', $profileViewedBy->id) }}" @endif
                                     class="text-reset c-pointer">
@@ -46,7 +46,7 @@
                             </td>
                             <td>
                                 <a class="text-reset c-pointer"
-                                    @if (get_setting('full_profile_show_according_to_membership') == 1 && $user->membership == 1) href="javascript:void(0);" onclick="package_update_alert()"
+                                    @if (is_profile_viewer_view_blocked($user)) href="javascript:void(0);" onclick="package_update_alert()"
                                     @else
                                         href="{{ route('member_profile', $profileViewedBy->id) }}" @endif>
                                     {{ $profileViewedBy->first_name . ' ' . $profileViewedBy->last_name }}

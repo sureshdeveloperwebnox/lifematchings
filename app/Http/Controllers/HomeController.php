@@ -439,9 +439,11 @@ class HomeController extends Controller
                         'viewed_by' => $authUser->id
                     ]);
                    // print_r($store); die();
-                    $usermember = $user->member;
-                    $usermember->remaining_profile_viewer_view = $usermember->remaining_profile_viewer_view - 1;
-                    $usermember->save();
+                    $usermember = $authUser->member;
+                    if ($usermember && $usermember->remaining_profile_viewer_view > 0) {
+                        $usermember->remaining_profile_viewer_view = $usermember->remaining_profile_viewer_view - 1;
+                        $usermember->save();
+                    }
 
                     // Profile viewed Notification for member
                     try {

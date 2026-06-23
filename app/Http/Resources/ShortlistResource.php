@@ -29,7 +29,7 @@ class ShortlistResource extends JsonResource
             $shortlist = Shortlist::where('user_id', $this->user_id)->where('shortlisted_by', auth()->id())->first();
             $avatar_image = $user->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
             $profile_picture_show = show_profile_picture($this->user);
-            $package_update_alert = get_setting('full_profile_show_according_to_membership') == 1 && auth()->user()->membership == 1 ? true : false;
+            $package_update_alert = is_profile_viewer_view_blocked(auth()->user());
             $do_interest = ExpressInterest::where('user_id', $this->user_id)->where('interested_by', auth()->id())->first();
             $received_interest = ExpressInterest::where('user_id', auth()->id())->where('interested_by', $this->user_id)->first();
             $interest = ExpressInterest::where('user_id', $this->user_id)->where('interested_by', auth()->user()->id)->first();

@@ -685,9 +685,11 @@ class ProfileController extends Controller
                             'user_id' => $user->id,
                             'viewed_by' => $auth_user->id
                         ]);
-                        $usermember = $user->member;
-                        $usermember->remaining_profile_viewer_view = $usermember->remaining_profile_viewer_view - 1;
-                        $usermember->save();
+                        $usermember = $auth_user->member;
+                        if ($usermember && $usermember->remaining_profile_viewer_view > 0) {
+                            $usermember->remaining_profile_viewer_view = $usermember->remaining_profile_viewer_view - 1;
+                            $usermember->save();
+                        }
 
                         // Profile viewed Notification for member
                         try {

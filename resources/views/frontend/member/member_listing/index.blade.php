@@ -125,7 +125,7 @@
                                                 </table>
                                                 <div class="row gutters-5 text-center">
                                                     <div class="col">
-                                                        <a @if (get_setting('full_profile_show_according_to_membership') == 1 && Auth::user()->membership == 1) href="javascript:void(0);" onclick="package_update_alert()"
+                                                        <a @if (is_profile_viewer_view_blocked(Auth::user())) href="javascript:void(0);" onclick="package_update_alert()"
                                                     @else
                                                         href="{{ route('member_profile', $user->id) }}" @endif
                                                             class="text-reset c-pointer">

@@ -22,7 +22,7 @@
                             <tr id="interested_member_{{ $interested_by->id }}">
                                 <td>{{ $key + 1 + ($interests->currentPage() - 1) * $interests->perPage() }}</td>
                                 <td>
-                                    <a @if (get_setting('full_profile_show_according_to_membership') == 1 && Auth::user()->membership == 1) href="javascript:void(0);" onclick="package_update_alert()"
+                                    <a @if (is_profile_viewer_view_blocked(Auth::user())) href="javascript:void(0);" onclick="package_update_alert()"
                                         @else
                                             href="{{ route('member_profile', $interested_by->id) }}" @endif
                                         class="text-reset c-pointer">
@@ -36,7 +36,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a @if (get_setting('full_profile_show_according_to_membership') == 1 && Auth::user()->membership == 1) href="javascript:void(0);" onclick="package_update_alert()"
+                                    <a @if (is_profile_viewer_view_blocked(Auth::user())) href="javascript:void(0);" onclick="package_update_alert()"
                                         @else
                                             href="{{ route('member_profile', $interested_by->id) }}" @endif
                                         class="text-reset c-pointer">
