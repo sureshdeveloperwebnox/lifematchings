@@ -177,6 +177,52 @@
         get_castes_by_religion_for_partner();
         get_sub_castes_by_caste_for_partner();
         get_states_by_country_for_partner();
+
+        if (typeof window.intlTelInputGlobals !== 'undefined') {
+            var countryData = window.intlTelInputGlobals.getCountryData(),
+                input = document.querySelector("#phone-code");
+
+            if (input) {
+                for (var i = 0; i < countryData.length; i++) {
+                    var country = countryData[i];
+                    if (country.iso2 == 'bd') {
+                        country.dialCode = '88';
+                    }
+                }
+
+                var iti = intlTelInput(input, {
+                    initialCountry: "auto",
+                    geoIpLookup: function(callback) {
+                        $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                            var countryCode = (resp && resp.country) ? resp.country : "us";
+                            callback(countryCode);
+                        });
+                    },
+                    separateDialCode: true,
+                    utilsScript: "{{ static_asset('assets/js/intlTelutils.js') }}?1590403638580",
+                    onlyCountries: @php echo json_encode(\App\Models\Country::where('status', 1)->pluck('code')->toArray()) @endphp,
+                    customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
+                        if (selectedCountryData.iso2 == 'bd') {
+                            return "01xxxxxxxxx";
+                        }
+                        return selectedCountryPlaceholder;
+                    }
+                });
+
+                var initialVal = input.value || '';
+                if (initialVal && initialVal.indexOf('+') === 0) {
+                    iti.setNumber(initialVal);
+                }
+
+                var country = iti.getSelectedCountryData();
+                $('input[name=country_code]').val(country.dialCode);
+
+                input.addEventListener("countrychange", function(e) {
+                    var country = iti.getSelectedCountryData();
+                    $('input[name=country_code]').val(country.dialCode);
+                });
+            }
+        }
     });
 
     // For Present address

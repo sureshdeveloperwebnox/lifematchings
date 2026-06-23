@@ -1108,10 +1108,31 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                         'X-CSRF-TOKEN': AIZ.data.csrf,
                     },
                 });
-                uppy.on("upload-success", function () {
+                uppy.on("upload-success", function (file, response) {
                     AIZ.uploader.getAllUploads(
                         AIZ.data.appUrl + "/aiz-uploader/get_uploaded_files"
                     );
+                    $('[href="#aiz-select-file"]').trigger("click");
+                    if (response.body) {
+                        var uploadedFile = response.body;
+                        if (typeof uploadedFile === 'string') {
+                            try {
+                                uploadedFile = JSON.parse(uploadedFile);
+                            } catch (e) {
+                                // ignore
+                            }
+                        }
+                        if (uploadedFile && uploadedFile.id) {
+                            if (!AIZ.uploader.data.multiple) {
+                                AIZ.uploader.data.selectedFiles = [];
+                                AIZ.uploader.data.selectedFilesObject = [];
+                            }
+                            AIZ.uploader.data.selectedFiles.push(uploadedFile.id);
+                            AIZ.uploader.data.selectedFilesObject.push(uploadedFile);
+                            AIZ.uploader.addSelectedValue();
+                            AIZ.uploader.updateUploaderSelected();
+                        }
+                    }
                 });
             }
         },

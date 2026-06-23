@@ -53,10 +53,11 @@
 
             <div class="form-group row">
                 <div class="col-md-6">
-                    <label for="first_name" >{{translate('Phone Number')}}
+                    <label for="phone" >{{translate('Phone Number')}}
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="text" name="phone" value="{{ $member->phone }}" class="form-control" placeholder="{{translate('Phone')}}" required>
+                    <input type="tel" id="phone-code" class="form-control" value="{{ $member->phone }}" placeholder="{{translate('Phone')}}" name="phone" autocomplete="off" required>
+                    <input type="hidden" name="country_code" value="">
                     @error('phone')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror

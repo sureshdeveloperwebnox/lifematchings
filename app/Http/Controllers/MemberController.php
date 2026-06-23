@@ -398,7 +398,11 @@ class MemberController extends Controller
             $user->photo_approved = 0;
         }
         $user->photo        = $request->photo;
-        $user->phone        = $request->phone;
+        if ($request->has('country_code') && $request->country_code != null) {
+            $user->phone    = '+' . $request->country_code . $request->phone;
+        } else {
+            $user->phone    = $request->phone;
+        }
         $user->save();
 
         $member                     = Member::where('user_id', $request->id)->first();
