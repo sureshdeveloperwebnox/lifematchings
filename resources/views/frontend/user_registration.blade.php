@@ -330,6 +330,25 @@
 	
 	<script type="text/javascript">
 		var $ = window.jQuery || jQuery;
+
+		/**
+		 * CSRF Token Management
+		 * Reads from meta tag (always fresh) and refreshes from server when needed.
+		 * Fixes 419 CSRF token mismatch on mobile where session can expire/regenerate
+		 * during the OTP verification step.
+		 */
+		function getCsrfToken() {
+			return $('meta[name="csrf-token"]').attr('content');
+		}
+
+		function refreshCsrfToken() {
+			return $.get('{{ url('/refresh-csrf') }}').then(function(newToken) {
+				$('meta[name="csrf-token"]').attr('content', newToken);
+				$('input[name="_token"]').val(newToken);
+				return newToken;
+			});
+		}
+
 		$(document).ready(function() {
 			if (typeof window.intlTelInputGlobals === 'undefined') {
 				var errorDiv = document.getElementById('js-debug-errors');
@@ -437,31 +456,45 @@
 			
 			$('#send-otp-btn').prop('disabled', true).text('{{ translate("Sending...") }}');
 			
-			$.ajax({
-				url: '{{ route("send.otp") }}',
-				type: 'POST',
-				data: {
-					phone: phone,
-					country_code: countryCode,
-					delivery_method: 'phone',
-					_token: '{{ csrf_token() }}'
-				},
-				success: function(response) {
-					if (response.success) {
-						AIZ.plugins.notify('success', 'OTP sent to your phone successfully!');
-						$('#otp').focus();
-						// Start 30 second countdown
-						startOTPCountdown();
-					} else {
-						AIZ.plugins.notify('danger', response.message || 'Failed to send OTP');
-						$('#send-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+			function makeRequest(isRetry) {
+				$.ajax({
+					url: '{{ route("send.otp") }}',
+					type: 'POST',
+					data: {
+						phone: phone,
+						country_code: countryCode,
+						delivery_method: 'phone',
+						_token: getCsrfToken()
+					},
+					success: function(response) {
+						if (response.success) {
+							AIZ.plugins.notify('success', 'OTP sent to your phone successfully!');
+							$('#otp').focus();
+							// Start 30 second countdown
+							startOTPCountdown();
+						} else {
+							AIZ.plugins.notify('danger', response.message || 'Failed to send OTP');
+							$('#send-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+						}
+					},
+					error: function(xhr) {
+						if (xhr.status === 419 && !isRetry) {
+							// CSRF Token expired, refresh and retry once automatically
+							refreshCsrfToken().then(function() {
+								makeRequest(true);
+							}).catch(function() {
+								AIZ.plugins.notify('danger', 'Session expired. Please reload the page.');
+								$('#send-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+							});
+						} else {
+							AIZ.plugins.notify('danger', 'Failed to send OTP');
+							$('#send-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+						}
 					}
-				},
-				error: function() {
-					AIZ.plugins.notify('danger', 'Failed to send OTP');
-					$('#send-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
-				}
-			});
+				});
+			}
+
+			makeRequest(false);
 		}
 
 		function startOTPCountdown() {
@@ -498,29 +531,42 @@
 			
 			$('#send-email-otp-btn').prop('disabled', true).text('{{ translate("Sending...") }}');
 			
-			$.ajax({
-				url: '{{ route("send.otp") }}',
-				type: 'POST',
-				data: {
-					email: email,
-					delivery_method: 'email',
-					_token: '{{ csrf_token() }}'
-				},
-				success: function(response) {
-					if (response.success) {
-						AIZ.plugins.notify('success', 'OTP sent to your email successfully!');
-						$('#otp').focus();
-						startEmailOTPCountdown();
-					} else {
-						AIZ.plugins.notify('danger', response.message || 'Failed to send OTP');
-						$('#send-email-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+			function makeRequest(isRetry) {
+				$.ajax({
+					url: '{{ route("send.otp") }}',
+					type: 'POST',
+					data: {
+						email: email,
+						delivery_method: 'email',
+						_token: getCsrfToken()
+					},
+					success: function(response) {
+						if (response.success) {
+							AIZ.plugins.notify('success', 'OTP sent to your email successfully!');
+							$('#otp').focus();
+							startEmailOTPCountdown();
+						} else {
+							AIZ.plugins.notify('danger', response.message || 'Failed to send OTP');
+							$('#send-email-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+						}
+					},
+					error: function(xhr) {
+						if (xhr.status === 419 && !isRetry) {
+							refreshCsrfToken().then(function() {
+								makeRequest(true);
+							}).catch(function() {
+								AIZ.plugins.notify('danger', 'Session expired. Please reload the page.');
+								$('#send-email-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+							});
+						} else {
+							AIZ.plugins.notify('danger', 'Failed to send OTP');
+							$('#send-email-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
+						}
 					}
-				},
-				error: function() {
-					AIZ.plugins.notify('danger', 'Failed to send OTP');
-					$('#send-email-otp-btn').prop('disabled', false).text('{{ translate("Send OTP") }}');
-				}
-			});
+				});
+			}
+
+			makeRequest(false);
 		}
 
 		function startEmailOTPCountdown() {
@@ -550,32 +596,47 @@
 			
 			$('#verify-otp-btn').prop('disabled', true).text('{{ translate("Verifying...") }}');
 			
-			$.ajax({
-				url: '{{ route("verify.otp") }}',
-				type: 'POST',
-				data: {
-					otp: otp,
-					_token: '{{ csrf_token() }}'
-				},
-				success: function(response) {
-					if (response.success) {
-						AIZ.plugins.notify('success', 'OTP verified successfully!');
-						$('#otp').prop('readonly', true);
-						$('#verify-otp-btn').prop('disabled', true).text('{{ translate("Verified") }}').removeClass('btn-outline-success').addClass('btn-success');
-					} else {
-						AIZ.plugins.notify('danger', response.message || 'Invalid OTP');
-						$('#verify-otp-btn').prop('disabled', false).text('{{ translate("Verify OTP") }}');
+			function makeRequest(isRetry) {
+				$.ajax({
+					url: '{{ route("verify.otp") }}',
+					type: 'POST',
+					data: {
+						otp: otp,
+						_token: getCsrfToken()
+					},
+					success: function(response) {
+						if (response.success) {
+							AIZ.plugins.notify('success', 'OTP verified successfully!');
+							$('#otp').prop('readonly', true);
+							$('#verify-otp-btn').prop('disabled', true).text('{{ translate("Verified") }}').removeClass('btn-outline-success').addClass('btn-success');
+							refreshCsrfToken();
+						} else {
+							AIZ.plugins.notify('danger', response.message || 'Invalid OTP');
+							$('#verify-otp-btn').prop('disabled', false).text('{{ translate("Verify OTP") }}');
+						}
+					},
+					error: function(xhr) {
+						if (xhr.status === 419 && !isRetry) {
+							refreshCsrfToken().then(function() {
+								makeRequest(true);
+							}).catch(function() {
+								AIZ.plugins.notify('danger', 'Session expired. Please reload the page.');
+								$('#verify-otp-btn').prop('disabled', false).text('{{ translate("Verify OTP") }}');
+							});
+						} else {
+							AIZ.plugins.notify('danger', 'Failed to verify OTP');
+							$('#verify-otp-btn').prop('disabled', false).text('{{ translate("Verify OTP") }}');
+						}
 					}
-				},
-				error: function() {
-					AIZ.plugins.notify('danger', 'Failed to verify OTP');
-					$('#verify-otp-btn').prop('disabled', false).text('{{ translate("Verify OTP") }}');
-				}
-			});
+				});
+			}
+
+			makeRequest(false);
 		}
 
 		// Form submission validation
 		$('#reg-form').on('submit', function(e) {
+			var form = this;
 			var otp = $('#otp').val();
 			var otpVerified = $('#verify-otp-btn').hasClass('btn-success');
 			var regMethod = $('#registration_method').val() || 'email';
@@ -616,6 +677,29 @@
 				e.preventDefault();
 				return false;
 			}
+
+			if ($(form).data('submitting')) {
+				e.preventDefault();
+				return false;
+			}
+
+			e.preventDefault(); // Stop normal form submit
+			$(form).data('submitting', true);
+			var $submitBtn = $(form).find('button[type="submit"]');
+			var originalText = $submitBtn.text();
+			$submitBtn.prop('disabled', true).text('{{ translate("Please wait...") }}');
+
+			// Refresh CSRF token right before submitting to guarantee it matches server session
+			refreshCsrfToken().then(function(newToken) {
+				if (newToken) {
+					$('input[name="_token"]', form).val(newToken);
+				}
+				form.submit(); // submit raw DOM element (bypasses jquery handler to avoid loop)
+			}).catch(function() {
+				AIZ.plugins.notify('danger', 'Session expired. Please try submitting again.');
+				$submitBtn.prop('disabled', false).text(originalText);
+				$(form).data('submitting', false);
+			});
 		});
 
 		function togglePassword(targetId, sender) {
