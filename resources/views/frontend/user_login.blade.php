@@ -35,7 +35,7 @@
                             <h1 class="h3 text-primary mb-0">{{ translate('Login to your account') }}</h1>
                         </div>
 
-                        <form class="" method="POST" action="{{ route('login') }}">
+                        <form class="" method="POST" action="{{ route('login', [], false) }}">
                             @csrf
                             @php
                                 $oldLoginValue = old('email');

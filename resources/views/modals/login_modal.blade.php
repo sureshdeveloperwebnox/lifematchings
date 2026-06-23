@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="p-3">
-                    <form class="" method="POST" action="{{ route('login') }}">
+                    <form class="" method="POST" action="{{ route('login', [], false) }}">
                         @csrf
                         <div class="form-group">
                             <label class="form-label" for="email">

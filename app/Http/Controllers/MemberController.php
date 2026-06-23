@@ -81,7 +81,7 @@ class MemberController extends Controller
         $this->rules = [
             'first_name'        => ['required', 'max:255'],
             'last_name'         => ['required', 'max:255'],
-            'email'             => ['max:255', 'unique:users,email'],
+            'email'             => ['nullable', 'max:255', 'unique:users,email'],
             'gender'            => ['required'],
             'date_of_birth'     => ['required'],
             'on_behalf'         => ['required'],
@@ -163,14 +163,18 @@ class MemberController extends Controller
             return back();
         }
 
-        if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+        if ($request->email != null) {
             if (User::where('email', $request->email)->first() != null) {
-                flash(translate('Email or Phone already exists.'))->error();
+                flash(translate('Email already exists.'))->error();
                 return back();
             }
-        } elseif (User::where('phone', '+' . $request->country_code . $request->phone)->first() != null) {
-            flash(translate('Phone already exists.'))->error();
-            return back();
+        }
+
+        if ($request->phone != null) {
+            if (User::where('phone', '+' . $request->country_code . $request->phone)->first() != null) {
+                flash(translate('Phone already exists.'))->error();
+                return back();
+            }
         }
 
         $user               = new user;
