@@ -140,6 +140,9 @@ Route::post('/language', [LanguageController::class, 'changeLanguage'])->name('l
 Route::get('/packages', [PackageController::class, 'select_package'])->name('packages');
 Route::get('/initialPaymentpackage', [PackageController::class, 'initialPaymentpackage'])->name('initialPaymentpackage');
 Route::get('/about-us', [HomeController::class, 'aboutUs'])->name('about.us');
+Route::get('/test-db-packages', function() {
+    return \App\Models\Package::all();
+});
 
 //Service
 Route::get('/service', [HomeController::class, 'service'])->name('service');

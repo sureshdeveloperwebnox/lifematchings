@@ -27,6 +27,7 @@
                 <div class="opacity-50 ">{{ translate('Remaining') }} <br> {{ translate('Contact View') }}</div>
             </div>
         </div>
+        @if($user->member && $user->member->package && $user->member->package->profile_viewers_view > 0)
         <div class="col mx-auto mb-3" >
             <div class="bg-light rounded overflow-hidden text-center p-3">
                 <i class="las la-phone la-2x mb-3 text-primary-grad"></i>
@@ -34,6 +35,7 @@
                 <div class="opacity-50 ">{{ translate('Remaining') }} <br> {{ translate('Profile Viewer View') }}</div>
             </div>
         </div>
+        @endif
         <div class="col mx-auto mb-3" >
             <div class="bg-light rounded overflow-hidden text-center p-3">
                 <i class="las la-image la-2x mb-3 text-primary-grad"></i>

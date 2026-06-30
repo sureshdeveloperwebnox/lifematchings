@@ -149,6 +149,15 @@ class PackageController extends Controller
         }
 
         $package                    = Package::findOrFail($id);
+
+        // Track original package values before saving
+        $old_express_interest       = $package->express_interest;
+        $old_photo_gallery          = $package->photo_gallery;
+        $old_contact                = $package->contact;
+        $old_profile_viewers_view   = $package->profile_viewers_view;
+        $old_profile_image_view     = $package->profile_image_view;
+        $old_gallery_image_view     = $package->gallery_image_view;
+
         $package->name              = $request->name;
         $package->price             = filter_min_value($request->price);
         $package->express_interest  = filter_min_value($request->express_interest);
@@ -165,6 +174,38 @@ class PackageController extends Controller
         $package->validity          = filter_min_value($request->validity);
         $package->image             = $request->package_image;
         if ($package->save()) {
+            // Calculate differences
+            $diff_express_interest     = $package->express_interest - $old_express_interest;
+            $diff_photo_gallery        = $package->photo_gallery - $old_photo_gallery;
+            $diff_contact              = $package->contact - $old_contact;
+            $diff_profile_viewers_view = $package->profile_viewers_view - $old_profile_viewers_view;
+            $diff_profile_image_view   = $package->profile_image_view - $old_profile_image_view;
+            $diff_gallery_image_view   = $package->gallery_image_view - $old_gallery_image_view;
+
+            // Update all members belonging to this package
+            $members = Member::where('current_package_id', $package->id)->get();
+            foreach ($members as $member) {
+                if ($diff_express_interest != 0) {
+                    $member->remaining_interest = max(0, $member->remaining_interest + $diff_express_interest);
+                }
+                if ($diff_photo_gallery != 0) {
+                    $member->remaining_photo_gallery = max(0, $member->remaining_photo_gallery + $diff_photo_gallery);
+                }
+                if ($diff_contact != 0) {
+                    $member->remaining_contact_view = max(0, $member->remaining_contact_view + $diff_contact);
+                }
+                if ($diff_profile_viewers_view != 0) {
+                    $member->remaining_profile_viewer_view = max(0, $member->remaining_profile_viewer_view + $diff_profile_viewers_view);
+                }
+                if ($diff_profile_image_view != 0) {
+                    $member->remaining_profile_image_view = max(0, $member->remaining_profile_image_view + $diff_profile_image_view);
+                }
+                if ($diff_gallery_image_view != 0) {
+                    $member->remaining_gallery_image_view = max(0, $member->remaining_gallery_image_view + $diff_gallery_image_view);
+                }
+                $member->save();
+            }
+
             flash(translate('Package info has been updated successfully'))->success();
             return redirect()->route('packages.index');
         } else {
