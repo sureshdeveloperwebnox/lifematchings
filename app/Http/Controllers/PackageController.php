@@ -37,7 +37,7 @@ class PackageController extends Controller
             'express_interest.required'  => translate('No. of Express Interest is required'),
             'photo_gallery.required'     => translate('No. of Photo gallery is required'),
             'contact.required'           => translate('No. of Contact View is required'),
-            'contact.profile_viewers_view'=> translate('No. of Profile Viewer view is required'),
+            'profile_viewers_view.required'=> translate('No. of Profile Viewer view is required'),
             'profile_image_view.required' => translate('No. of Profile Image View is required'),
             'gallery_image_view.required' => translate('No. of Gallery Image View View is required'),
             'validity.required'          => translate('Package Validity day is required'),

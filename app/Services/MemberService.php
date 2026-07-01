@@ -16,6 +16,7 @@ class MemberService
            $remaining_interest                 = $package['express_interest'];
            $remaining_photo_gallery            = $package['photo_gallery'];
            $remaining_contact_view             = $package['contact'];
+           $remaining_profile_viewer_view      = $package['profile_viewers_view'];
            $remaining_profile_image_view       = $package['profile_image_view'];
            $remaining_gallery_image_view       = $package['gallery_image_view'];
            $auto_profile_match                 = $package['auto_profile_match'];
@@ -26,6 +27,7 @@ class MemberService
             'remaining_interest',
             'remaining_photo_gallery',
             'remaining_contact_view',
+            'remaining_profile_viewer_view',
             'remaining_profile_image_view',
             'remaining_gallery_image_view',
             'auto_profile_match',

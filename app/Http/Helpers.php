@@ -724,7 +724,7 @@ if (!function_exists('is_profile_viewer_view_blocked')) {
         if (!$user) {
             return true;
         }
-        if (get_setting('full_profile_show_according_to_membership') == 1 && $user->membership == 1) {
+        if (get_setting('full_profile_show_according_to_membership') == 1) {
             $member = $user->member;
             if (!$member || $member->remaining_profile_viewer_view <= 0 || !package_validity($user->id)) {
                 return true;

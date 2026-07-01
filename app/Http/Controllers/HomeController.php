@@ -404,7 +404,11 @@ class HomeController extends Controller
     public function view_member_profile($id)
     {
         $authUser= auth()->user();
-       
+        if ($authUser->id != $id && is_profile_viewer_view_blocked($authUser)) {
+            flash(translate('Please update your package to view profiles.'))->warning();
+            return redirect()->route('packages');
+        }
+        
         $similar_profiles = ProfileMatch::orderBy('match_percentage', 'desc')
             ->where('user_id', $authUser->id)
             ->where('match_id', '!=', $id)

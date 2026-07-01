@@ -47,18 +47,29 @@
 
 @section('script')
 <script type="text/javascript">
-
-	function checkPasswordValidation(confirm_password) {
+    function checkPasswordValidation() {
         var new_password = $('#new_password').val();
         var confirm_password = $('#confirm_password').val();
-        $('#confirm_password_help').show();
-        if(new_password === confirm_password) {
-            $('#confirm_password_help').text('Password Matched');
-            $('#passSaveBtn').prop("disabled", false);
-        }else {
-            $('#confirm_password_help').text('Mismatched Password');
+        
+        if (new_password || confirm_password) {
+            $('#confirm_password_help').show();
+            if(new_password === confirm_password) {
+                $('#confirm_password_help').text('Password Matched').css('color', 'green').removeClass('text-muted');
+                $('#passSaveBtn').prop("disabled", false);
+            } else {
+                $('#confirm_password_help').text('Mismatched Password').css('color', 'red').removeClass('text-muted');
+                $('#passSaveBtn').prop("disabled", true);
+            }
+        } else {
+            $('#confirm_password_help').hide();
             $('#passSaveBtn').prop("disabled", true);
         }
     }
+
+    $(document).ready(function() {
+        $('#new_password, #confirm_password').on('keyup change input', function() {
+            checkPasswordValidation();
+        });
+    });
 </script>
 @endsection

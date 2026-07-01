@@ -30,7 +30,7 @@
         @if($user->member && $user->member->package && $user->member->package->profile_viewers_view > 0)
         <div class="col mx-auto mb-3" >
             <div class="bg-light rounded overflow-hidden text-center p-3">
-                <i class="las la-phone la-2x mb-3 text-primary-grad"></i>
+                <i class="las la-eye la-2x mb-3 text-primary-grad"></i>
                 <div class="h4 fw-700 text-primary-grad">{{ get_remaining_package_value($user->id,'remaining_profile_viewer_view') }}</div>
                 <div class="opacity-50 ">{{ translate('Remaining') }} <br> {{ translate('Profile Viewer View') }}</div>
             </div>
