@@ -13,6 +13,10 @@ class CheckPaymentStatus
      */
     public function handle(Request $request, Closure $next)
     {
+        if (Auth::check() && (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff')) {
+            return $next($request);
+        }
+
         $isFreePackageEnabled = get_setting('free_package_activation') == 1;
 
         if( Auth::user()->isInitialPaymentPaid == 1 || ($isFreePackageEnabled && Auth::user()->member && Auth::user()->member->current_package_id == 1) || Auth::user()->membership == 2) {
