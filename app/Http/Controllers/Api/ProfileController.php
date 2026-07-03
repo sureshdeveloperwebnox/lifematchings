@@ -223,7 +223,7 @@ class ProfileController extends Controller
     public function physical_attributes_update(Request $request)
     {
         $this->validate($request, [
-            'height'       => ['required', 'numeric', 'between:0,9.99'],
+            'height'       => ['required', 'numeric', 'between:0,300.00'],
             'weight'       => ['required', 'numeric', 'between:0,999.99'],
             'eye_color'    => ['required', 'max:50'],
             'hair_color'   => ['required', 'max:50'],

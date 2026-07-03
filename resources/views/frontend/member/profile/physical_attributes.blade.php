@@ -8,14 +8,14 @@
           @csrf
           <div class="form-group row">
               <div class="col-md-6">
-                  <label for="height">{{translate('Height')}} ({{ translate('In Cm') }})</label>
+                  <label for="height">{{translate('Height')}} ({{ translate('Ft/Cm') }})</label>
                   <input type="number" name="height" value="{{ $member->physical_attributes->height ?? "" }}" step="any" class="form-control" placeholder="{{translate('Height')}}" required>
                   @error('height')
                       <small class="form-text text-danger">{{ $message }}</small>
                   @enderror
               </div>
               <div class="col-md-6">
-                  <label for="weight">{{translate('Weight')}} ({{ translate('In Kg')}})</label>
+                  <label for="weight">{{translate('Weight')}} ({{ translate('Kg')}})</label>
                   <input type="number" name="weight" value="{{ $member->physical_attributes->weight ?? "" }}" step="any" placeholder="{{ translate('Weight') }}" class="form-control" required>
                   @error('weight')
                       <small class="form-text text-danger">{{ $message }}</small>

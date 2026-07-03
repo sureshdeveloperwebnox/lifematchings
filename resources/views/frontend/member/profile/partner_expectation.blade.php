@@ -26,14 +26,14 @@
 
             <div class="form-group row">
                 <div class="col-md-6">
-                    <label for="partner_height">{{translate('Min Height')}}  ({{ translate('In Cm') }})</label>
+                    <label for="partner_height">{{translate('Min Height')}}  ({{ translate('Ft/Cm') }})</label>
                     <input type="number" name="partner_height" value="{{ $member->partner_expectations->height ?? "" }}" step="any"  placeholder="{{ translate('Height') }}" class="form-control" required>
                     @error('partner_height')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-6">
-                    <label for="partner_weight">{{translate('Max Weight')}}  ({{ translate('In Kg') }})</label>
+                    <label for="partner_weight">{{translate('Max Weight')}}  ({{ translate('Kg') }})</label>
                     <input type="number" name="partner_weight" value="{{ $member->partner_expectations->weight ?? "" }}" step="any" class="form-control" placeholder="{{translate('Weight')}}" required>
                     @error('partner_weight')
                         <small class="form-text text-danger">{{ $message }}</small>
