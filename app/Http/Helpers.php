@@ -97,6 +97,10 @@ if (!function_exists('getFileBaseURL')) {
 
 function translate($key, $lang = null)
 {
+    if (function_exists('app') && method_exists(app(), 'runningUnitTests') && app()->runningUnitTests()) {
+        return $key;
+    }
+
     if ($lang == null) {
         $lang = App::getLocale();
     }

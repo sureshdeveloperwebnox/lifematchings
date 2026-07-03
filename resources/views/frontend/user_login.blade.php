@@ -178,6 +178,18 @@
     var loginMethod = '{{ $oldMethod }}';
     var phoneInputInstance = null;
 
+    function getCsrfToken() {
+        return $('meta[name="csrf-token"]').attr('content');
+    }
+
+    function refreshCsrfToken() {
+        return $.get('{{ url('/refresh-csrf') }}').then(function(newToken) {
+            $('meta[name="csrf-token"]').attr('content', newToken);
+            $('input[name="_token"]').val(newToken);
+            return newToken;
+        });
+    }
+
     $(document).ready(function() {
         var phoneInput = document.querySelector("#login-phone");
 
@@ -193,8 +205,36 @@
 
         switchLoginMethod(loginMethod);
 
-        $('form').on('submit', function() {
+        $('form').on('submit', function(e) {
+            var form = this;
             syncLoginValue();
+
+            if ($(form).data('submitting')) {
+                e.preventDefault();
+                return false;
+            }
+
+            e.preventDefault(); // Stop normal form submit
+            $(form).data('submitting', true);
+            var $submitBtn = $(form).find('button[type="submit"]');
+            var originalText = $submitBtn.text();
+            $submitBtn.prop('disabled', true).text('{{ translate("Please wait...") }}');
+
+            // Refresh CSRF token right before submitting to guarantee it matches server session
+            refreshCsrfToken().then(function(newToken) {
+                if (newToken) {
+                    $('input[name="_token"]', form).val(newToken);
+                }
+                form.submit(); // submit raw DOM element (bypasses jquery handler to avoid loop)
+            }).catch(function() {
+                if (window.AIZ && AIZ.plugins && typeof AIZ.plugins.notify === 'function') {
+                    AIZ.plugins.notify('danger', 'Session expired. Please try submitting again.');
+                } else {
+                    alert('Session expired. Please try submitting again.');
+                }
+                $submitBtn.prop('disabled', false).text(originalText);
+                $(form).data('submitting', false);
+            });
         });
     });
 

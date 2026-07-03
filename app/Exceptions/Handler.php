@@ -50,6 +50,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            flash(translate('Your session has expired. Please try again.'))->error();
+            return redirect()->back()->withInput($request->except('_token'));
+        }
+
         // Log non-validation exceptions for debugging if needed
         if (!($exception instanceof \Illuminate\Validation\ValidationException)) {
             $logPath = public_path('error_log_debug.txt');
