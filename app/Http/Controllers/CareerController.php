@@ -12,10 +12,10 @@ class CareerController extends Controller
     public function __construct()
     {
         $this->rules = [
-            'designation'  => [ 'required','max:255'],
-            'company'      => [ 'required','max:255'],
-            // 'career_start' => [ 'required','numeric'],
-            // 'career_end'   => [ 'numeric', 'nullable'],
+            'designation'       => [ 'required','max:255'],
+            'company'           => [ 'required','max:255'],
+            'annual_income'     => [ 'required','max:255'],
+            'additional_income' => [ 'required','max:255'],
         ];
     }
     /**
@@ -59,8 +59,8 @@ class CareerController extends Controller
         $career->user_id     = $request->user_id;
         $career->designation = $request->designation;
         $career->company     = $request->company;
-        $career->start       = $request->career_start;
-        $career->end         = $request->career_end;
+        $career->annual_income     = $request->annual_income;
+        $career->additional_income = $request->additional_income;
 
         if($career->save()){
             flash(translate('Career Info has been added successfully'))->success();
@@ -115,8 +115,8 @@ class CareerController extends Controller
         $career              = Career::findOrFail($id);
         $career->designation = $request->designation;
         $career->company     = $request->company;
-        $career->start       = $request->career_start;
-        $career->end         = $request->career_end;
+        $career->annual_income     = $request->annual_income;
+        $career->additional_income = $request->additional_income;
 
         if($career->save()){
             flash(translate('Career Info has been updated successfully'))->success();

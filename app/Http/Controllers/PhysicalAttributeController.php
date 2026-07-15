@@ -74,10 +74,10 @@ class PhysicalAttributeController extends Controller
          $this->rules = [
              'height'       => [ 'required','numeric','min:0','max:300'],
              'weight'       => [ 'required','numeric','min:0','max:500'],
-             'eye_color'    => [ 'required','max:50'],
-             'hair_color'   => [ 'required','max:50'],
+             'eye_color'    => [ 'nullable','max:50'],
+             'hair_color'   => [ 'nullable','max:50'],
              'complexion'   => [ 'required','max:50'],
-             'blood_group'  => [ 'required','max:3'],
+             'blood_group'  => [ 'nullable','max:3'],
              'body_type'    => [ 'required','max:50'],
              //'body_art'     => [ 'required','max:50'],
              'disability'   => [ 'max:255'],

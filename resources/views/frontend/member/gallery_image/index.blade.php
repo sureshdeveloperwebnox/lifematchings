@@ -14,7 +14,13 @@
                 <i class="las la-image la-2x text-white"></i>
             </span>
             <div class="px-3 pt-3 pb-3">
-                <div class="h4 fw-700 text-center">{{ get_remaining_package_value(Auth::user()->id,'remaining_photo_gallery') }}</div>
+                @php
+                    $uploaded_photos_count = \App\Models\GalleryImage::where('user_id', Auth::user()->id)->count();
+                    $remaining_from_package = get_remaining_package_value(Auth::user()->id,'remaining_photo_gallery');
+                    $allowed_remaining = max(0, 3 - $uploaded_photos_count);
+                    $total_remaining = max($allowed_remaining, $remaining_from_package);
+                @endphp
+                <div class="h4 fw-700 text-center">{{ $total_remaining }}</div>
                 <div class="opacity-50 text-center">{{ translate('Remaining Gallery Image Upload') }}</div>
             </div>
           </div>

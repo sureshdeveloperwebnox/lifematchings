@@ -40,13 +40,65 @@
                 </div>
     
                 {{-- sibling --}}
-                {{-- <div class="col-md-6 mt-3">
+                <div class="col-md-6 mt-3">
                     <label for="sibling">{{translate('Sibling')}}</label>
                     <input type="text" name="sibling" value="{{ $member->families->sibling ?? "" }}" id="sibling" class="form-control" placeholder="{{translate('Sibling')}}" readonly >
                     @error('sibling')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
-                </div> --}}
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label for="no_of_married">{{translate('No. of Married')}}</label>
+                    <select class="form-control aiz-selectpicker" name="no_of_married" id="no_of_married" data-live-search="true" data-selected="{{ $member->families->no_of_married ?? ""  }}">
+                        @for($i=0; $i<=20; $i++)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                    @error('no_of_married')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label for="no_of_unmarried">{{translate('No. of Unmarried')}}</label>
+                    <select class="form-control aiz-selectpicker" name="no_of_unmarried" id="no_of_unmarried" data-live-search="true" data-selected="{{ $member->families->no_of_unmarried ?? ""  }}">
+                        @for($i=0; $i<=20; $i++)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                    @error('no_of_unmarried')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label for="family_value">{{translate('Family Value')}}</label>
+                    @php
+                        $sel_fam_val = $member->families->family_value ?? "";
+                    @endphp
+                    <select class="form-control aiz-selectpicker" name="family_value" id="family_value">
+                        <option value="">{{translate('Select One')}}</option>
+                        <option value="Liberal" {{ $sel_fam_val == 'Liberal' ? 'selected' : '' }}>{{translate('Liberal')}}</option>
+                        <option value="Moderate" {{ $sel_fam_val == 'Moderate' ? 'selected' : '' }}>{{translate('Moderate')}}</option>
+                        <option value="Traditional" {{ $sel_fam_val == 'Traditional' ? 'selected' : '' }}>{{translate('Traditional')}}</option>
+                    </select>
+                    @error('family_value')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label for="family_status">{{translate('Family Status')}}</label>
+                    @php
+                        $sel_fam_status = $member->families->family_status ?? "";
+                    @endphp
+                    <select class="form-control aiz-selectpicker" name="family_status" id="family_status">
+                        <option value="">{{translate('Select One')}}</option>
+                        <option value="Middle" {{ $sel_fam_status == 'Middle' ? 'selected' : '' }}>{{translate('Middle')}}</option>
+                        <option value="Upper Middle" {{ $sel_fam_status == 'Upper Middle' ? 'selected' : '' }}>{{translate('Upper Middle')}}</option>
+                        <option value="Affluent" {{ $sel_fam_status == 'Affluent' ? 'selected' : '' }}>{{translate('Affluent')}}</option>
+                    </select>
+                    @error('family_status')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
                 <div class="col-md-6 mt-3">
                     <label for="sibling">{{translate('No. of Brothers')}}</label>
                     <select class="form-control aiz-selectpicker" name="no_of_brothers" id="no_of_brothers" onchange="totalSibling()" data-live-search="true" data-selected="{{ $member->families->no_of_brothers ?? ""  }}" required>

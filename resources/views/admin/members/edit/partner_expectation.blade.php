@@ -5,7 +5,7 @@
     <form action="{{ route('partner_expectations.update', $member->id) }}" method="POST">
         <input name="_method" type="hidden" value="PATCH">
         @csrf
-        <div class="form-group row">
+        {{-- <div class="form-group row">
             <div class="col-md-6">
                 <label for="general">{{translate('General')}}</label>
                 <input type="text" name="general" value="{{ $member->partner_expectations->general ?? "" }}" class="form-control" placeholder="{{translate('General')}}" required>
@@ -21,12 +21,39 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
+        </div> --}}
+
+        <div class="form-group row">
+            <div class="col-md-6">
+                <label for="age_from">{{translate('Age From')}}</label>
+                <select class="form-control aiz-selectpicker" name="age_from" id="age_from" data-live-search="true">
+                    <option value="">{{translate('Select One')}}</option>
+                    @for($i=18; $i<=99; $i++)
+                        <option value="{{ $i }}" @if(($member->partner_expectations->age_from ?? "") == $i) selected @endif>{{ $i }} {{translate('Yrs')}}</option>
+                    @endfor
+                </select>
+                @error('age_from')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="col-md-6">
+                <label for="age_to">{{translate('Age To')}}</label>
+                <select class="form-control aiz-selectpicker" name="age_to" id="age_to" data-live-search="true">
+                    <option value="">{{translate('Select One')}}</option>
+                    @for($i=18; $i<=99; $i++)
+                        <option value="{{ $i }}" @if(($member->partner_expectations->age_to ?? "") == $i) selected @endif>{{ $i }} {{translate('Yrs')}}</option>
+                    @endfor
+                </select>
+                @error('age_to')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
         </div>
 
         <div class="form-group row">
             <div class="col-md-6">
                 <label for="partner_height">{{translate('Height')}}</label>
-                <input type="number" name="partner_height" value="{{ $member->partner_expectations->height ?? "" }}" step="any"  placeholder="{{ translate('Height') }}" class="form-control" required>
+                <input type="number" name="partner_height" value="{{ $member->partner_expectations->height ?? "" }}" step="any"  placeholder="{{ translate('Height') }}" class="form-control">
                 @error('partner_height')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
@@ -185,13 +212,13 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <label for="partner_personal_value">{{translate('Personal Value')}}</label>
                 <input type="text" name="partner_personal_value" value="{{ $member->partner_expectations->personal_value ?? "" }}" class="form-control" placeholder="{{translate('Personal Value')}}" required>
                 @error('partner_personal_value')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
-            </div>
+            </div> --}}
             <div class="col-md-6">
                 <label for="partner_manglik">{{translate('Manglik')}}</label>
                 @php $partner_manglik = $member->partner_expectations->manglik ?? ""; @endphp
@@ -206,7 +233,7 @@
             </div>
         </div>
 
-        <div class="form-group row">
+        {{-- <div class="form-group row">
             <div class="col-md-6">
                 <label for="partner_country_id">{{translate('Preferred Country')}}</label>
                 <select class="form-control aiz-selectpicker" name="partner_country_id" id="partner_country_id" data-live-search="true" required>
@@ -228,10 +255,10 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-        </div>
+        </div> --}}
 
         <div class="form-group row">
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <label for="family_value_id">{{translate('Family Value')}}</label>
                 <select class="form-control aiz-selectpicker" name="family_value_id" data-selected="{{ $member->partner_expectations->family_value_id ?? "" }}" data-live-search="true" >
                     <option value="">{{translate('Select One')}}</option>
@@ -242,7 +269,7 @@
                 @error('family_value_id')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
-            </div>
+            </div> --}}
             <div class="col-md-6">
                 <label for="pertner_complexion">{{translate('Complexion')}}</label>
                 <input type="text" name="pertner_complexion" value="{{ $member->partner_expectations->complexion ?? "" }}" class="form-control" placeholder="{{translate('Complexion')}}" required>

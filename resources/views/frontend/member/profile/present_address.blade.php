@@ -14,7 +14,7 @@
                         <option value="">{{translate('Select One')}}</option>
                         <?php $countries = \App\Models\Country::where('status',1)->get(); ?>
                         @foreach ($countries as $country)
-                            <option value="{{$country->id}}">{{$country->name}}</option>
+                            <option value="{{$country->id}}" @if($country->id == $present_country_id) selected @endif>{{$country->name}}</option>
                         @endforeach
                     </select>
                     @error('present_country_id')
@@ -45,6 +45,15 @@
                     <label for="present_postal_code">{{translate('Postal Code')}}</label>
                     <input type="text" name="present_postal_code" value="{{$present_postal_code}}" class="form-control" placeholder="{{translate('Postal Code')}}" required>
                     @error('present_postal_code')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label for="present_address">{{translate('Address')}}</label>
+                    <input type="text" name="present_address" value="{{$present_address_value}}" class="form-control" placeholder="{{translate('Address')}}" required>
+                    @error('present_address')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>

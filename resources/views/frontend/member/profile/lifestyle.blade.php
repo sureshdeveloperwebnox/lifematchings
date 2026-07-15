@@ -36,7 +36,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-6">
-                    <label for="smoke">{{translate('Smoke')}}</label>
+                    <label for="smoke">{{translate('Social Smoker')}}</label>
                     @php $user_smoke = !empty($member->lifestyles->smoke) ? $member->lifestyles->smoke : ""; @endphp
                     <select class="form-control aiz-selectpicker" name="smoke" required>
                         <option value="yes" @if($user_smoke ==  'yes') selected @endif >{{translate('Yes')}}</option>

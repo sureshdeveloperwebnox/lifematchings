@@ -81,7 +81,7 @@
                     <label for="first_name" >{{translate('Marital Status')}}
                         <span class="text-danger">*</span>
                     </label>
-                    <select class="form-control aiz-selectpicker" name="marital_status" data-selected="{{ $member->member->marital_status_id }}" data-live-search="true" required>
+                    <select class="form-control aiz-selectpicker" name="marital_status" id="marital_status" data-selected="{{ $member->member->marital_status_id }}" data-live-search="true" required>
                         @foreach ($marital_statuses as $marital_status)
                             <option value="{{$marital_status->id}}">{{$marital_status->name}}</option>
                         @endforeach
@@ -90,11 +90,11 @@
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" id="children_form_group">
                     <label for="first_name" >{{translate('Number Of Children')}}
-                        <span class="text-danger">*</span>
+                        <span class="text-danger" id="children_mandatory">*</span>
                     </label>
-                    <input type="text" name="children" value="{{ $member->member->children }}" class="form-control" placeholder="{{translate('Number Of Children')}}" >
+                    <input type="text" name="children" id="children" value="{{ $member->member->children }}" class="form-control" placeholder="{{translate('Number Of Children')}}" >
                 </div>
             </div>
             

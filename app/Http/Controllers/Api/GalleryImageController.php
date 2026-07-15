@@ -43,21 +43,14 @@ class GalleryImageController extends Controller
      */
     public function store(Request $request)
     {
-        if (package_validity(auth()->user()->id)) {
-            if (get_remaining_package_value(auth()->user()->id, 'remaining_photo_gallery') > 0) {
+        $uploaded_photos_count = GalleryImage::where('user_id', auth()->user()->id)->count();
+        if ($uploaded_photos_count < 3 || package_validity(auth()->user()->id)) {
+            if ($uploaded_photos_count < 3 || get_remaining_package_value(auth()->user()->id, 'remaining_photo_gallery') > 0) {
                 // image upload
                 $photo = null;
                 if ($request->hasFile('gallery_image')) {
                     $photo = upload_api_file($request->file('gallery_image'));
                 }
-                // $gallery_images = [];
-                // if ($request->hasFile('gallery_images')) {             
-                //     foreach ($request->file('gallery_images') as $key => $gallery_image) {
-                //         $photo = upload_api_file($gallery_image);
-                //         $gallery_images[] = $photo;
-                //     }                  
-                // }
-                // $gallery_images = implode(',', $gallery_images);
 
                 GalleryImage::create([
                     'user_id' => auth()->user()->id,
@@ -65,8 +58,10 @@ class GalleryImageController extends Controller
                 ]);
 
                 $member = Member::where('user_id', auth()->user()->id)->first();
-                $member->remaining_photo_gallery = $member->remaining_photo_gallery - 1;
-                $member->save();
+                if ($member->remaining_photo_gallery > 0) {
+                    $member->remaining_photo_gallery = $member->remaining_photo_gallery - 1;
+                    $member->save();
+                }
                 return $this->success_message('Gallery image uploaded successfully.');
             }
             return $this->failure_message('You have 0 remaining gallery photo upload. Please update your package.');

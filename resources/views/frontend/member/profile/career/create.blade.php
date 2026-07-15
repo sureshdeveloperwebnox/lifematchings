@@ -19,6 +19,18 @@
                 <input type="text" name="company"  placeholder="{{ translate('company') }}" class="form-control" required>
             </div>
         </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">{{translate('Annual Income')}}</label>
+            <div class="col-md-9">
+                <input type="text" name="annual_income" placeholder="{{translate('Annual Income')}}" class="form-control" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">{{translate('Additional Income')}}</label>
+            <div class="col-md-9">
+                <input type="text" name="additional_income" placeholder="{{translate('Additional Income')}}" class="form-control" required>
+            </div>
+        </div>
         {{-- <div class="form-group row">
             <label class="col-md-3 col-form-label">{{translate('Start')}}</label>
             <div class="col-md-9">

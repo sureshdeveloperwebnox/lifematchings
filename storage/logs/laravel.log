@@ -4632,3 +4632,73 @@
 [2026-07-03 10:40:46] testing.INFO: OTP Verification Debug {"input_otp":"999999","stored_otp":"111111","is_stateless":true,"otp_created_at":"2026-07-03 09:40:46","string_comparison":false} 
 [2026-07-03 10:40:46] testing.INFO: OTP Verification Debug {"input_otp":"222222","stored_otp":"222222","is_stateless":true,"otp_created_at":"2026-07-03 09:25:46","string_comparison":true} 
 [2026-07-03 10:40:46] testing.INFO: OTP Verification Debug {"input_otp":"333333","stored_otp":null,"is_stateless":true,"otp_created_at":null,"string_comparison":false} 
+[2026-07-15 08:14:24] production.INFO: OTP Generated for Email {"otp":624121,"otp_string":"624121","email":"nehay23784@buloan.com"} 
+[2026-07-15 08:15:03] production.INFO: OTP Verification Debug {"input_otp":"624121","stored_otp":"624121","is_stateless":false,"otp_created_at":"2026-07-15 08:14:24","string_comparison":true} 
+[2026-07-15 08:15:04] production.INFO: Register method called {"request_all":{"_token":"bqZk4cYlz8JlpgiQDv4dBq1f30GhjGieMNeNCAuT","on_behalf":"1","first_name":"Sam","last_name":"Anderson","gender":"1","date_of_birth":"2026-07-09","timeOfBirth":"15:46","birthPlace":"Coimbatore","registration_method":"email","email":"nehay23784@buloan.com","phone":null,"country_code":"91","otp":"624121","checkbox_example_1":"on"},"session_all":{"_token":"bqZk4cYlz8JlpgiQDv4dBq1f30GhjGieMNeNCAuT","_previous":{"url":"http://127.0.0.1:8000/register"},"_flash":{"old":[],"new":[]},"registration_otp":"624121","otp_created_at":"2026-07-15 08:14:24","registration_email":"nehay23784@buloan.com","otp_verified":true}} 
+[2026-07-15 08:39:17] production.ERROR: Symfony\Component\HttpFoundation\IpUtils::checkIp4(): Argument #2 ($ip) must be of type string, null given, called in D:\PHP-Projects\lifematchings\httpdocs\vendor\symfony\http-foundation\IpUtils.php on line 44 {"exception":"[object] (TypeError(code: 0): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp4(): Argument #2 ($ip) must be of type string, null given, called in D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php on line 44 at D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php:60)
+[stacktrace]
+#0 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php(44): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp4('', NULL)
+#1 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\Request.php(1923): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp('', Array)
+#2 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\Request.php(1116): Symfony\\Component\\HttpFoundation\\Request->isFromTrustedProxy()
+#3 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(79): Symfony\\Component\\HttpFoundation\\Request->getHost()
+#4 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(48): Illuminate\\Http\\Middleware\\HandleCors->hasMatchingPath(Object(Illuminate\\Http\\Request))
+#5 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#6 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#8 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#9 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#10 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#11 C:\\Users\\sures\\.gemini\\antigravity-ide\\brain\\a5575d20-a14f-4538-b834-6d4d269f5a38\\scratch\\scratch_check_user.php(5): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#12 {main}
+"} 
+[2026-07-15 08:39:17] production.ERROR: Symfony\Component\HttpFoundation\IpUtils::checkIp4(): Argument #2 ($ip) must be of type string, null given, called in D:\PHP-Projects\lifematchings\httpdocs\vendor\symfony\http-foundation\IpUtils.php on line 44 {"exception":"[object] (TypeError(code: 0): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp4(): Argument #2 ($ip) must be of type string, null given, called in D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php on line 44 at D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php:60)
+[stacktrace]
+#0 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php(44): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp4('', NULL)
+#1 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\Request.php(1923): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp('', Array)
+#2 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\Request.php(859): Symfony\\Component\\HttpFoundation\\Request->isFromTrustedProxy()
+#3 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Request.php(120): Symfony\\Component\\HttpFoundation\\Request->getBaseUrl()
+#4 D:\\PHP-Projects\\lifematchings\\httpdocs\\app\\Exceptions\\Handler.php(62): Illuminate\\Http\\Request->fullUrl()
+#5 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\nunomaduro\\collision\\src\\Adapters\\Laravel\\ExceptionHandler.php(54): App\\Exceptions\\Handler->render(Object(Illuminate\\Http\\Request), Object(TypeError))
+#6 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(51): NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler->render(Object(Illuminate\\Http\\Request), Object(TypeError))
+#7 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(185): Illuminate\\Routing\\Pipeline->handleException(Object(Illuminate\\Http\\Request), Object(TypeError))
+#8 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#9 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#12 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#13 C:\\Users\\sures\\.gemini\\antigravity-ide\\brain\\a5575d20-a14f-4538-b834-6d4d269f5a38\\scratch\\scratch_check_user.php(5): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#14 {main}
+"} 
+[2026-07-15 08:39:17] production.ERROR: Symfony\Component\HttpFoundation\IpUtils::checkIp4(): Argument #2 ($ip) must be of type string, null given, called in D:\PHP-Projects\lifematchings\httpdocs\vendor\symfony\http-foundation\IpUtils.php on line 44 {"exception":"[object] (TypeError(code: 0): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp4(): Argument #2 ($ip) must be of type string, null given, called in D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php on line 44 at D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php:60)
+[stacktrace]
+#0 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php(44): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp4('', NULL)
+#1 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\Request.php(1923): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp('', Array)
+#2 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\Request.php(859): Symfony\\Component\\HttpFoundation\\Request->isFromTrustedProxy()
+#3 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Request.php(120): Symfony\\Component\\HttpFoundation\\Request->getBaseUrl()
+#4 D:\\PHP-Projects\\lifematchings\\httpdocs\\app\\Exceptions\\Handler.php(62): Illuminate\\Http\\Request->fullUrl()
+#5 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\nunomaduro\\collision\\src\\Adapters\\Laravel\\ExceptionHandler.php(54): App\\Exceptions\\Handler->render(Object(Illuminate\\Http\\Request), Object(TypeError))
+#6 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(51): NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler->render(Object(Illuminate\\Http\\Request), Object(TypeError))
+#7 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(185): Illuminate\\Routing\\Pipeline->handleException(Object(Illuminate\\Http\\Request), Object(TypeError))
+#8 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#9 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#10 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#11 C:\\Users\\sures\\.gemini\\antigravity-ide\\brain\\a5575d20-a14f-4538-b834-6d4d269f5a38\\scratch\\scratch_check_user.php(5): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#12 {main}
+"} 
+[2026-07-15 08:39:17] production.ERROR: Symfony\Component\HttpFoundation\IpUtils::checkIp4(): Argument #2 ($ip) must be of type string, null given, called in D:\PHP-Projects\lifematchings\httpdocs\vendor\symfony\http-foundation\IpUtils.php on line 44 {"exception":"[object] (TypeError(code: 0): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp4(): Argument #2 ($ip) must be of type string, null given, called in D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php on line 44 at D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php:60)
+[stacktrace]
+#0 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\IpUtils.php(44): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp4('', NULL)
+#1 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\Request.php(1923): Symfony\\Component\\HttpFoundation\\IpUtils::checkIp('', Array)
+#2 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\http-foundation\\Request.php(859): Symfony\\Component\\HttpFoundation\\Request->isFromTrustedProxy()
+#3 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Request.php(120): Symfony\\Component\\HttpFoundation\\Request->getBaseUrl()
+#4 D:\\PHP-Projects\\lifematchings\\httpdocs\\app\\Exceptions\\Handler.php(62): Illuminate\\Http\\Request->fullUrl()
+#5 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\nunomaduro\\collision\\src\\Adapters\\Laravel\\ExceptionHandler.php(54): App\\Exceptions\\Handler->render(Object(Illuminate\\Http\\Request), Object(TypeError))
+#6 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(493): NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler->render(Object(Illuminate\\Http\\Request), Object(TypeError))
+#7 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(138): Illuminate\\Foundation\\Http\\Kernel->renderException(Object(Illuminate\\Http\\Request), Object(TypeError))
+#8 C:\\Users\\sures\\.gemini\\antigravity-ide\\brain\\a5575d20-a14f-4538-b834-6d4d269f5a38\\scratch\\scratch_check_user.php(5): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#9 {main}
+"} 
+[2026-07-15 10:04:55] production.ERROR: Maximum execution time of 60 seconds exceeded {"userId":851,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 60 seconds exceeded at D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\aiz-packages\\color-code-converter\\src\\Services\\ColorCodeConverter.php:28)
+[stacktrace]
+#0 {main}
+"} 

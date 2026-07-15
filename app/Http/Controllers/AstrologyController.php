@@ -77,6 +77,7 @@ class AstrologyController extends Controller
              'lagnam'        => [ 'max:255'],
              'time_of_birth'    => [ 'max:10'],
              'city_of_birth'    => [ 'max:20'],
+             'manglik'          => [ 'max:255'],
          ];
          $this->messages = [
              'sun_sign.max'       => translate('Max 255 characters'),
@@ -84,6 +85,7 @@ class AstrologyController extends Controller
              'lagnam.max'         => translate('Max 255 characters'),
              'time_of_birth.max'  => translate('Max 10 characters'),
              'city_of_birth.max'  => translate('Max 20 characters'),
+             'manglik.max'        => translate('Max 255 characters'),
          ];
 
          $rules = $this->rules;
@@ -106,6 +108,7 @@ class AstrologyController extends Controller
          $astrologies->lagnam           = $request->lagnam;
          $astrologies->time_of_birth    = $request->time_of_birth;
          $astrologies->city_of_birth    = $request->city_of_birth;
+         $astrologies->manglik          = $request->manglik;
 
          if($astrologies->save()){
              flash(translate('Astronomic Info has been updated successfully'))->success();

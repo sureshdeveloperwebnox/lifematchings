@@ -47,6 +47,18 @@
                 @enderror
             </div>
         </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <label for="present_address">{{translate('Address')}}</label>
+                @php
+                    $present_address_value = $present_address->address ?? '';
+                @endphp
+                <input type="text" name="present_address" value="{{$present_address_value}}" class="form-control" placeholder="{{translate('Address')}}" required>
+                @error('present_address')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
 
 
         <div class="text-right">

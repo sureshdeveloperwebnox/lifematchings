@@ -1628,3 +1628,11 @@ Trace:
 #67 {main}
 --------------------------------------------------
 
+2026-07-15 10:04:55
+URL: http://127.0.0.1:8000/profile-settings
+Exception: Maximum execution time of 60 seconds exceeded
+File: D:\PHP-Projects\lifematchings\httpdocs\vendor\aiz-packages\color-code-converter\src\Services\ColorCodeConverter.php on line 28
+Trace:
+#0 {main}
+--------------------------------------------------
+

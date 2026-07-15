@@ -129,6 +129,22 @@
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+                <div class="col-md-6">
+                    <label for="manglik">{{translate('Manglik')}}</label>
+                    @php
+                        $selected_manglik = $member->astrologies->manglik ?? "";
+                    @endphp
+                    <select name="manglik" id="manglik" class="form-control aiz-selectpicker">
+                        <option value="">{{translate('Select One')}}</option>
+                        <option value="Yes" {{ $selected_manglik == 'Yes' ? 'selected' : '' }}>{{translate('Yes')}}</option>
+                        <option value="No" {{ $selected_manglik == 'No' ? 'selected' : '' }}>{{translate('No')}}</option>
+                        <option value="Don't Know" {{ $selected_manglik == "Don't Know" ? 'selected' : '' }}>{{translate('Don\'t Know')}}</option>
+                        <option value="Anshik (Semi-manglik)" {{ $selected_manglik == 'Anshik (Semi-manglik)' ? 'selected' : '' }}>{{translate('Anshik (Semi-manglik)')}}</option>
+                    </select>
+                    @error('manglik')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
             </div>
 
             <div class="text-right">

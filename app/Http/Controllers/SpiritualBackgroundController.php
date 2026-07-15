@@ -71,13 +71,17 @@ class SpiritualBackgroundController extends Controller
      */
      public function update(Request $request, $id)
      {
-         $this->rules = [
-             'member_religion_id'   => [ 'required','max:255'],
-             'member_caste_id'      => [ 'required','max:255'],
-             'ethnicity'            => [ 'max:255'],
-             'personal_value'       => [ 'max:255'],
-             'community_value'      => [ 'max:255'],
-         ];
+          $this->rules = [
+              'member_religion_id'   => [ 'required','max:255'],
+              'member_caste_id'      => [ 'required','max:255'],
+              'ethnicity'            => [ 'max:255'],
+              'personal_value'       => [ 'max:255'],
+              'community_value'      => [ 'max:255'],
+              'mother_tongue'        => [ 'max:255'],
+              'diet'                 => [ 'max:255'],
+              'living_in'            => [ 'max:255'],
+              'nationality'          => [ 'max:255'],
+          ];
          $this->messages = [
              'member_religion_id.required'   => translate('Religion is required'),
              'member_religion_id.max'        => translate('Max 255 characters'),
@@ -103,13 +107,17 @@ class SpiritualBackgroundController extends Controller
              $spiritual_backgrounds->user_id = $id;
          }
 
-         $spiritual_backgrounds->religion_id        = $request->member_religion_id;
-         $spiritual_backgrounds->caste_id           = $request->member_caste_id;
-         $spiritual_backgrounds->sub_caste_id       = $request->member_sub_caste_id;
-         $spiritual_backgrounds->ethnicity	       = $request->ethnicity;
-         $spiritual_backgrounds->personal_value	   = $request->personal_value;
-         $spiritual_backgrounds->family_value_id	   = $request->family_value_id;
-         $spiritual_backgrounds->community_value	   = $request->community_value;
+          $spiritual_backgrounds->religion_id        = $request->member_religion_id;
+          $spiritual_backgrounds->caste_id           = $request->member_caste_id;
+          $spiritual_backgrounds->sub_caste_id       = $request->member_sub_caste_id;
+          $spiritual_backgrounds->ethnicity	       = $request->ethnicity;
+          $spiritual_backgrounds->personal_value	   = $request->personal_value;
+          $spiritual_backgrounds->family_value_id	   = $request->family_value_id;
+          $spiritual_backgrounds->community_value	   = $request->community_value;
+          $spiritual_backgrounds->mother_tongue       = $request->mother_tongue;
+          $spiritual_backgrounds->diet                = $request->diet;
+          $spiritual_backgrounds->living_in           = $request->living_in;
+          $spiritual_backgrounds->nationality         = $request->nationality;
 
          if($spiritual_backgrounds->save()){
              flash(translate('Spiritual Background info has been updated successfully'))->success();

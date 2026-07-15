@@ -680,6 +680,15 @@
                                                                         {{ $present_address->postal_code ?? '' }}
                                                                     </td>
                                                                 </tr>
+                                                                <tr>
+                                                                    <td class="py-1 fw-600">
+                                                                        <i class="las text-primary mr-2 la-map-pin"></i>
+                                                                        <span>{{ translate('Address') }}</span>
+                                                                    </td>
+                                                                    <td class="py-1">
+                                                                        {{ $present_address->address ?? '' }}
+                                                                    </td>
+                                                                </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -756,6 +765,24 @@
                                                             </div>
                                                         @endif
 
+                                                        @if ($present_address != null)
+                                                            <div class="d-flex mt-3">
+                                                                <i class="las la-map-marker text-primary la-2x mr-3"></i>
+                                                                <div>
+                                                                    <div class="fs-15 fw-600 mb-1">
+                                                                        {{ translate('Present Address') }}
+                                                                    </div>
+                                                                    @if (empty($view_contact))
+                                                                        <div class="fw-400">xxxxxx, xxxxxx, xxxxxx</div>
+                                                                    @else
+                                                                        <div class="fw-400">
+                                                                            @if(!empty($present_address->address)){{ $present_address->address }}, @endif{{ $present_address->city->name ?? '' }}@if(!empty($present_address->city->name) && !empty($present_address->state->name)), @endif{{ $present_address->state->name ?? '' }}@if(!empty($present_address->state->name) && !empty($present_address->country->name)), @endif{{ $present_address->country->name ?? '' }}@if(!empty($present_address->postal_code)) - {{ $present_address->postal_code }}@endif
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        @endif
+
                                                         @if (empty($view_contact))
                                                             <a onclick="view_contact({{ $user->id }})"
                                                                 class="btn btn-block bg-primary text-white mt-2 view_contact">
@@ -782,6 +809,19 @@
                                                                 <div class="fw-400">{{ $user->email }}</div>
                                                             </div>
                                                         </div>
+                                                        @if ($present_address != null)
+                                                            <div class="d-flex mt-3">
+                                                                <i class="las la-map-marker text-primary la-2x mr-3"></i>
+                                                                <div>
+                                                                    <div class="fs-15 fw-600 mb-1">
+                                                                        {{ translate('Present Address') }}
+                                                                    </div>
+                                                                    <div class="fw-400">
+                                                                        @if(!empty($present_address->address)){{ $present_address->address }}, @endif{{ $present_address->city->name ?? '' }}@if(!empty($present_address->city->name) && !empty($present_address->state->name)), @endif{{ $present_address->state->name ?? '' }}@if(!empty($present_address->state->name) && !empty($present_address->country->name)), @endif{{ $present_address->country->name ?? '' }}@if(!empty($present_address->postal_code)) - {{ $present_address->postal_code }}@endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </div>
@@ -822,16 +862,16 @@
                                                     <tr>
                                                         <th>{{ translate('Degree') }}</th>
                                                         <th>{{ translate('Institution') }}</th>
-                                                        <th>{{ translate('Start') }}</th>
+                                                        {{-- <th>{{ translate('Start') }}</th>
                                                         <th>{{ translate('End') }}</th>
-                                                        <th>{{ translate('Status') }}</th>
+                                                        <th>{{ translate('Status') }}</th> --}}
                                                     </tr>
                                                     @php $educations = \App\Models\Education::where('user_id', $user->id)->orderBy('is_highest_degree', 'desc')->get(); @endphp
                                                     @foreach ($educations as $key => $education)
                                                         <tr>
                                                             <td>{{ $education->degree }}</td>
                                                             <td>{{ $education->institution }}</td>
-                                                            <td>{{ $education->start }}</td>
+                                                            {{-- <td>{{ $education->start }}</td>
                                                             <td>{{ $education->end }}</td>
                                                             <td>
                                                                 @if ($education->present == 1)
@@ -839,7 +879,7 @@
                                                                 @else
                                                                     <span class="badge badge-inline badge-danger">{{ translate('Completed') }}</span>
                                                                 @endif
-                                                            </td>
+                                                            </td> --}}
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -873,22 +913,23 @@
                                                     <tr>
                                                         <th>{{ translate('designation') }}</th>
                                                         <th>{{ translate('company') }}</th>
-                                                        <th>{{ translate('Start') }}</th>
+                                                        <th>{{ translate('Annual Income') }}</th>
+                                                        <th>{{ translate('Additional Income') }}</th>
+                                                        {{-- <th>{{ translate('Start') }}</th>
                                                         <th>{{ translate('End') }}</th>
-                                                        <th>{{ translate('Status') }}</th>
                                                     </tr>
                                                     @php $careers = \App\Models\Career::where('user_id', $user->id)->orderBy('present', 'desc')->get(); @endphp
                                                     @foreach ($careers as $key => $career)
                                                         <tr>
                                                             <td>{{ $career->designation }}</td>
                                                             <td>{{ $career->company }}</td>
-                                                            <td>{{ $career->start }}</td>
-                                                            <td>{{ $career->end }}</td>
-                                                            <td>
+                                                            <td>{{ $career->annual_income }}</td>
+                                                            <td>{{ $career->additional_income }}</td>
+                                                            {{-- <td>
                                                                 @if ($career->present == 1)
                                                                     <span class="badge badge-inline badge-success">{{ translate('Running') }}</span>
                                                                 @endif
-                                                            </td>
+                                                            </td> --}}
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -945,13 +986,13 @@
                                                                         {{ $user->physical_attributes->height ?? '' }}
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
+                                                                {{-- <tr>
                                                                     <td class="py-1 fw-600">{{ translate('Eye Color') }}
                                                                     </td>
                                                                     <td class="py-1">
                                                                         {{ $user->physical_attributes->eye_color ?? '' }}
                                                                     </td>
-                                                                </tr>
+                                                                </tr> --}}
                                                                 <tr>
                                                                     <td class="py-1 fw-600">{{ translate('Complexion') }}
                                                                     </td>
@@ -986,7 +1027,7 @@
                                                                         {{ $user->physical_attributes->weight ?? '' }}
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
+                                                                {{-- <tr>
                                                                     <td class="py-1 fw-600">
                                                                         {{ translate('Hair Color') }}</td>
                                                                     <td class="py-1">
@@ -1007,7 +1048,7 @@
                                                                     <td class="py-1">
                                                                         {{ $user->physical_attributes->body_art ?? '' }}
                                                                     </td>
-                                                                </tr>
+                                                                </tr> --}}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -1406,7 +1447,7 @@
                                                                         {{ $user->spiritual_backgrounds->sub_caste->name ?? '' }}
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
+                                                                {{-- <tr>
                                                                     <th class="py-1">
                                                                         {{ translate('Personal Value') }}</th>
                                                                     <td class="py-1">
@@ -1418,6 +1459,18 @@
                                                                         {{ translate('Community Value') }}</th>
                                                                     <td class="py-1">
                                                                         {{ $user->spiritual_backgrounds->community_value ?? '' }}
+                                                                    </td>
+                                                                </tr> --}}
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('Mother Tongue') }}</th>
+                                                                    <td class="py-1">
+                                                                        {{ $user->spiritual_backgrounds->mother_tongue ?? '' }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('Diet') }}</th>
+                                                                    <td class="py-1">
+                                                                        {{ $user->spiritual_backgrounds->diet ?? '' }}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -1432,7 +1485,7 @@
                                                                         {{ $user->spiritual_backgrounds->caste->name ?? '' }}
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
+                                                                {{-- <tr>
                                                                     <th class="py-1">{{ translate('Ethnicity') }}
                                                                     </th>
                                                                     <td class="py-1">
@@ -1444,6 +1497,18 @@
                                                                         {{ translate('Family Value') }}</th>
                                                                     <td class="py-1">
                                                                         {{ $user->spiritual_backgrounds->family_value->name ?? '' }}
+                                                                    </td>
+                                                                </tr> --}}
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('Living in') }}</th>
+                                                                    <td class="py-1">
+                                                                        {{ $user->spiritual_backgrounds->living_in ?? '' }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('Nationality') }}</th>
+                                                                    <td class="py-1">
+                                                                        {{ $user->spiritual_backgrounds->nationality ?? '' }}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -1499,9 +1564,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th class="py-1">{{ translate('Smoke') }}</th>
+                                                                    <th class="py-1">{{ translate('Social Smoker') }}</th>
                                                                     <td class="py-1">
-                                                                        {{ $user->lifestyles->smoke ?? '' }}
+                                                                        {{ strtoupper($user->lifestyles->smoke ?? '') }}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -1513,7 +1578,7 @@
                                                                 <tr>
                                                                     <th class="py-1">{{ translate('Social Drinker') }}</th>
                                                                     <td class="py-1">
-                                                                        {{ $user->lifestyles->drink ?? '' }}
+                                                                        {{ strtoupper($user->lifestyles->drink ?? '') }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -1588,6 +1653,13 @@
                                                                         {{ translate('Time Of Birth') }}</th>
                                                                     <td class="py-1">
                                                                         {{ $user->astrologies->time_of_birth ?? '' }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="py-1">
+                                                                        {{ translate('Manglik') }}</th>
+                                                                    <td class="py-1">
+                                                                        {{ $user->astrologies->manglik ?? '' }}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -1795,12 +1867,32 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
+                                                                    <th class="py-1">{{ translate('Sibling') }}</th>
+                                                                    <td class="py-1">{{ $user->families->sibling ?? '' }}</td>
+                                                                </tr>
+                                                                <tr>
                                                                     <th class="py-1">{{ translate('No. of Brother') }}</th>
                                                                     <td class="py-1">{{ $user->families->no_of_brothers ?? '' }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-1">{{ translate('No. of Sisters') }}</th>
                                                                     <td class="py-1">{{ $user->families->no_of_sisters ?? '' }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('No. of Married') }}</th>
+                                                                    <td class="py-1">{{ $user->families->no_of_married ?? '' }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('No. of Unmarried') }}</th>
+                                                                    <td class="py-1">{{ $user->families->no_of_unmarried ?? '' }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('Family Value') }}</th>
+                                                                    <td class="py-1">{{ $user->families->family_value ?? '' }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('Family Status') }}</th>
+                                                                    <td class="py-1">{{ $user->families->family_status ?? '' }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-1">{{ translate('About Parents') }}</th>
@@ -1868,22 +1960,12 @@
                                 <div class="">
                                     <table class="table table-responsive">
                                         <tr>
-                                            <th>{{ translate('General') }}</th>
-                                            <td>{{ $user->partner_expectations->general ?? '' }}
+                                            <th>{{ translate('Age From') }}</th>
+                                            <td>{{ $user->partner_expectations->age_from ?? '' }} @if(!empty($user->partner_expectations->age_from)) {{translate('Yrs')}} @endif
                                             </td>
 
-                                            <th>{{ translate('Residence Country') }}</th>
-                                            <td>
-                                                @php
-                                                    $residence_country =
-                                                        $user->partner_expectations->residence_country_id ?? '';
-                                                    if (!empty($residence_country)) {
-                                                        echo \App\Models\Country::where(
-                                                            'id',
-                                                            $residence_country,
-                                                        )->first()->name;
-                                                    }
-                                                @endphp
+                                            <th>{{ translate('Age To') }}</th>
+                                            <td>{{ $user->partner_expectations->age_to ?? '' }} @if(!empty($user->partner_expectations->age_to)) {{translate('Yrs')}} @endif
                                             </td>
                                         </tr>
                                         <tr>
@@ -1955,45 +2037,16 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>{{ translate('Personal Value') }}</th>
-                                            <td>{{ $user->partner_expectations->personal_value ?? '' }}
-                                            </td>
+                                            <th></th>
+                                            <td></td>
 
                                             <th>{{ translate('Manglik') }}</th>
                                             <td>{{ !empty($user->partner_expectations->manglik) ? attribute_text_format($user->partner_expectations->manglik) : '' }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>{{ translate('Preferred Country') }}</th>
-                                            <td>
-                                                @php
-                                                    $preferred_country =
-                                                        $user->partner_expectations->preferred_country_id ?? '';
-                                                    if (!empty($preferred_country)) {
-                                                        echo \App\Models\Country::where(
-                                                            'id',
-                                                            $preferred_country,
-                                                        )->first()->name;
-                                                    }
-                                                @endphp
-                                            </td>
-
-                                            <th>{{ translate('preferred_state_id') }}</th>
-                                            <td>
-                                                @php
-                                                    $preferred_state =
-                                                        $user->partner_expectations->preferred_state_id ?? '';
-                                                    if (!empty($preferred_state)) {
-                                                        echo \App\Models\State::where('id', $preferred_state)->first()
-                                                            ->name;
-                                                    }
-                                                @endphp
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ translate('Family Value') }}</th>
-                                            <td>{{ $user->partner_expectations->family_value->name ?? '' }}
-                                            </td>
+                                            <th></th>
+                                            <td></td>
 
                                             <th>{{ translate('complexion') }}</th>
                                             <td>{{ $user->partner_expectations->complexion ?? '' }}

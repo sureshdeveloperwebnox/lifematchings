@@ -13,7 +13,7 @@
                   <select class="form-control aiz-selectpicker" name="member_religion_id" id="member_religion_id" data-selected="{{ $member_religion_id }}" data-live-search="true" required>
                       <option value="">{{translate('Select One')}}</option>
                       @foreach ($religions as $religion)
-                          <option value="{{$religion->id}}"> {{ $religion->name }} </option>
+                          <option value="{{$religion->id}}" @if($religion->id == $member_religion_id) selected @endif> {{ $religion->name }} </option>
                       @endforeach
                   </select>
                   @error('member_religion_id')
@@ -44,6 +44,13 @@
                       <small class="form-text text-danger">{{ $message }}</small>
                   @enderror
               </div> --}}
+              <div class="col-md-6">
+                  <label for="mother_tongue">{{translate('Mother Tongue')}}</label>
+                  <input type="text" name="mother_tongue" value="{{ $member->spiritual_backgrounds->mother_tongue ?? "" }}" class="form-control" placeholder="{{translate('Mother Tongue')}}">
+                  @error('mother_tongue')
+                      <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+              </div>
           </div>
           {{-- <div class="form-group row">
               <div class="col-md-6">
@@ -65,9 +72,34 @@
           </div> --}}
           <div class="form-group row">
               <div class="col-md-6">
+                  <label for="diet">{{translate('Diet')}}</label>
+                  <input type="text" name="diet" value="{{ $member->spiritual_backgrounds->diet ?? "" }}" class="form-control" placeholder="{{translate('Diet')}}">
+                  @error('diet')
+                      <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+              </div>
+              <div class="col-md-6">
+                  <label for="living_in">{{translate('Living in')}}</label>
+                  <input type="text" name="living_in" value="{{ $member->spiritual_backgrounds->living_in ?? "" }}" class="form-control" placeholder="{{translate('Living in')}}">
+                  @error('living_in')
+                      <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+              </div>
+          </div>
+          {{-- <div class="form-group row">
+              <div class="col-md-6">
                   <label for="community_value">{{translate('Community Value')}}</label>
                   <input type="text" name="community_value" value="{{$member->spiritual_backgrounds->community_value ?? "" }}" class="form-control" placeholder="{{translate('Community Value')}}">
                   @error('community_value')
+                      <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+              </div>
+          </div> --}}
+          <div class="form-group row">
+              <div class="col-md-6">
+                  <label for="nationality">{{translate('Nationality')}}</label>
+                  <input type="text" name="nationality" value="{{ $member->spiritual_backgrounds->nationality ?? "" }}" class="form-control" placeholder="{{translate('Nationality')}}">
+                  @error('nationality')
                       <small class="form-text text-danger">{{ $message }}</small>
                   @enderror
               </div>

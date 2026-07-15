@@ -15,7 +15,9 @@
                 <th>{{translate('company')}}</th>
                 {{-- <th data-breakpoints="md">{{translate('Start')}}</th>
                 <th data-breakpoints="md">{{translate('End')}}</th> --}}
-                <th data-breakpoints="md">{{translate('Is Current Profession?')}}</th>
+                <th data-breakpoints="md">{{translate('Annual Income')}}</th>
+                <th data-breakpoints="md">{{translate('Additional Income')}}</th>
+                {{-- <th data-breakpoints="md">{{translate('Is Current Profession?')}}</th> --}}
                 <th data-breakpoints="md" class="text-right">{{translate('Options')}}</th>
             </tr>
 
@@ -24,14 +26,16 @@
             <tr>
                 <td>{{ $career->designation }}</td>
                 <td>{{ $career->company }}</td>
+                <td>{{ $career->annual_income }}</td>
+                <td>{{ $career->additional_income }}</td>
                 {{-- <td>{{ $career->start }}</td>
                 <td>{{ $career->end }}</td> --}}
-                <td>
+                {{-- <td>
                     <label class="aiz-switch aiz-switch-success mb-0">
                         <input type="checkbox" id="status.{{ $key }}" onchange="update_career_present_status(this)" value="{{ $career->id }}" @if($career->present == 1) checked @endif data-switch="success"/>
                         <span></span>
                     </label>
-                </td>
+                </td> --}}
                 <td class="text-right">
                     <a href="javascript:void(0);" class="btn btn-soft-info btn-icon btn-circle btn-sm" onclick="career_edit_modal('{{$career->id}}');" title="{{ translate('Edit') }}">
                         <i class="las la-edit"></i>

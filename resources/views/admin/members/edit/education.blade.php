@@ -11,9 +11,9 @@
     <tr>
         <th>{{translate('Degree')}}</th>
         <th>{{translate('Institution')}}</th>
-        <th>{{translate('Start')}}</th>
+        {{-- <th>{{translate('Start')}}</th>
         <th>{{translate('End')}}</th>
-        <th>{{translate('Status')}}</th>
+        <th>{{translate('Status')}}</th> --}}
         <th>{{translate('Is Highest Degree?')}}</th>
         <th class="text-right">{{translate('option')}}</th>
     </tr>
@@ -23,14 +23,14 @@
     <tr>
         <td>{{ $education->degree }}</td>
         <td>{{ $education->institution }}</td>
-        <td>{{ $education->start }}</td>
+        {{-- <td>{{ $education->start }}</td>
         <td>{{ $education->end }}</td>
         <td>
             <label class="aiz-switch aiz-switch-success mb-0">
                 <input type="checkbox" id="status.{{ $key }}" onchange="update_education_present_status(this)" value="{{ $education->id }}" @if($education->present == 1) checked @endif data-switch="success"/>
                 <span></span>
             </label>
-        </td>
+        </td> --}}
         <td>
             <label class="aiz-switch aiz-switch-success mb-0">
                 <input type="checkbox" id="status.{{ $key }}" onchange="update_highest_degree(this)" value="{{ $education->id }}" @if($education->is_highest_degree == 1) checked @endif data-switch="success"/>

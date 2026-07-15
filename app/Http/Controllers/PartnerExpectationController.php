@@ -86,6 +86,8 @@ class PartnerExpectationController extends Controller
              'partner_personal_value'       => [ 'max:50'],
              'partner_manglik'              => [ 'max:50'],
              'pertner_complexion'           => [ 'max:50'],
+             'age_from'                     => [ 'nullable', 'numeric'],
+             'age_to'                       => [ 'nullable', 'numeric'],
          ];
          $this->messages = [
              'general.max'                      => translate('Max 255 characters'),
@@ -141,6 +143,8 @@ class PartnerExpectationController extends Controller
          $partner_expectations->preferred_country_id      = $request->partner_country_id;
          $partner_expectations->preferred_state_id        = $request->partner_state_id;
          $partner_expectations->complexion                = $request->pertner_complexion;
+         $partner_expectations->age_from                  = $request->age_from;
+         $partner_expectations->age_to                    = $request->age_to;
 
           if($partner_expectations->save()){
             if($user->member->auto_profile_match ==  1){

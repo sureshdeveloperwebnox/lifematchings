@@ -13,7 +13,7 @@
                     <select class="form-control aiz-selectpicker" name="permanent_country_id" id="permanent_country_id" data-selected="{{ $permanent_country_id }}" data-live-search="true" required>
                         <option value="">{{translate('Select One')}}</option>
                         @foreach ($countries as $country)
-                            <option value="{{$country->id}}">{{$country->name}}</option>
+                            <option value="{{$country->id}}" @if($country->id == $permanent_country_id) selected @endif>{{$country->name}}</option>
                         @endforeach
                     </select>
                     @error('permanent_country_id')

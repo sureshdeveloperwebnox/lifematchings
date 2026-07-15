@@ -80,6 +80,10 @@ class FamilyController extends Controller
             'sibling'               => [ 'max:255'],
             'no_of_brothers'        => [ 'numeric', 'max:30'],
             'no_of_sisters'         => [ 'numeric', 'max:30'],
+            'no_of_married'         => [ 'numeric', 'max:30'],
+            'no_of_unmarried'       => [ 'numeric', 'max:30'],
+            'family_value'          => [ 'max:255'],
+            'family_status'         => [ 'max:255'],
             'about_parents'         => [ 'max:65535'],
             'about_siblings'        => [ 'max:65535'],
             'about_relatives'       => [ 'max:65535'],
@@ -122,6 +126,10 @@ class FamilyController extends Controller
         $family->sibling                = $request->sibling;
         $family->no_of_sisters          = $request->no_of_sisters;
         $family->no_of_brothers         = $request->no_of_brothers;
+        $family->no_of_married          = $request->no_of_married;
+        $family->no_of_unmarried        = $request->no_of_unmarried;
+        $family->family_value           = $request->family_value;
+        $family->family_status          = $request->family_status;
         $family->about_parents          = $request->about_parents;
         $family->about_siblings         = $request->about_siblings;
         $family->about_relatives        = $request->about_relatives;

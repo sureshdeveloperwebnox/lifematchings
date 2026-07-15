@@ -131,6 +131,10 @@
                                 <th>{{ translate('Postal Code') }}</th>
                                 <td>{{ $present_address->postal_code ?? '' }}</td>
                             </tr>
+                            <tr>
+                                <th>{{ translate('Address') }}</th>
+                                <td colspan="3">{{ $present_address->address ?? '' }}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -147,16 +151,16 @@
                             <tr>
                                 <th>{{ translate('Degree') }}</th>
                                 <th>{{ translate('Institution') }}</th>
-                                <th>{{ translate('Start') }}</th>
+                                {{-- <th>{{ translate('Start') }}</th>
                                 <th>{{ translate('End') }}</th>
-                                <th>{{ translate('Status') }}</th>
+                                <th>{{ translate('Status') }}</th> --}}
                             </tr>
 
                             @foreach ($educations as $key => $education)
                                 <tr>
                                     <td>{{ $education->degree }}</td>
                                     <td>{{ $education->institution }}</td>
-                                    <td>{{ $education->start }}</td>
+                                    {{-- <td>{{ $education->start }}</td>
                                     <td>{{ $education->end }}</td>
                                     <td>
                                         @if ($education->present == 1)
@@ -165,7 +169,7 @@
                                             <span
                                                 class="badge badge-inline badge-danger">{{ translate('Deactive') }}</span>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </table>
@@ -184,15 +188,19 @@
                             <tr>
                                 <th>{{ translate('designation') }}</th>
                                 <th>{{ translate('company') }}</th>
-                                <th>{{ translate('Start') }}</th>
+                                <th>{{ translate('Annual Income') }}</th>
+                                <th>{{ translate('Additional Income') }}</th>
+                                {{-- <th>{{ translate('Start') }}</th>
                                 <th>{{ translate('End') }}</th>
-                                <th>{{ translate('Status') }}</th>
+                                <th>{{ translate('Status') }}</th> --}}
                             </tr>
                             @foreach ($careers as $key => $career)
                                 <tr>
                                     <td>{{ $career->designation }}</td>
                                     <td>{{ $career->company }}</td>
-                                    <td>{{ $career->start }}</td>
+                                    <td>{{ $career->annual_income }}</td>
+                                    <td>{{ $career->additional_income }}</td>
+                                    {{-- <td>{{ $career->start }}</td>
                                     <td>{{ $career->end }}</td>
                                     <td>
                                         @if ($career->present == 1)
@@ -201,10 +209,9 @@
                                             <span
                                                 class="badge badge-inline badge-danger">{{ translate('Deactive') }}</span>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
-
                         </table>
 
                     </div>
@@ -226,26 +233,26 @@
                                 <th>{{ translate('Weight') }}</th>
                                 <td>{{ $member->physical_attributes->weight ?? '' }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <th>{{ translate('Eye Color') }}</th>
                                 <td>{{ $member->physical_attributes->eye_color ?? '' }}</td>
 
                                 <th>{{ translate('Hair Color') }}</th>
                                 <td>{{ $member->physical_attributes->hair_color ?? '' }}</td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <th>{{ translate('Complexion') }}</th>
                                 <td>{{ $member->physical_attributes->complexion ?? '' }}</td>
 
-                                <th>{{ translate('Blood Group') }}</th>
-                                <td>{{ $member->physical_attributes->blood_group ?? '' }}</td>
+                                {{-- <th>{{ translate('Blood Group') }}</th>
+                                <td>{{ $member->physical_attributes->blood_group ?? '' }}</td> --}}
                             </tr>
                             <tr>
                                 <th>{{ translate('Body Type') }}</th>
                                 <td>{{ $member->physical_attributes->body_type ?? '' }}</td>
 
-                                <th>{{ translate('Body Art') }}</th>
-                                <td>{{ $member->physical_attributes->body_art ?? '' }}</td>
+                                {{-- <th>{{ translate('Body Art') }}</th>
+                                <td>{{ $member->physical_attributes->body_art ?? '' }}</td> --}}
                             </tr>
                             <tr>
                                 <th>{{ translate('Disability') }}</th>
@@ -424,19 +431,27 @@
                                 <th>{{ translate('Sub Caste') }}</th>
                                 <td>{{ $member->spiritual_backgrounds->sub_caste->name ?? '' }}</td>
 
-                                <th>{{ translate('Ethnicity') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->ethnicity ?? '' }}</td>
+                                {{-- <th>{{ translate('Ethnicity') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->ethnicity ?? '' }}</td> --}}
+                                <th>{{ translate('Mother Tongue') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->mother_tongue ?? '' }}</td>
                             </tr>
                             <tr>
-                                <th>{{ translate('Personal Value') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->personal_value ?? '' }}</td>
+                                {{-- <th>{{ translate('Personal Value') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->personal_value ?? '' }}</td> --}}
+                                <th>{{ translate('Diet') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->diet ?? '' }}</td>
 
-                                <th>{{ translate('Family Value') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->family_value->name ?? '' }}</td>
+                                {{-- <th>{{ translate('Family Value') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->family_value->name ?? '' }}</td> --}}
+                                <th>{{ translate('Living in') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->living_in ?? '' }}</td>
                             </tr>
                             <tr>
-                                <th>{{ translate('Community Value') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->community_value ?? '' }}</td>
+                                {{-- <th>{{ translate('Community Value') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->community_value ?? '' }}</td> --}}
+                                <th>{{ translate('Nationality') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->nationality ?? '' }}</td>
                             </tr>
                         </table>
                     </div>
@@ -456,11 +471,11 @@
                                 <td>{{ $member->lifestyles->diet ?? '' }}</td>
 
                                 <th>{{ translate('Social Drinker') }}</th>
-                                <td>{{ $member->lifestyles->drink ?? '' }}</td>
+                                <td>{{ strtoupper($member->lifestyles->drink ?? '') }}</td>
                             </tr>
                             <tr>
-                                <th>{{ translate('Smoke') }}</th>
-                                <td>{{ $member->lifestyles->smoke ?? '' }}</td>
+                                <th>{{ translate('Social Smoker') }}</th>
+                                <td>{{ strtoupper($member->lifestyles->smoke ?? '') }}</td>
 
                                 <th>{{ translate('Living With') }}</th>
                                 <td>{{ $member->lifestyles->living_with ?? '' }}</td>
@@ -528,7 +543,8 @@
                                     @endphp
                                     {{ $lagnam_display }}
                                 </td>
-                                
+                                <th>{{ translate('Manglik') }}</th>
+                                <td>{{ $member->astrologies->manglik ?? '' }}</td>
                             </tr>
                             <tr>
                                 <th>{{ translate('Time Of Birth') }}</th>
@@ -597,8 +613,8 @@
                                 <th>{{ translate('Sibling') }}</th>
                                 <td>{{ $member->families->sibling ?? '' }}</td>
 
-                                <th></th>
-                                <td></td>
+                                <th>{{ translate('No. of Married') }}</th>
+                                <td>{{ $member->families->no_of_married ?? '' }}</td>
                             </tr>
                             <tr>
                                 <th>{{ translate('No. of Brothers') }}</th>
@@ -606,6 +622,20 @@
 
                                 <th>{{ translate('No. of Sister') }}</th>
                                 <td>{{ $member->families->no_of_sisters ?? '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ translate('No. of Unmarried') }}</th>
+                                <td>{{ $member->families->no_of_unmarried ?? '' }}</td>
+
+                                <th>{{ translate('Family Value') }}</th>
+                                <td>{{ $member->families->family_value ?? '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ translate('Family Status') }}</th>
+                                <td>{{ $member->families->family_status ?? '' }}</td>
+
+                                <th></th>
+                                <td></td>
                             </tr>
 
                             <tr>
@@ -637,18 +667,11 @@
                     <div class="card-body">
                         <table class="table">
                             <tr>
-                                <th>{{ translate('General') }}</th>
-                                <td>{{ $member->partner_expectations->general ?? '' }}</td>
+                                <th>{{ translate('Age From') }}</th>
+                                <td>{{ $member->partner_expectations->age_from ?? '' }} @if(!empty($member->partner_expectations->age_from)) {{translate('Yrs')}} @endif</td>
 
-                                <th>{{ translate('Residence Country') }}</th>
-                                <td>
-                                    @php
-                                        $residence_country = $member->partner_expectations->residence_country_id ?? '';
-                                        if (!empty($residence_country)) {
-                                            echo \App\Models\Country::where('id', $residence_country)->first()->name;
-                                        }
-                                    @endphp
-                                </td>
+                                <th>{{ translate('Age To') }}</th>
+                                <td>{{ $member->partner_expectations->age_to ?? '' }} @if(!empty($member->partner_expectations->age_to)) {{translate('Yrs')}} @endif</td>
                             </tr>
                             <tr>
                                 <th>{{ translate('Height') }}</th>
@@ -709,37 +732,16 @@
                                 <td>{{ $member->partner_expectations->body_type ?? '' }}</td>
                             </tr>
                             <tr>
-                                <th>{{ translate('Personal Value') }}</th>
-                                <td>{{ $member->partner_expectations->personal_value ?? '' }}</td>
+                                <th></th>
+                                <td></td>
 
                                 <th>{{ translate('Manglik') }}</th>
                                 <td>{{ !empty($member->partner_expectations->manglik) ? attribute_text_format($member->partner_expectations->manglik) : '' }}
                                 </td>
                             </tr>
                             <tr>
-                                <th>{{ translate('Preferred Country') }}</th>
-                                <td>
-                                    @php
-                                        $preferred_country = $member->partner_expectations->preferred_country_id ?? '';
-                                        if (!empty($preferred_country)) {
-                                            echo \App\Models\Country::where('id', $preferred_country)->first()->name;
-                                        }
-                                    @endphp
-                                </td>
-
-                                <th>{{ translate('preferred_state_id') }}</th>
-                                <td>
-                                    @php
-                                        $preferred_state = $member->partner_expectations->preferred_state_id ?? '';
-                                        if (!empty($preferred_state)) {
-                                            echo \App\Models\State::where('id', $preferred_state)->first()->name;
-                                        }
-                                    @endphp
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>{{ translate('Family Value') }}</th>
-                                <td>{{ $member->partner_expectations->family_value->name ?? '' }}</td>
+                                <th></th>
+                                <td></td>
 
                                 <th>{{ translate('complexion') }}</th>
                                 <td>{{ $member->partner_expectations->complexion ?? '' }}</td>

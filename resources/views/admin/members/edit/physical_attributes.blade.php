@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="form-group row">
+        {{-- <div class="form-group row">
             <div class="col-md-6">
                 <label for="eye_color">{{translate('Eye color')}}</label>
                 <input type="text" name="eye_color" value="{{ $member->physical_attributes->eye_color ?? "" }}" class="form-control" placeholder="{{translate('Eye Color')}}" required>
@@ -37,7 +37,7 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-        </div>
+        </div> --}}
 
         <div class="form-group row">
             <div class="col-md-6">
@@ -47,13 +47,13 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <label for="blood_group">{{translate('Blood Group')}}</label>
                 <input type="text" name="blood_group" value="{{ $member->physical_attributes->blood_group ?? "" }}" placeholder="{{ translate('Blood Group') }}" class="form-control" required>
                 @error('blood_group')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
-            </div>
+            </div> --}}
         </div>
 
         <div class="form-group row">
@@ -64,13 +64,13 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <label for="body_art">{{translate('Body Art')}}</label>
                 <input type="text" name="body_art" value="{{ $member->physical_attributes->body_art ?? "" }}" placeholder="{{ translate('Body Art') }}" class="form-control" required>
                 @error('body_art')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
-            </div>
+            </div> --}}
         </div>
         <div class="form-group row">
             <div class="col-md-6">

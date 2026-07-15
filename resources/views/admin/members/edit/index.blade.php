@@ -615,11 +615,30 @@
             });
         }
 
-        // function totalSibling(){
-        //     var brothers = parseInt($('#no_of_brothers').val()) || 0;
-        //     var sisters = parseInt($('#no_of_sisters').val()) || 0 ;
-        //     var sibling = brothers + sisters;
-        //     $('#sibling').val(sibling);
-        // }
+        function totalSibling(){
+            var brothers = parseInt($('#no_of_brothers').val()) || 0;
+            var sisters = parseInt($('#no_of_sisters').val()) || 0 ;
+            var sibling = brothers + sisters;
+            $('#sibling').val(sibling);
+        }
+
+        function handleMaritalStatusChange() {
+            var selectedText = $('#marital_status option:selected').text().trim().toLowerCase();
+            if (selectedText === 'never married') {
+                $('#children_mandatory').hide();
+                $('#children').val(0);
+                $('#children_form_group').hide();
+            } else {
+                $('#children_mandatory').show();
+                $('#children_form_group').show();
+            }
+        }
+
+        $(document).ready(function() {
+            $('#marital_status').on('change', function() {
+                handleMaritalStatusChange();
+            });
+            handleMaritalStatusChange();
+        });
     </script>
 @endsection

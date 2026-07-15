@@ -27,8 +27,9 @@ class GalleryImageController extends Controller
      */
     public function create()
     {
-      if(package_validity(Auth::user()->id)){
-        if( get_remaining_package_value(Auth::user()->id,'remaining_photo_gallery') > 0){
+      $uploaded_photos_count = GalleryImage::where('user_id', Auth::user()->id)->count();
+      if ($uploaded_photos_count < 3 || package_validity(Auth::user()->id)) {
+        if ($uploaded_photos_count < 3 || get_remaining_package_value(Auth::user()->id,'remaining_photo_gallery') > 0) {
           return view('frontend.member.gallery_image.create');
         }
         else{
@@ -50,15 +51,18 @@ class GalleryImageController extends Controller
      */
     public function store(Request $request)
     {
-      if(package_validity(Auth::user()->id)){
-        if( get_remaining_package_value(Auth::user()->id,'remaining_photo_gallery') > 0){
+      $uploaded_photos_count = GalleryImage::where('user_id', Auth::user()->id)->count();
+      if ($uploaded_photos_count < 3 || package_validity(Auth::user()->id)) {
+        if ($uploaded_photos_count < 3 || get_remaining_package_value(Auth::user()->id,'remaining_photo_gallery') > 0) {
           $gallery_image          = new GalleryImage;
           $gallery_image->user_id = Auth::user()->id;
           $gallery_image->image   = $request->gallery_image;
           if($gallery_image->save()){
               $member = Member::where('user_id', Auth::user()->id)->first();
-              $member->remaining_photo_gallery = $member->remaining_photo_gallery - 1;
-              $member->save();
+              if ($member->remaining_photo_gallery > 0) {
+                  $member->remaining_photo_gallery = $member->remaining_photo_gallery - 1;
+                  $member->save();
+              }
               flash(translate('Gallery image uploaded successfully.'))->success();
               return redirect()->route('gallery-image.index');
           }

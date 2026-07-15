@@ -15,7 +15,11 @@
             </div>
             <div class="col-md-6">
                 <label for="drink">{{translate('Social Drinker')}}</label>
-                <input type="text" name="drink" value="{{ $member->lifestyles->drink ?? "" }}" placeholder="{{ translate('Social Drinker') }}" class="form-control" required>
+                @php $user_drink = !empty($member->lifestyles->drink) ? $member->lifestyles->drink : ""; @endphp
+                <select class="form-control aiz-selectpicker" name="drink" required>
+                    <option value="yes" @if($user_drink == 'yes') selected @endif>{{translate('Yes')}}</option>
+                    <option value="no" @if($user_drink == 'no') selected @endif>{{translate('No')}}</option>
+                </select>
                 @error('drink')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
@@ -23,9 +27,13 @@
         </div>
         <div class="form-group row">
             <div class="col-md-6">
-                <label for="smoke">{{translate('Smoke')}}</label>
-                <input type="text" name="smoke" value="{{ $member->lifestyles->smoke ?? "" }}" class="form-control" placeholder="{{translate('Smoke')}}" required>
-                @error('diet')
+                <label for="smoke">{{translate('Social Smoker')}}</label>
+                @php $user_smoke = !empty($member->lifestyles->smoke) ? $member->lifestyles->smoke : ""; @endphp
+                <select class="form-control aiz-selectpicker" name="smoke" required>
+                    <option value="yes" @if($user_smoke == 'yes') selected @endif>{{translate('Yes')}}</option>
+                    <option value="no" @if($user_smoke == 'no') selected @endif>{{translate('No')}}</option>
+                </select>
+                @error('smoke')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
