@@ -140,7 +140,10 @@
                     <a class="dropdown-toggle no-arrow text-dark" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="false" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             <span class="mr-md-2">
-                                <img src="{{ uploaded_asset(Auth::user()->photo) }}" class="size-35px rounded-circle img-fit" height="36" width="36" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/avatar-place.png') }}';">
+                                @php
+                                    $admin_avatar_default = (optional(Auth::user()->member)->gender == 2) ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
+                                @endphp
+                                <img src="{{ uploaded_asset(Auth::user()->photo) }}" class="size-35px rounded-circle img-fit" height="36" width="36" onerror="this.onerror=null;this.src='{{ static_asset($admin_avatar_default) }}';">
                             </span>
                             <span class="d-none d-md-block">
                                 <span class="d-block fw-500">{{Auth::user()->first_name.' '.Auth::user()->last_name}}</span>

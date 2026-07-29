@@ -46,7 +46,10 @@
                                     @if(uploaded_asset($deleted_member->photo) != null)
                                         <img class="img-md" src="{{ uploaded_asset($deleted_member->photo) }}" height="45px" alt="{{translate('photo')}}">
                                     @else
-                                        <img class="img-md" src="{{ static_asset('assets/img/avatar-place.png') }}" height="45px"  alt="{{translate('photo')}}">
+                                        @php
+                                            $avatar_image = (optional($deleted_member->member)->gender == 2) ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
+                                        @endphp
+                                        <img class="img-md" src="{{ static_asset($avatar_image) }}" height="45px"  alt="{{translate('photo')}}">
                                     @endif
                                 </td>
                                 <td>{{ $deleted_member->code }}</td>

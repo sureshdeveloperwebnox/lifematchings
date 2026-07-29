@@ -154,11 +154,19 @@
                                         : 'assets/img/female-avatar-place.png';
                                 $profile_picture_show = show_profile_picture($user);
                             @endphp
-                            <img @if ($profile_picture_show) src="{{ uploaded_asset($user->photo) }}"
-                                @else
-                                src="{{ static_asset($avatar_image) }}" @endif
-                                onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';"
-                                class="img-fluid w-100">
+                            @if ($profile_picture_show && uploaded_asset($user->photo))
+                                <a href="{{ uploaded_asset($user->photo) }}" target="_blank" title="{{ translate('View Full Image') }}" class="d-block">
+                                    <img src="{{ uploaded_asset($user->photo) }}"
+                                        onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';"
+                                        class="img-fluid w-100" style="object-position: top center;">
+                                </a>
+                            @else
+                                <img @if ($profile_picture_show) src="{{ uploaded_asset($user->photo) }}"
+                                    @else
+                                    src="{{ static_asset($avatar_image) }}" @endif
+                                    onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';"
+                                    class="img-fluid w-100" style="object-position: top center;">
+                            @endif
                             @if (!$profile_picture_show)
                                 <div
                                     class="absolute-full d-flex justify-content-center align-items-center bg-soft-dark text-white">
@@ -331,11 +339,19 @@
                 </div>
                 <div class="col-xl-8 offset-xxl-1">
                     <div class="overflow-hidden rounded shadow-lg mb-4 bg-white d-xl-none position-relative">
-                        <img @if ($profile_picture_show) src="{{ uploaded_asset($user->photo) }}"
-                            @else
-                            src="{{ static_asset($avatar_image) }}" @endif
-                            onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';"
-                            class="img-fluid w-100">
+                        @if ($profile_picture_show && uploaded_asset($user->photo))
+                            <a href="{{ uploaded_asset($user->photo) }}" target="_blank" title="{{ translate('View Full Image') }}" class="d-block">
+                                <img src="{{ uploaded_asset($user->photo) }}"
+                                    onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';"
+                                    class="img-fluid w-100" style="object-position: top center;">
+                            </a>
+                        @else
+                            <img @if ($profile_picture_show) src="{{ uploaded_asset($user->photo) }}"
+                                @else
+                                src="{{ static_asset($avatar_image) }}" @endif
+                                onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';"
+                                class="img-fluid w-100" style="object-position: top center;">
+                        @endif
                         @if (!$profile_picture_show)
                             <div
                                 class="absolute-full d-flex justify-content-center align-items-center bg-soft-dark text-white">
@@ -545,14 +561,6 @@
                                                                     @endif
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <td class="py-1 fw-600" style="width:55%">
-                                                                    {{ translate('Annual Salary') }}
-                                                                </td>
-                                                                <td class="py-1">
-                                                                    {{ $user->member->annualSalaryRange != null ? single_price($user->member->annualSalaryRange->min_salary).' - '.single_price($user->member->annualSalaryRange->max_salary) : '' }}
-                                                                </td>
-                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -749,8 +757,24 @@
                                                                 </div>
                                                             </div>
                                                         @endif
+                                                        @if ($user->phone2 != null)
+                                                            <div class="d-flex mb-3">
+                                                                <i class="las la-phone text-primary la-2x mr-3"></i>
+                                                                <div>
+                                                                    <div class="fs-15 fw-600 mb-1">
+                                                                        {{ translate('Contact Number 2') }}
+                                                                    </div>
+                                                                    @if (empty($view_contact))
+                                                                        <div class="fw-400">+xx xxx xxx xxx</div>
+                                                                    @else
+                                                                        <div class="fw-400">{{ $user->phone2 }}
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                         @if ($user->email != null)
-                                                            <div class="d-flex">
+                                                            <div class="d-flex mb-3">
                                                                 <i class="las la-envelope text-primary la-2x mr-3"></i>
                                                                 <div>
                                                                     <div class="fs-15 fw-600 mb-1">
@@ -800,6 +824,16 @@
                                                                 <div class="fw-400">{{ $user->phone }}</div>
                                                             </div>
                                                         </div>
+                                                        @if ($user->phone2 != null)
+                                                            <div class="d-flex mb-3">
+                                                                <i class="las la-phone text-primary la-2x mr-3"></i>
+                                                                <div>
+                                                                    <div class="fs-15 fw-600 mb-1">
+                                                                        {{ translate('Contact Number 2') }}</div>
+                                                                    <div class="fw-400">{{ $user->phone2 }}</div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                         <div class="d-flex">
                                                             <i class="las la-envelope text-primary la-2x mr-3"></i>
                                                             <div>
@@ -1447,6 +1481,12 @@
                                                                         {{ $user->spiritual_backgrounds->sub_caste->name ?? '' }}
                                                                     </td>
                                                                 </tr>
+                                                                <tr>
+                                                                    <th class="py-1">{{ translate('Gothram') }}</th>
+                                                                    <td class="py-1">
+                                                                        {{ $user->spiritual_backgrounds->gothram ?? '' }}
+                                                                    </td>
+                                                                </tr>
                                                                 {{-- <tr>
                                                                     <th class="py-1">
                                                                         {{ translate('Personal Value') }}</th>
@@ -1973,38 +2013,28 @@
                                             <td>{{ $user->partner_expectations->height ?? '' }}
                                             </td>
 
-                                            <th>{{ translate('weight') }}</th>
-                                            <td>{{ $user->partner_expectations->weight ?? '' }}
-                                            </td>
-                                        </tr>
-
-                                        <tr>
                                             <th>{{ translate('Marital Status') }}</th>
                                             <td>{{ $user->partner_expectations->marital_status->name ?? '' }}
                                             </td>
+                                        </tr>
 
+                                        <tr>
                                             <th>{{ translate('Children Acceptable') }}</th>
                                             <td>{{ !empty($user->partner_expectations->children_acceptable) ? attribute_text_format($user->partner_expectations->children_acceptable) : '' }}
                                             </td>
-                                        </tr>
 
-                                        <tr>
                                             <th>{{ translate('Religion') }}</th>
                                             <td>{{ $user->partner_expectations->religion->name ?? '' }}
                                             </td>
-
-                                            <th>{{ translate('Caste') }}</th>
-                                            <td>{{ $user->partner_expectations->caste->name ?? '' }}
-                                            </td>
                                         </tr>
 
                                         <tr>
-                                            <th>{{ translate('Sub Caste') }}</th>
-                                            <td>{{ $user->partner_expectations->sub_caste->name ?? '' }}
+                                            <th>{{ translate('Caste') }}</th>
+                                            <td>{{ $user->partner_expectations->caste->name ?? '' }}
                                             </td>
 
-                                            <th>{{ translate('Language') }}</th>
-                                            <td>{{ $user->partner_expectations->member_language->name ?? '' }}
+                                            <th>{{ translate('Sub Caste') }}</th>
+                                            <td>{{ $user->partner_expectations->sub_caste->name ?? '' }}
                                             </td>
                                         </tr>
 
@@ -2037,20 +2067,12 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th></th>
-                                            <td></td>
-
                                             <th>{{ translate('Manglik') }}</th>
                                             <td>{{ !empty($user->partner_expectations->manglik) ? attribute_text_format($user->partner_expectations->manglik) : '' }}
                                             </td>
-                                        </tr>
-                                        <tr>
+
                                             <th></th>
                                             <td></td>
-
-                                            <th>{{ translate('complexion') }}</th>
-                                            <td>{{ $user->partner_expectations->complexion ?? '' }}
-                                            </td>
                                         </tr>
                                     </table>
                                 </div>

@@ -63,6 +63,15 @@
                     @enderror
                 </div>
                 <div class="col-md-6">
+                    <label for="phone2" >{{translate('Contact Number 2')}}</label>
+                    <input type="tel" class="form-control" value="{{ $member->phone2 }}" placeholder="{{translate('Contact Number 2')}}" name="phone2" autocomplete="off">
+                    @error('phone2')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
                     <label for="first_name" >{{translate('On Behalf')}}
                         <span class="text-danger">*</span>
                     </label>
@@ -75,8 +84,6 @@
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
-            </div>
-            <div class="form-group row">
                 <div class="col-md-6">
                     <label for="first_name" >{{translate('Marital Status')}}
                         <span class="text-danger">*</span>
@@ -90,6 +97,8 @@
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-md-6" id="children_form_group">
                     <label for="first_name" >{{translate('Number Of Children')}}
                         <span class="text-danger" id="children_mandatory">*</span>
@@ -100,20 +109,7 @@
             
 
             <div class="form-group row">
-                <div class="col-md-6">
-                    <label for="first_name" >{{translate('Annual Salary')}}
-                        <span class="text-danger">*</span>
-                    </label>
-                    <select class="form-control aiz-selectpicker" name="annual_salary_range" data-selected="{{ $member->member->annual_salary_range_id }}" data-live-search="true" required>
-                        @foreach ($annual_salary_ranges as $annual_salary_range)
-                            <option value="{{$annual_salary_range->id}}">{{ single_price($annual_salary_range->min_salary) }} - {{ single_price($annual_salary_range->max_salary) }}</option>
-                        @endforeach
-                    </select>
-                    @error('annual_salary_range')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <label for="photo" >{{translate('Photo')}} <small>(800x800)</small>
                         @if(auth()->user()->photo != null && auth()->user()->photo_approved == 0)
                         <small class="text-danger">({{ translate('Pending for Admin Approval.') }})</small>

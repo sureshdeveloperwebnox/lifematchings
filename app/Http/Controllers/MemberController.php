@@ -367,7 +367,6 @@ class MemberController extends Controller
             'date_of_birth' => ['required'],
             'on_behalf'     => ['required'],
             'marital_status' => ['required'],
-            'annual_salary_range' => ['required'],
         ];
         $this->messages = [
             'first_name.required'             => translate('First Name is required'),
@@ -378,7 +377,6 @@ class MemberController extends Controller
             'date_of_birth.required'          => translate('Date Of Birth is required'),
             'on_behalf.required'              => translate('On Behalf is required'),
             'marital_status.required'         => translate('Marital Status is required'),
-            'annual_salary_range.required'         => translate('Marital Status is required'),
         ];
 
         $rules = $this->rules;
@@ -407,6 +405,7 @@ class MemberController extends Controller
         } else {
             $user->phone    = $request->phone;
         }
+        $user->phone2       = $request->phone2;
         $user->save();
 
         $member                     = Member::where('user_id', $request->id)->first();
@@ -415,7 +414,9 @@ class MemberController extends Controller
         $member->birthday           = date('Y-m-d', strtotime($request->date_of_birth));
         $member->marital_status_id  = $request->marital_status;
         $member->children           = $request->children;
-        $member->annual_salary_range_id = $request->annual_salary_range;
+        if ($request->has('annual_salary_range')) {
+            $member->annual_salary_range_id = $request->annual_salary_range;
+        }
         
         if ($member->save()) {
             flash('Member basic info  has been updated successfully')->success();

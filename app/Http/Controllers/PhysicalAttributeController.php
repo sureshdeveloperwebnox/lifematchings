@@ -72,7 +72,7 @@ class PhysicalAttributeController extends Controller
      public function update(Request $request, $id)
      {
          $this->rules = [
-             'height'       => [ 'required','numeric','min:0','max:300'],
+             'height'       => [ 'nullable','max:50'],
              'weight'       => [ 'required','numeric','min:0','max:500'],
              'eye_color'    => [ 'nullable','max:50'],
              'hair_color'   => [ 'nullable','max:50'],
@@ -83,10 +83,7 @@ class PhysicalAttributeController extends Controller
              'disability'   => [ 'max:255'],
          ];
          $this->messages = [
-             'height.required'      => translate('Height is required'),
-             'height.numeric'       => translate('Height must be a number'),
-             'height.min'           => translate('Height must be at least 0'),
-             'height.max'           => translate('Height must not exceed 300'),
+             'height.max'           => translate('Height must not exceed 50 characters'),
              'weight.required'      => translate('Weight is required'),
              'weight.numeric'       => translate('Weight must be a number'),
              'weight.min'           => translate('Weight must be at least 0'),

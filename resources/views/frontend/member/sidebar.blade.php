@@ -11,7 +11,10 @@
                 @if (Auth::user()->photo != null)
                     <img src="{{ uploaded_asset(Auth::user()->photo) }}">
                 @else
-                    <img src="{{ static_asset('assets/img/avatar-place.png') }}">
+                    @php
+                        $avatar_image = (optional(Auth::user()->member)->gender == 2) ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
+                    @endphp
+                    <img src="{{ static_asset($avatar_image) }}">
                 @endif
             </span>
             <h4 class="h5 fw-600">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</h4>

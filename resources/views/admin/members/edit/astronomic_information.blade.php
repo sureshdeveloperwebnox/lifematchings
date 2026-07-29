@@ -105,14 +105,23 @@
             <div class="col-md-6">
                 <label for="manglik">{{translate('Manglik')}}</label>
                 @php
+                    $manglik_options = [
+                        'No Dosham',
+                        'Rahu / Kedu Dosham',
+                        'Sevvai Dosham',
+                        'Parrigara Sevvai',
+                        'Don’t Know'
+                    ];
                     $selected_manglik = $member->astrologies->manglik ?? "";
                 @endphp
-                <select name="manglik" id="manglik" class="form-control aiz-selectpicker">
-                    <option value="">{{translate('Select One')}}</option>
-                    <option value="Yes" {{ $selected_manglik == 'Yes' ? 'selected' : '' }}>{{translate('Yes')}}</option>
-                    <option value="No" {{ $selected_manglik == 'No' ? 'selected' : '' }}>{{translate('No')}}</option>
-                    <option value="Don't Know" {{ $selected_manglik == "Don't Know" ? 'selected' : '' }}>{{translate('Don\'t Know')}}</option>
-                    <option value="Anshik (Semi-manglik)" {{ $selected_manglik == 'Anshik (Semi-manglik)' ? 'selected' : '' }}>{{translate('Anshik (Semi-manglik)')}}</option>
+                <select name="manglik" id="manglik" class="form-control aiz-selectpicker" data-live-search="true">
+                    <option value="">{{translate('Select One (Optional)')}}</option>
+                    @if($selected_manglik && !in_array($selected_manglik, $manglik_options))
+                        <option value="{{ $selected_manglik }}" selected>{{ $selected_manglik }}</option>
+                    @endif
+                    @foreach ($manglik_options as $m_opt)
+                        <option value="{{ $m_opt }}" @if($selected_manglik == $m_opt) selected @endif>{{ translate($m_opt) }}</option>
+                    @endforeach
                 </select>
                 @error('manglik')
                     <small class="form-text text-danger">{{ $message }}</small>

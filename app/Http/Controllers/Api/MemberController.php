@@ -354,7 +354,7 @@ class MemberController extends Controller
 
         $data['member_name'] = $user->first_name . ' ' . $user->last_name;
         $data['member_email'] = $user->email;
-        $data['member_photo'] = uploaded_asset($user->photo) !== null ? uploaded_asset($user->photo) : static_asset('assets/img/avatar-place.png');
+        $data['member_photo'] = uploaded_asset($user->photo) !== null ? uploaded_asset($user->photo) : static_asset(($user->member && $user->member->gender == 2 ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png'));
         $data['remaining_interest'] = get_remaining_package_value($user->id, 'remaining_interest');
         $data['remaining_contact_view'] = get_remaining_package_value($user->id, 'remaining_contact_view');
         $data['remaining_photo_gallery'] = get_remaining_package_value($user->id, 'remaining_photo_gallery');

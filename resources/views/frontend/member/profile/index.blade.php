@@ -331,43 +331,53 @@
     // get castes and subcastes For member
     function get_castes_by_religion_for_member(){
         var member_religion_id = $('#member_religion_id').val();
-            $.post('{{ route('castes.get_caste_by_religion') }}',{_token:'{{ csrf_token() }}', religion_id:member_religion_id}, function(data){
-                $('#member_caste_id').html(null);
-                for (var i = 0; i < data.length; i++) {
-                    $('#member_caste_id').append($('<option>', {
-                        value: data[i].id,
-                        text: data[i].name
-                    }));
+        if (!member_religion_id) return;
+        $.post('{{ route('castes.get_caste_by_religion') }}',{_token:'{{ csrf_token() }}', religion_id:member_religion_id}, function(data){
+            $('#member_caste_id').html(null);
+            $('#member_caste_id').append($('<option>', {
+                value: '',
+                text: '{{ translate("Select One") }}'
+            }));
+            for (var i = 0; i < data.length; i++) {
+                $('#member_caste_id').append($('<option>', {
+                    value: data[i].id,
+                    text: data[i].name
+                }));
+            }
+            $("#member_caste_id > option").each(function() {
+                if(this.value == '{{$member_caste_id}}'){
+                    $("#member_caste_id").val(this.value).change();
                 }
-                $("#member_caste_id > option").each(function() {
-                    if(this.value == '{{$member_caste_id}}'){
-                        $("#member_caste_id").val(this.value).change();
-                    }
-                });
-                AIZ.plugins.bootstrapSelect('refresh');
-
-                get_sub_castes_by_caste_for_member();
             });
-        }
+            AIZ.plugins.bootstrapSelect('refresh');
+
+            get_sub_castes_by_caste_for_member();
+        });
+    }
 
     function get_sub_castes_by_caste_for_member(){
         var member_caste_id = $('#member_caste_id').val();
-            $.post('{{ route('sub_castes.get_sub_castes_by_religion') }}',{_token:'{{ csrf_token() }}', caste_id:member_caste_id}, function(data){
-                $('#member_sub_caste_id').html(null);
-                for (var i = 0; i < data.length; i++) {
-                    $('#member_sub_caste_id').append($('<option>', {
-                        value: data[i].id,
-                        text: data[i].name
-                    }));
+        if (!member_caste_id) return;
+        $.post('{{ route('sub_castes.get_sub_castes_by_religion') }}',{_token:'{{ csrf_token() }}', caste_id:member_caste_id}, function(data){
+            $('#member_sub_caste_id').html(null);
+            $('#member_sub_caste_id').append($('<option>', {
+                value: '',
+                text: '{{ translate("Select One") }}'
+            }));
+            for (var i = 0; i < data.length; i++) {
+                $('#member_sub_caste_id').append($('<option>', {
+                    value: data[i].id,
+                    text: data[i].name
+                }));
+            }
+            $("#member_sub_caste_id > option").each(function() {
+                if(this.value == '{{$member_sub_caste_id}}'){
+                    $("#member_sub_caste_id").val(this.value).change();
                 }
-                $("#member_sub_caste_id > option").each(function() {
-                    if(this.value == '{{$member_sub_caste_id}}'){
-                        $("#member_sub_caste_id").val(this.value).change();
-                    }
-                });
-                AIZ.plugins.bootstrapSelect('refresh');
             });
-        }
+            AIZ.plugins.bootstrapSelect('refresh');
+        });
+    }
 
     $('#member_religion_id').on('change', function() {
         get_castes_by_religion_for_member();
@@ -380,43 +390,53 @@
     // get castes and subcastes For partner
     function get_castes_by_religion_for_partner(){
         var partner_religion_id = $('#partner_religion_id').val();
-            $.post('{{ route('castes.get_caste_by_religion') }}',{_token:'{{ csrf_token() }}', religion_id:partner_religion_id}, function(data){
-                $('#partner_caste_id').html(null);
-                for (var i = 0; i < data.length; i++) {
-                    $('#partner_caste_id').append($('<option>', {
-                        value: data[i].id,
-                        text: data[i].name
-                    }));
+        if (!partner_religion_id) return;
+        $.post('{{ route('castes.get_caste_by_religion') }}',{_token:'{{ csrf_token() }}', religion_id:partner_religion_id}, function(data){
+            $('#partner_caste_id').html(null);
+            $('#partner_caste_id').append($('<option>', {
+                value: '',
+                text: '{{ translate("Select One") }}'
+            }));
+            for (var i = 0; i < data.length; i++) {
+                $('#partner_caste_id').append($('<option>', {
+                    value: data[i].id,
+                    text: data[i].name
+                }));
+            }
+            $("#partner_caste_id > option").each(function() {
+                if(this.value == '{{$partner_caste_id}}'){
+                    $("#partner_caste_id").val(this.value).change();
                 }
-                $("#partner_caste_id > option").each(function() {
-                    if(this.value == '{{$partner_caste_id}}'){
-                        $("#partner_caste_id").val(this.value).change();
-                    }
-                });
-                AIZ.plugins.bootstrapSelect('refresh');
-
-                get_sub_castes_by_caste_for_partner();
             });
-        }
+            AIZ.plugins.bootstrapSelect('refresh');
+
+            get_sub_castes_by_caste_for_partner();
+        });
+    }
 
     function get_sub_castes_by_caste_for_partner(){
         var partner_caste_id = $('#partner_caste_id').val();
-            $.post('{{ route('sub_castes.get_sub_castes_by_religion') }}',{_token:'{{ csrf_token() }}', caste_id:partner_caste_id}, function(data){
-                $('#partner_sub_caste_id').html(null);
-                for (var i = 0; i < data.length; i++) {
-                    $('#partner_sub_caste_id').append($('<option>', {
-                        value: data[i].id,
-                        text: data[i].name
-                    }));
+        if (!partner_caste_id) return;
+        $.post('{{ route('sub_castes.get_sub_castes_by_religion') }}',{_token:'{{ csrf_token() }}', caste_id:partner_caste_id}, function(data){
+            $('#partner_sub_caste_id').html(null);
+            $('#partner_sub_caste_id').append($('<option>', {
+                value: '',
+                text: '{{ translate("Select One") }}'
+            }));
+            for (var i = 0; i < data.length; i++) {
+                $('#partner_sub_caste_id').append($('<option>', {
+                    value: data[i].id,
+                    text: data[i].name
+                }));
+            }
+            $("#partner_sub_caste_id > option").each(function() {
+                if(this.value == '{{$partner_sub_caste_id}}'){
+                    $("#partner_sub_caste_id").val(this.value).change();
                 }
-                $("#partner_sub_caste_id > option").each(function() {
-                    if(this.value == '{{$partner_sub_caste_id}}'){
-                        $("#partner_sub_caste_id").val(this.value).change();
-                    }
-                });
-                AIZ.plugins.bootstrapSelect('refresh');
             });
-        }
+            AIZ.plugins.bootstrapSelect('refresh');
+        });
+    }
 
     $('#partner_religion_id').on('change', function() {
         get_castes_by_religion_for_partner();
@@ -511,6 +531,7 @@
        $.post('{{ route('career.create') }}',{_token:'{{ @csrf_token() }}', id:id}, function(data){
            $('.create_edit_modal_content').html(data);
            $('.create_edit_modal').modal('show');
+           AIZ.plugins.bootstrapSelect();
        });
     }
 
@@ -518,6 +539,7 @@
         $.post('{{ route('career.edit') }}',{_token:'{{ @csrf_token() }}', id:id}, function(data){
             $('.create_edit_modal_content').html(data);
             $('.create_edit_modal').modal('show');
+            AIZ.plugins.bootstrapSelect();
         });
     }
 
@@ -577,11 +599,29 @@
         }
     }
 
+    function handlePartnerMaritalStatusChange() {
+        var selectedText = $('#partner_marital_status option:selected').text().trim().toLowerCase();
+        var selectedVal = $('#partner_marital_status').val();
+        if (selectedText === 'never married' || selectedVal == '1' || selectedText.indexOf('never married') !== -1) {
+            $('#partner_children_acceptable_div').hide();
+        } else {
+            $('#partner_children_acceptable_div').show();
+        }
+    }
+
     $(document).ready(function() {
+        get_castes_by_religion_for_member();
+        get_castes_by_religion_for_partner();
+
         $('#marital_status').on('change', function() {
             handleMaritalStatusChange();
         });
         handleMaritalStatusChange();
+
+        $('#partner_marital_status').on('change', function() {
+            handlePartnerMaritalStatusChange();
+        });
+        handlePartnerMaritalStatusChange();
     });
 </script>
 @endsection

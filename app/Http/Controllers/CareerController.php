@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Career;
+use App\Models\AnnualSalaryRange;
 use Validator;
 use Redirect;
 
@@ -36,7 +37,8 @@ class CareerController extends Controller
     public function create(Request $request)
     {
         $member_id = $request->id;
-        return view('frontend.member.profile.career.create', compact('member_id'));
+        $annual_salary_ranges = AnnualSalaryRange::orderBy('min_salary','asc')->get();
+        return view('frontend.member.profile.career.create', compact('member_id', 'annual_salary_ranges'));
     }
 
     /**
@@ -93,7 +95,8 @@ class CareerController extends Controller
     public function edit(Request $request)
     {
         $career = Career::findOrFail($request->id);
-        return view('frontend.member.profile.career.edit', compact('career'));
+        $annual_salary_ranges = AnnualSalaryRange::orderBy('min_salary','asc')->get();
+        return view('frontend.member.profile.career.edit', compact('career', 'annual_salary_ranges'));
     }
     /**
      * Update the specified resource in storage.

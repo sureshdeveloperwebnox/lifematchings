@@ -13,13 +13,27 @@
         <div class="col-lg-3">
             <div class="card">
                 <div class="card-body text-center">
-                    <span class="avatar avatar-xl m-3 center">
-                        @if (!uploaded_asset($member->photo))
-                            <img src="{{ static_asset('assets/img/avatar-place.png') }}">
-                        @else
-                            <img src="{{ uploaded_asset($member->photo) }}">
-                        @endif
-                    </span>
+                    @if (uploaded_asset($member->photo))
+                        <div class="mb-3">
+                            <a href="{{ uploaded_asset($member->photo) }}" target="_blank" title="{{ translate('Click to view full image') }}" class="d-inline-block">
+                                <span class="avatar avatar-xl center">
+                                    <img src="{{ uploaded_asset($member->photo) }}" alt="{{ $member->first_name }}" style="object-position: top center;">
+                                </span>
+                            </a>
+                            <div class="mt-2">
+                                <a href="{{ uploaded_asset($member->photo) }}" target="_blank" class="btn btn-xs btn-soft-primary">
+                                    <i class="las la-eye"></i> {{ translate('View Full Photo') }}
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        @php
+                            $avatar_image = (optional($member->member)->gender == 2) ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
+                        @endphp
+                        <span class="avatar avatar-xl m-3 center">
+                            <img src="{{ static_asset($avatar_image) }}">
+                        </span>
+                    @endif
                     <p>{{ $member->first_name . ' ' . $member->last_name }}</p>
                     <div class="pad-ver btn-groups">
                         <a href="javascript:void(0);" onclick="package_info({{ $member->id }})"
@@ -100,10 +114,8 @@
                             <th>{{ translate('On Behalf') }}</th>
                             <td>{{ $member->member->on_behalves->name ?? '' }}</td>
 
-                            <th>{{ translate('Annual Salary') }}</th>
-                            <td>{{ $member->member->annualSalaryRange != null ?
-                                    single_price($member->member->annualSalaryRange->min_salary).' - '.single_price($member->member->annualSalaryRange->max_salary) : '' }}
-                            </td>
+                            <th>{{ translate('Contact Number 2') }}</th>
+                            <td>{{ $member->phone2 }}</td>
                         </tr>
                     </table>
                 </div>
@@ -431,25 +443,20 @@
                                 <th>{{ translate('Sub Caste') }}</th>
                                 <td>{{ $member->spiritual_backgrounds->sub_caste->name ?? '' }}</td>
 
-                                {{-- <th>{{ translate('Ethnicity') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->ethnicity ?? '' }}</td> --}}
+                                <th>{{ translate('Gothram') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->gothram ?? '' }}</td>
+                            </tr>
+                            <tr>
                                 <th>{{ translate('Mother Tongue') }}</th>
                                 <td>{{ $member->spiritual_backgrounds->mother_tongue ?? '' }}</td>
-                            </tr>
-                            <tr>
-                                {{-- <th>{{ translate('Personal Value') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->personal_value ?? '' }}</td> --}}
+
                                 <th>{{ translate('Diet') }}</th>
                                 <td>{{ $member->spiritual_backgrounds->diet ?? '' }}</td>
-
-                                {{-- <th>{{ translate('Family Value') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->family_value->name ?? '' }}</td> --}}
-                                <th>{{ translate('Living in') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->living_in ?? '' }}</td>
                             </tr>
                             <tr>
-                                {{-- <th>{{ translate('Community Value') }}</th>
-                                <td>{{ $member->spiritual_backgrounds->community_value ?? '' }}</td> --}}
+                                <th>{{ translate('Living in') }}</th>
+                                <td>{{ $member->spiritual_backgrounds->living_in ?? '' }}</td>
+
                                 <th>{{ translate('Nationality') }}</th>
                                 <td>{{ $member->spiritual_backgrounds->nationality ?? '' }}</td>
                             </tr>
@@ -677,33 +684,25 @@
                                 <th>{{ translate('Height') }}</th>
                                 <td>{{ $member->partner_expectations->height ?? '' }}</td>
 
-                                <th>{{ translate('weight') }}</th>
-                                <td>{{ $member->partner_expectations->weight ?? '' }}</td>
+                                <th>{{ translate('Marital Status') }}</th>
+                                <td>{{ $member->partner_expectations->marital_status->name ?? '' }}</td>
                             </tr>
 
                             <tr>
-                                <th>{{ translate('Marital Status') }}</th>
-                                <td>{{ $member->partner_expectations->marital_status->name ?? '' }}</td>
-
                                 <th>{{ translate('Children Acceptable') }}</th>
                                 <td>{{ !empty($member->partner_expectations->children_acceptable) ? attribute_text_format($member->partner_expectations->children_acceptable) : '' }}
                                 </td>
-                            </tr>
 
-                            <tr>
                                 <th>{{ translate('Religion') }}</th>
                                 <td>{{ $member->partner_expectations->religion->name ?? '' }}</td>
-
-                                <th>{{ translate('Caste') }}</th>
-                                <td>{{ $member->partner_expectations->caste->name ?? '' }}</td>
                             </tr>
 
                             <tr>
+                                <th>{{ translate('Caste') }}</th>
+                                <td>{{ $member->partner_expectations->caste->name ?? '' }}</td>
+
                                 <th>{{ translate('Sub Caste') }}</th>
                                 <td>{{ $member->partner_expectations->sub_caste->name ?? '' }}</td>
-
-                                <th>{{ translate('Language') }}</th>
-                                <td>{{ $member->partner_expectations->member_language->name ?? '' }}</td>
                             </tr>
 
                             <tr>
@@ -732,19 +731,12 @@
                                 <td>{{ $member->partner_expectations->body_type ?? '' }}</td>
                             </tr>
                             <tr>
-                                <th></th>
-                                <td></td>
-
                                 <th>{{ translate('Manglik') }}</th>
                                 <td>{{ !empty($member->partner_expectations->manglik) ? attribute_text_format($member->partner_expectations->manglik) : '' }}
                                 </td>
-                            </tr>
-                            <tr>
+
                                 <th></th>
                                 <td></td>
-
-                                <th>{{ translate('complexion') }}</th>
-                                <td>{{ $member->partner_expectations->complexion ?? '' }}</td>
                             </tr>
                         </table>
                     </div>

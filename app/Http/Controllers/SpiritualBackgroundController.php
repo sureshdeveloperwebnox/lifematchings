@@ -78,6 +78,7 @@ class SpiritualBackgroundController extends Controller
               'personal_value'       => [ 'max:255'],
               'community_value'      => [ 'max:255'],
               'mother_tongue'        => [ 'max:255'],
+              'gothram'              => [ 'nullable', 'max:255'],
               'diet'                 => [ 'max:255'],
               'living_in'            => [ 'max:255'],
               'nationality'          => [ 'max:255'],
@@ -115,6 +116,7 @@ class SpiritualBackgroundController extends Controller
           $spiritual_backgrounds->family_value_id	   = $request->family_value_id;
           $spiritual_backgrounds->community_value	   = $request->community_value;
           $spiritual_backgrounds->mother_tongue       = $request->mother_tongue;
+          $spiritual_backgrounds->gothram             = $request->gothram;
           $spiritual_backgrounds->diet                = $request->diet;
           $spiritual_backgrounds->living_in           = $request->living_in;
           $spiritual_backgrounds->nationality         = $request->nationality;

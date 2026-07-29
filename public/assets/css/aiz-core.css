@@ -127,6 +127,7 @@ pre {
     max-height: 100%;
     width: 100%;
     object-fit: cover;
+    object-position: top center;
 }
 
 .overlay {
@@ -6333,6 +6334,7 @@ div.footable-loader > span.fooicon:after {
 }
 .avatar img {
     object-fit: cover;
+    object-position: top center;
     max-width: 100%;
     width: 100%;
     border-radius: 50%;

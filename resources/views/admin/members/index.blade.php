@@ -51,10 +51,15 @@
                                 <td>{{ ($key+1) + ($members->currentPage() - 1)*$members->perPage() }}</td>
                                 <td>
                                     @if(uploaded_asset($member->photo) != null)
-                                        <img class="img-md" src="{{ uploaded_asset($member->photo) }}" height="45px"  alt="{{translate('photo')}}">
-                                    @else
-                                        <img class="img-md" src="{{ static_asset('assets/img/avatar-place.png') }}" height="45px"  alt="{{translate('photo')}}">
-                                    @endif
+                                        <a href="{{ uploaded_asset($member->photo) }}" target="_blank" title="{{ translate('View Full Image') }}">
+                                            <img class="img-md" src="{{ uploaded_asset($member->photo) }}" height="45px" alt="{{translate('photo')}}" style="object-fit: cover; object-position: top center;">
+                                        </a>
+                                     @else
+                                         @php
+                                             $avatar_image = (optional($member->member)->gender == 2) ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
+                                         @endphp
+                                         <img class="img-md" src="{{ static_asset($avatar_image) }}" height="45px" alt="{{translate('photo')}}">
+                                     @endif
                                 </td>
                                 <td>{{ $member->code }}</td>
                                 <td>{{ $member->first_name.' '.$member->last_name }}</td>

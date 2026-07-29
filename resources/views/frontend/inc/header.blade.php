@@ -119,7 +119,10 @@
                                                 @if ($chat->chatThread->$user_to_show->photo != null)
                                                 <img src="{{ uploaded_asset($chat->chatThread->$user_to_show->photo) }}">
                                                 @else
-                                                <img src="{{ static_asset('assets/img/avatar-place.png') }}">
+                                                @php
+                                                    $chat_user_avatar = (optional($chat->chatThread->$user_to_show->member)->gender == 2) ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
+                                                @endphp
+                                                <img src="{{ static_asset($chat_user_avatar) }}">
                                                 @endif
                                                 @if(Cache::has('user-is-online-' . $chat->chatThread->$user_to_show->id))
                                                 <span

@@ -27,21 +27,21 @@ class PartnerExpectationRequest extends FormRequest
     public function rules()
     {
         return [
-            'general'                   => ['required'],
-            'partner_height'                    => ['required', 'numeric', 'between:0,9.99'],
-            'partner_weight'                    => ['required', 'numeric', 'between:0,999.99'],
-            'partner_marital_status'         => ['required'],
-            'partner_children_acceptable'       => ['required', 'max:20'],
-            'residence_country_id'      => ['required'],
-            'partner_religion_id'               => ['required'],
-            'smoking_acceptable'        => ['required', 'max:20'],
-            'drinking_acceptable'       => ['required', 'max:20'],
-            'partner_diet'                      => ['required', 'max:50'],
-            'partner_manglik'                   => ['required', 'max:50'],
-            'language_id'               => ['required'],
-            'partner_country_id'      => ['required'],
-            'partner_state_id'        => ['required'],
-            'pertner_complexion'                => ['required', 'max:50'],
+            'general'                   => ['nullable'],
+            'partner_height'            => ['nullable', 'max:50'],
+            'partner_weight'            => ['nullable', 'max:50'],
+            'partner_marital_status'    => ['nullable'],
+            'partner_children_acceptable' => ['nullable', 'max:20'],
+            'residence_country_id'      => ['nullable'],
+            'partner_religion_id'       => ['nullable'],
+            'smoking_acceptable'        => ['nullable', 'max:20'],
+            'drinking_acceptable'       => ['nullable', 'max:20'],
+            'partner_diet'              => ['nullable', 'max:50'],
+            'partner_manglik'           => ['nullable', 'max:50'],
+            'language_id'               => ['nullable'],
+            'partner_country_id'        => ['nullable'],
+            'partner_state_id'          => ['nullable'],
+            'pertner_complexion'        => ['nullable', 'max:50'],
         ];
     }
 

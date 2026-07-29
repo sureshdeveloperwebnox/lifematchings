@@ -72,16 +72,36 @@
           </div> --}}
           <div class="form-group row">
               <div class="col-md-6">
-                  <label for="diet">{{translate('Diet')}}</label>
-                  <input type="text" name="diet" value="{{ $member->spiritual_backgrounds->diet ?? "" }}" class="form-control" placeholder="{{translate('Diet')}}">
-                  @error('diet')
+                  <label for="gothram">{{translate('Gothram')}}</label>
+                  @php
+                      $gothram_options = [
+                          'Agastya', 'Angirasa', 'Atri', 'Bharadwaja', 'Bhrigu',
+                          'Dhananjaya', 'Gargya', 'Gautama', 'Harita', 'Jamadagni',
+                          'Kanva', 'Kapila', 'Kashyapa', 'Kaundinya', 'Kutsasa',
+                          'Moudgalya', 'Naidhruva', 'Nithyandhana', 'Parashara', 'Sandilya',
+                          'Sankriti', 'Shatamarshana', 'Siva', 'Srivastava', 'Upamanyu',
+                          'Vadoolas', 'Vashishta', 'Vatsa', 'Vishnuvardhana', 'Viswamitra',
+                          'Other / Don\'t Know'
+                      ];
+                      $user_gothram = $member->spiritual_backgrounds->gothram ?? '';
+                  @endphp
+                  <select class="form-control aiz-selectpicker" name="gothram" data-live-search="true">
+                      <option value="">{{ translate('Select Gothram (Optional)') }}</option>
+                      @if($user_gothram && !in_array($user_gothram, $gothram_options))
+                          <option value="{{ $user_gothram }}" selected>{{ $user_gothram }}</option>
+                      @endif
+                      @foreach ($gothram_options as $g_opt)
+                          <option value="{{ $g_opt }}" @if($user_gothram == $g_opt) selected @endif>{{ $g_opt }}</option>
+                      @endforeach
+                  </select>
+                  @error('gothram')
                       <small class="form-text text-danger">{{ $message }}</small>
                   @enderror
               </div>
               <div class="col-md-6">
-                  <label for="living_in">{{translate('Living in')}}</label>
-                  <input type="text" name="living_in" value="{{ $member->spiritual_backgrounds->living_in ?? "" }}" class="form-control" placeholder="{{translate('Living in')}}">
-                  @error('living_in')
+                  <label for="diet">{{translate('Diet')}}</label>
+                  <input type="text" name="diet" value="{{ $member->spiritual_backgrounds->diet ?? "" }}" class="form-control" placeholder="{{translate('Diet')}}">
+                  @error('diet')
                       <small class="form-text text-danger">{{ $message }}</small>
                   @enderror
               </div>
@@ -96,6 +116,13 @@
               </div>
           </div> --}}
           <div class="form-group row">
+              <div class="col-md-6">
+                  <label for="living_in">{{translate('Living in')}}</label>
+                  <input type="text" name="living_in" value="{{ $member->spiritual_backgrounds->living_in ?? "" }}" class="form-control" placeholder="{{translate('Living in')}}">
+                  @error('living_in')
+                      <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+              </div>
               <div class="col-md-6">
                   <label for="nationality">{{translate('Nationality')}}</label>
                   <input type="text" name="nationality" value="{{ $member->spiritual_backgrounds->nationality ?? "" }}" class="form-control" placeholder="{{translate('Nationality')}}">

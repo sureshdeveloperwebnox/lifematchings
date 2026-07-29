@@ -32,7 +32,10 @@
                             @if(uploaded_asset($user->photo) != null)
                                 <img class="img-md" src="{{ uploaded_asset($user->photo) }}" height="45px"  alt="{{translate('photo')}}">
                             @else
-                                <img class="img-md" src="{{ static_asset('assets/img/avatar-place.png') }}" height="45px"  alt="{{translate('photo')}}">
+                                @php
+                                    $avatar_image = (optional($user->member)->gender == 2) ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
+                                @endphp
+                                <img class="img-md" src="{{ static_asset($avatar_image) }}" height="45px"  alt="{{translate('photo')}}">
                             @endif
                         </td>
                         <td>{{ $user->code }}</td>

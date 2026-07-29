@@ -69,25 +69,19 @@
         </div>
         <div class="form-group row">
             <div class="col-md-6">
+                <label for="phone2" >{{translate('Contact Number 2')}}</label>
+                <input type="text" name="phone2" value="{{ $member->phone2 }}" class="form-control" placeholder="{{translate('Contact Number 2')}}">
+                @error('phone2')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="col-md-6">
                 <label for="first_name" >{{translate('On Behalf')}}
                     <span class="text-danger">*</span>
                 </label>
                 <select class="form-control aiz-selectpicker" name="on_behalf" data-selected="{{ $member->member->on_behalves_id }}" data-live-search="true" required>
                     @foreach ($on_behalves as $on_behalf)
                         <option value="{{$on_behalf->id}}">{{$on_behalf->name}}</option>
-                    @endforeach
-                </select>
-                @error('on_behalf')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="col-md-6">
-                <label for="first_name" >{{translate('Annual Salary')}}
-                    <span class="text-danger">*</span>
-                </label>
-                <select class="form-control aiz-selectpicker" name="annual_salary_range" data-selected="{{ $member->member->annual_salary_range_id }}" data-live-search="true" required>
-                    @foreach ($annual_salary_ranges as $annual_salary_range)
-                        <option value="{{$annual_salary_range->id}}">{{ single_price($annual_salary_range->min_salary) }} - {{ single_price($annual_salary_range->max_salary) }}</option>
                     @endforeach
                 </select>
                 @error('on_behalf')

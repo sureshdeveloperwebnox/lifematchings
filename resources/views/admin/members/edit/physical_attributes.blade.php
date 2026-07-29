@@ -8,7 +8,30 @@
         <div class="form-group row">
             <div class="col-md-6">
                 <label for="height">{{translate('Height')}}</label>
-                <input type="number" name="height" value="{{ $member->physical_attributes->height ?? "" }}" step="any" class="form-control" placeholder="{{translate('Height')}}" required>
+                @php
+                    $height_options = [
+                        '4\'0" - 121 cm', '4\'1" - 124 cm', '4\'2" - 127 cm', '4\'3" - 130 cm',
+                        '4\'4" - 132 cm', '4\'5" - 135 cm', '4\'6" - 137 cm', '4\'7" - 140 cm',
+                        '4\'8" - 142 cm', '4\'9" - 145 cm', '4\'10" - 147 cm', '4\'11" - 150 cm',
+                        '5\'0" - 152 cm', '5\'1" - 155 cm', '5\'2" - 157 cm', '5\'3" - 160 cm',
+                        '5\'4" - 162 cm', '5\'5" - 165 cm', '5\'6" - 168 cm', '5\'7" - 170 cm',
+                        '5\'8" - 173 cm', '5\'9" - 175 cm', '5\'10" - 178 cm', '5\'11" - 180 cm',
+                        '6\'0" - 183 cm', '6\'1" - 185 cm', '6\'2" - 188 cm', '6\'3" - 190 cm',
+                        '6\'4" - 193 cm', '6\'5" - 195 cm', '6\'6" - 198 cm', '6\'7" - 201 cm',
+                        '6\'8" - 203 cm', '6\'9" - 206 cm', '6\'10" - 208 cm', '6\'11" - 211 cm',
+                        '7\'0" - 213 cm'
+                    ];
+                    $user_height = $member->physical_attributes->height ?? '';
+                @endphp
+                <select class="form-control aiz-selectpicker" name="height" data-live-search="true">
+                    <option value="">{{ translate('Select Height (Optional)') }}</option>
+                    @if($user_height && !in_array($user_height, $height_options))
+                        <option value="{{ $user_height }}" selected>{{ $user_height }}</option>
+                    @endif
+                    @foreach ($height_options as $h_opt)
+                        <option value="{{ $h_opt }}" @if($user_height == $h_opt) selected @endif>{{ $h_opt }}</option>
+                    @endforeach
+                </select>
                 @error('height')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror

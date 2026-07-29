@@ -23,7 +23,7 @@ class ProfileImageRequest extends JsonResource
             $birth_date = $user->member->birthday;
             return [
                 'id' => $this->id,
-                'photo' => uploaded_asset($user->photo) ?? static_asset('assets/img/avatar-place.png'),
+                'photo' => uploaded_asset($user->photo) ?? static_asset(($user->member && $user->member->gender == 2 ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png')),
                 'name' => $user->first_name . $user->last_name,
                 'date_of_birth' => Carbon::parse($birth_date)->age,
                 'status' => $view_profile_images->status,
