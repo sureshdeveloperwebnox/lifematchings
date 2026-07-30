@@ -1,21 +1,12 @@
--- Database Update Script for Production
+-- Database Update Script for Today
 -- Project: Life Matchings
--- Date: 2026-07-29
+-- Date: 2026-07-30
 
--- 1. Add Contact No 2 (phone2) column to users table if not exists
-ALTER TABLE `users` ADD COLUMN `phone2` VARCHAR(255) NULL AFTER `phone`;
-
--- 2. Modify height column in physical_attributes table to VARCHAR(50) for string values (e.g. 5' 6")
-ALTER TABLE `physical_attributes` MODIFY COLUMN `height` VARCHAR(50) NULL;
-
--- 3. Add Gothram column to spiritual_backgrounds table
-ALTER TABLE `spiritual_backgrounds` ADD COLUMN `gothram` VARCHAR(255) NULL AFTER `sub_caste_id`;
-
--- 4. Add additional_sub_caste and about_partner columns to partner_expectations table
+-- 1. Add additional_sub_caste and about_partner columns to partner_expectations table
 ALTER TABLE `partner_expectations` ADD COLUMN `additional_sub_caste` VARCHAR(255) NULL AFTER `sub_caste_id`;
 ALTER TABLE `partner_expectations` ADD COLUMN `about_partner` TEXT NULL AFTER `manglik`;
 
--- 5. Create gothrams and mangliks tables for Admin Profile Attributes
+-- 2. Create gothrams table for Admin Profile Attributes
 CREATE TABLE IF NOT EXISTS `gothrams` (
   `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL,
@@ -24,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `gothrams` (
   `deleted_at` TIMESTAMP NULL
 );
 
+-- 3. Create mangliks table for Admin Profile Attributes
 CREATE TABLE IF NOT EXISTS `mangliks` (
   `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL,
@@ -32,13 +24,13 @@ CREATE TABLE IF NOT EXISTS `mangliks` (
   `deleted_at` TIMESTAMP NULL
 );
 
--- Initial seed for mangliks
+-- 4. Initial seed data for mangliks table
 INSERT IGNORE INTO `mangliks` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Yes', NOW(), NOW()),
 (2, 'No', NOW(), NOW()),
 (3, 'Does not matter', NOW(), NOW());
 
--- Initial seed for gothrams
+-- 5. Initial seed data for gothrams table
 INSERT IGNORE INTO `gothrams` (`name`, `created_at`, `updated_at`) VALUES
 ('Agastya', NOW(), NOW()),
 ('Angirasa', NOW(), NOW()),
@@ -71,6 +63,3 @@ INSERT IGNORE INTO `gothrams` (`name`, `created_at`, `updated_at`) VALUES
 ('Vishnuvardhana', NOW(), NOW()),
 ('Viswamitra', NOW(), NOW()),
 ('Other / Don\'t Know', NOW(), NOW());
-
-
-

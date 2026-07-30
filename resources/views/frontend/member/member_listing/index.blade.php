@@ -20,10 +20,10 @@
                             </div>
                             <div class="mb-5">
                                 @foreach ($users as $key => $user)
-                                    <div class="row no-gutters border border-gray-300 rounded hov-shadow-md mb-4 has-transition position-relative"
+                                    <div class="row no-gutters border border-gray-300 rounded hov-shadow-md mb-4 has-transition position-relative overflow-hidden"
                                         id="block_id_{{ $user->id }}">
                                         <div class="col-md-auto">
-                                            <div class="text-center text-md-left pt-3 pt-md-0">
+                                            <div class="text-center text-md-left">
                                                 @php
                                                     $avatar_image = $user->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
                                                     $profile_picture_show = show_profile_picture($user);
@@ -32,7 +32,8 @@
                                                 @else
                                                 src="{{ static_asset($avatar_image) }}" @endif
                                                     onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';"
-                                                    class="img-fit mw-100 size-150px size-md-250px rounded-circle md-rounded-0">
+                                                    class="img-fit mw-100 d-block mx-auto mx-md-0"
+                                                    style="width: 210px; height: 260px; object-fit: cover; object-position: top center;">
                                             </div>
                                         </div>
                                         <div class="col-md position-static d-flex align-items-center">

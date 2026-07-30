@@ -833,7 +833,7 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                 var $this = $(this);
                 if(!$this.parent().hasClass('bootstrap-select')){
                     var selected = $this.data('selected');
-                    if( typeof selected !== 'undefined' ){
+                    if( typeof selected !== 'undefined' && selected !== '' && selected !== null ){
                         $this.val(selected);
                     }
                     $this.selectpicker({

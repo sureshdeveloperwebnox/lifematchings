@@ -123,6 +123,16 @@
 
         <div class="form-group row">
             <div class="col-md-6">
+                <label for="additional_sub_caste">{{translate('Additional Sub Caste')}}</label>
+                <input type="text" name="additional_sub_caste" value="{{ $member->partner_expectations->additional_sub_caste ?? "" }}" class="form-control" placeholder="{{translate('Additional Sub Caste')}}">
+                @error('additional_sub_caste')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-6">
                 <label for="pertner_education">{{translate('Education')}}</label>
                 <input type="text" name="pertner_education" value="{{ $member->partner_expectations->education ?? "" }}" class="form-control" placeholder="{{translate('Education')}}" required>
                 @error('pertner_education')
@@ -169,11 +179,11 @@
         <div class="form-group row">
             <div class="col-md-6">
                 <label for="partner_diet">{{translate('Diet')}}</label>
-                @php $partner_dieting_acceptable = $member->partner_expectations->diet ?? ""; @endphp
+                @php $partner_diet = $member->partner_expectations->diet ?? ""; @endphp
                 <select class="form-control aiz-selectpicker" name="partner_diet" required>
-                    <option value="yes" @if($partner_dieting_acceptable ==  'yes') selected @endif >{{translate('Yes')}}</option>
-                    <option value="no" @if($partner_dieting_acceptable ==  'no') selected @endif >{{translate('No')}}</option>
-                    <option value="dose_not_matter" @if($partner_dieting_acceptable ==  'dose_not_matter') selected @endif >{{translate('Does not matter')}}</option>
+                    <option value="veg" @if($partner_diet == 'veg' || $partner_diet == 'Veg') selected @endif >{{translate('Veg')}}</option>
+                    <option value="non_veg" @if($partner_diet == 'non_veg' || $partner_diet == 'Non-Veg') selected @endif >{{translate('Non-Veg')}}</option>
+                    <option value="dose_not_matter" @if($partner_diet == 'dose_not_matter' || $partner_diet == 'does_not_matter' || $partner_diet == 'yes' || $partner_diet == 'no') selected @endif >{{translate('Doesn’t matter')}}</option>
                 </select>
                 @error('partner_diet')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -191,13 +201,33 @@
         <div class="form-group row">
             <div class="col-md-6">
                 <label for="partner_manglik">{{translate('Manglik')}}</label>
-                @php $partner_manglik = $member->partner_expectations->manglik ?? ""; @endphp
+                @php
+                    $manglik_options = \App\Models\Manglik::all();
+                    $partner_manglik = $member->partner_expectations->manglik ?? "";
+                @endphp
                 <select class="form-control aiz-selectpicker" name="partner_manglik" required>
-                    <option value="yes" @if($partner_manglik ==  'yes') selected @endif >{{translate('Yes')}}</option>
-                    <option value="no" @if($partner_manglik ==  'no') selected @endif >{{translate('No')}}</option>
-                    <option value="dose_not_matter" @if($partner_manglik ==  'dose_not_matter') selected @endif >{{translate('Does not matter')}}</option>
+                    <option value="">{{ translate('Select One') }}</option>
+                    @if($manglik_options->count() > 0)
+                        @foreach($manglik_options as $m_opt)
+                            <option value="{{ $m_opt->name }}" @if(strtolower($partner_manglik) == strtolower($m_opt->name) || ($partner_manglik == 'dose_not_matter' && strtolower($m_opt->name) == 'does not matter')) selected @endif>{{ translate($m_opt->name) }}</option>
+                        @endforeach
+                    @else
+                        <option value="yes" @if($partner_manglik == 'yes') selected @endif >{{translate('Yes')}}</option>
+                        <option value="no" @if($partner_manglik == 'no') selected @endif >{{translate('No')}}</option>
+                        <option value="dose_not_matter" @if($partner_manglik == 'dose_not_matter') selected @endif >{{translate('Does not matter')}}</option>
+                    @endif
                 </select>
                 @error('partner_manglik')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-12">
+                <label for="about_partner">{{translate('About Partner')}}</label>
+                <textarea name="about_partner" rows="4" class="form-control" placeholder="{{translate('About Partner')}}">{{ $member->partner_expectations->about_partner ?? "" }}</textarea>
+                @error('about_partner')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>

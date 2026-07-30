@@ -169,6 +169,7 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
+        totalSibling();
         get_states_by_country_for_present_address();
         get_cities_by_state_for_present_address();
         get_states_by_country_for_permanent_address();

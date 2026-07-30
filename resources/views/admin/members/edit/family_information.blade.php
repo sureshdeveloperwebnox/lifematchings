@@ -39,17 +39,13 @@
             </div>
 
             <div class="col-md-6 mt-3">
-                <label for="sibling">{{translate('Sibling')}}</label>
-                <input type="text" name="sibling" value="{{ $member->families->sibling ?? "" }}" id="sibling" class="form-control" placeholder="{{translate('Sibling')}}" readonly >
-                @error('sibling')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="col-md-6 mt-3">
                 <label for="no_of_married">{{translate('No. of Married')}}</label>
-                <select class="form-control aiz-selectpicker" name="no_of_married" id="no_of_married" data-live-search="true" data-selected="{{ $member->families->no_of_married ?? ""  }}">
+                @php
+                    $sel_married = isset($member->families->no_of_married) && $member->families->no_of_married !== '' ? $member->families->no_of_married : 0;
+                @endphp
+                <select class="form-control aiz-selectpicker" name="no_of_married" id="no_of_married" data-live-search="true" data-selected="{{ $sel_married }}">
                     @for($i=0; $i<=20; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
+                        <option value="{{ $i }}" {{ (string)$sel_married === (string)$i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                 </select>
                 @error('no_of_married')
@@ -58,9 +54,12 @@
             </div>
             <div class="col-md-6 mt-3">
                 <label for="no_of_unmarried">{{translate('No. of Unmarried')}}</label>
-                <select class="form-control aiz-selectpicker" name="no_of_unmarried" id="no_of_unmarried" data-live-search="true" data-selected="{{ $member->families->no_of_unmarried ?? ""  }}">
+                @php
+                    $sel_unmarried = isset($member->families->no_of_unmarried) && $member->families->no_of_unmarried !== '' ? $member->families->no_of_unmarried : 0;
+                @endphp
+                <select class="form-control aiz-selectpicker" name="no_of_unmarried" id="no_of_unmarried" data-live-search="true" data-selected="{{ $sel_unmarried }}">
                     @for($i=0; $i<=20; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
+                        <option value="{{ $i }}" {{ (string)$sel_unmarried === (string)$i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                 </select>
                 @error('no_of_unmarried')
@@ -98,10 +97,13 @@
                 @enderror
             </div>
             <div class="col-md-6 mt-3">
-                <label for="sibling">{{translate('No. of Brothers')}}</label>
-                <select class="form-control aiz-selectpicker" name="no_of_brothers" id="no_of_brothers" onchange="totalSibling()" data-live-search="true" data-selected="{{ $member->families->no_of_brothers ?? ""  }}" required>
+                <label for="no_of_brothers">{{translate('No. of Brothers')}}</label>
+                @php
+                    $sel_brothers = isset($member->families->no_of_brothers) && $member->families->no_of_brothers !== '' ? $member->families->no_of_brothers : 0;
+                @endphp
+                <select class="form-control aiz-selectpicker" name="no_of_brothers" id="no_of_brothers" onchange="totalSibling()" data-live-search="true" data-selected="{{ $sel_brothers }}" required>
                     @for($i=0; $i<=20; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
+                        <option value="{{ $i }}" {{ (string)$sel_brothers === (string)$i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                 </select>
                 @error('no_of_brothers')
@@ -109,10 +111,13 @@
                 @enderror
             </div>
             <div class="col-md-6 mt-3">
-                <label for="sibling">{{translate('No. of Sister')}}</label>
-                <select class="form-control aiz-selectpicker" name="no_of_sisters" id="no_of_sisters" onchange="totalSibling()" data-live-search="true" data-selected="{{ $member->families->no_of_sisters ?? ""  }}" required>
+                <label for="no_of_sisters">{{translate('No. of Sister')}}</label>
+                @php
+                    $sel_sisters = isset($member->families->no_of_sisters) && $member->families->no_of_sisters !== '' ? $member->families->no_of_sisters : 0;
+                @endphp
+                <select class="form-control aiz-selectpicker" name="no_of_sisters" id="no_of_sisters" onchange="totalSibling()" data-live-search="true" data-selected="{{ $sel_sisters }}" required>
                     @for($i=0; $i<=20; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
+                        <option value="{{ $i }}" {{ (string)$sel_sisters === (string)$i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                 </select>
                 @error('no_of_sisters')
@@ -134,15 +139,6 @@
                 <label for="mother">{{translate('About Siblings')}}</label>
                 <textarea type="text" name="about_siblings" value="{{ $member->families->about_siblings ?? "" }}" rows="4" placeholder="{{ translate('About Siblings') }}" class="form-control">{{ $member->families->about_siblings ?? "" }}</textarea>
                 @error('about_siblings')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-
-            {{-- About Relatives --}}
-            <div class="col-md-12 mt-3">
-                <label for="mother">{{translate('About Relatives')}}</label>
-                <textarea type="text" name="about_relatives" value="{{ $member->families->about_relatives ?? "" }}" rows="4" placeholder="{{ translate('About Parents') }}" class="form-control">{{ $member->families->about_relatives ?? "" }}</textarea>
-                @error('about_relatives')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>

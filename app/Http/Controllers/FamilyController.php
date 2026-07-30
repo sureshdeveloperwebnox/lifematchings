@@ -123,7 +123,7 @@ class FamilyController extends Controller
         $family->father_occupation      = $request->father_occupation;
         $family->mother                 = $request->mother;
         $family->mother_occupation      = $request->mother_occupation;
-        $family->sibling                = $request->sibling;
+        $family->sibling                = $request->sibling ?? ((int)$request->no_of_brothers + (int)$request->no_of_sisters);
         $family->no_of_sisters          = $request->no_of_sisters;
         $family->no_of_brothers         = $request->no_of_brothers;
         $family->no_of_married          = $request->no_of_married;

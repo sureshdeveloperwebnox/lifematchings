@@ -667,6 +667,7 @@
         }
 
         $(document).ready(function() {
+            totalSibling();
             get_castes_by_religion_for_member();
             get_castes_by_religion_for_partner();
 

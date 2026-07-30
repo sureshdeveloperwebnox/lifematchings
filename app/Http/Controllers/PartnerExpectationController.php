@@ -89,6 +89,8 @@ class PartnerExpectationController extends Controller
              'language_id'                  => [ 'nullable'],
              'age_from'                     => [ 'nullable', 'numeric'],
              'age_to'                       => [ 'nullable', 'numeric'],
+             'additional_sub_caste'         => [ 'nullable', 'max:255'],
+             'about_partner'                => [ 'nullable', 'max:65535'],
          ];
          $this->messages = [
              'general.max'                      => translate('Max 255 characters'),
@@ -104,6 +106,8 @@ class PartnerExpectationController extends Controller
              'partner_personal_value.max'       => translate('Max 50 characters'),
              'partner_manglik.max'              => translate('Max 50 characters'),
              'pertner_complexion.max'           => translate('Max 50 characters'),
+             'additional_sub_caste.max'         => translate('Max 255 characters'),
+             'about_partner.max'                => translate('Max 65535 characters'),
          ];
 
          $rules = $this->rules;
@@ -131,6 +135,7 @@ class PartnerExpectationController extends Controller
          $partner_expectations->religion_id               = $request->partner_religion_id;
          $partner_expectations->caste_id                  = $request->partner_caste_id;
          $partner_expectations->sub_caste_id              = $request->partner_sub_caste_id;
+         $partner_expectations->additional_sub_caste     = $request->additional_sub_caste;
          $partner_expectations->education                 = $request->pertner_education;
          $partner_expectations->profession                = $request->partner_profession;
          $partner_expectations->smoking_acceptable        = $request->smoking_acceptable;
@@ -139,6 +144,7 @@ class PartnerExpectationController extends Controller
          $partner_expectations->body_type                 = $request->partner_body_type;
          $partner_expectations->personal_value            = $request->partner_personal_value;
          $partner_expectations->manglik                   = $request->partner_manglik;
+         $partner_expectations->about_partner             = $request->about_partner;
          $partner_expectations->language_id               = $request->language_id;
          $partner_expectations->family_value_id           = $request->family_value_id;
          $partner_expectations->preferred_country_id      = $request->partner_country_id;

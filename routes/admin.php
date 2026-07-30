@@ -35,9 +35,10 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StateController;
-use App\Http\Controllers\SubCasteController;
 use App\Http\Controllers\SunSignController;
 use App\Http\Controllers\MoonSignController;
+use App\Http\Controllers\GothramController;
+use App\Http\Controllers\ManglikController;
 use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\WalletController;
 
@@ -220,6 +221,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     // Annual Slary Range
     Route::resource('/annual-salaries', AnnualSalaryRangeyController::class)->except(['destroy']);
     Route::get('/annual-salaries/destroy/{id}', [AnnualSalaryRangeyController::class, 'destroy'])->name('annual-salaries.destroy');
+
+    // Gothram
+    Route::resource('/gothrams', GothramController::class)->except(['destroy']);
+    Route::get('/gothrams/destroy/{id}', [GothramController::class, 'destroy'])->name('gothrams.destroy');
+
+    // Manglik
+    Route::resource('/mangliks', ManglikController::class)->except(['destroy']);
+    Route::get('/mangliks/destroy/{id}', [ManglikController::class, 'destroy'])->name('mangliks.destroy');
 
     // Email Templates
     Route::resource('/email-templates', EmailTemplateController::class)->except(['update']);

@@ -184,6 +184,16 @@
                                         </a>
                                     </li>
                                 @endcan
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('gothrams.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['gothrams.edit']) }}">
+                                        <span class="aiz-side-nav-text">{{ translate('Gothrams') }}</span>
+                                    </a>
+                                </li>
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('mangliks.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['mangliks.edit']) }}">
+                                        <span class="aiz-side-nav-text">{{ translate('Manglik Options') }}</span>
+                                    </a>
+                                </li>
                                 @if(get_setting('additional_profile_section') == 'on' )
                                     @can('show_additional_profile_attributes')
                                         <li class="aiz-side-nav-item">
