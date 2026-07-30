@@ -704,6 +704,12 @@
                                 <th>{{ translate('Sub Caste') }}</th>
                                 <td>{{ $member->partner_expectations->sub_caste->name ?? '' }}</td>
                             </tr>
+                            @if(!empty($member->partner_expectations->additional_sub_caste))
+                            <tr>
+                                <th>{{ translate('Additional Sub Caste') }}</th>
+                                <td colspan="3">{{ $member->partner_expectations->additional_sub_caste }}</td>
+                            </tr>
+                            @endif
 
                             <tr>
                                 <th>{{ translate('Education') }}</th>
@@ -724,7 +730,13 @@
                             </tr>
                             <tr>
                                 <th>{{ translate('Diet') }}</th>
-                                <td>{{ !empty($member->partner_expectations->diet) ? attribute_text_format($member->partner_expectations->diet) : '' }}
+                                <td>
+                                    @php $diet_val = $member->partner_expectations->diet ?? ''; @endphp
+                                    @if($diet_val == 'veg' || $diet_val == 'Veg') {{ translate('Veg') }}
+                                    @elseif($diet_val == 'non_veg' || $diet_val == 'Non-Veg') {{ translate('Non-Veg') }}
+                                    @elseif($diet_val == 'dose_not_matter' || $diet_val == 'does_not_matter') {{ translate('Doesn’t matter') }}
+                                    @else {{ attribute_text_format($diet_val) }}
+                                    @endif
                                 </td>
 
                                 <th>{{ translate('Body Type') }}</th>
@@ -738,6 +750,12 @@
                                 <th></th>
                                 <td></td>
                             </tr>
+                            @if(!empty($member->partner_expectations->about_partner))
+                            <tr>
+                                <th>{{ translate('About Partner') }}</th>
+                                <td colspan="3">{{ $member->partner_expectations->about_partner }}</td>
+                            </tr>
+                            @endif
                         </table>
                     </div>
                 </div>
