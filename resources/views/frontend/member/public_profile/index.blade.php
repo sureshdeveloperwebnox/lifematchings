@@ -2037,6 +2037,13 @@
                                             <td>{{ $user->partner_expectations->sub_caste->name ?? '' }}
                                             </td>
                                         </tr>
+                                        @if(!empty($user->partner_expectations->additional_sub_caste))
+                                        <tr>
+                                            <th>{{ translate('Additional Sub Caste') }}</th>
+                                            <td colspan="3">{{ $user->partner_expectations->additional_sub_caste }}
+                                            </td>
+                                        </tr>
+                                        @endif
 
                                         <tr>
                                             <th>{{ translate('Education') }}</th>
@@ -2074,6 +2081,13 @@
                                             <th></th>
                                             <td></td>
                                         </tr>
+                                        @if(!empty($user->partner_expectations->about_partner))
+                                        <tr>
+                                            <th>{{ translate('About Partner') }}</th>
+                                            <td colspan="3">{{ $user->partner_expectations->about_partner }}
+                                            </td>
+                                        </tr>
+                                        @endif
                                     </table>
                                 </div>
                             </div>

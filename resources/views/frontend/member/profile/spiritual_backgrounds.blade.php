@@ -74,7 +74,9 @@
               <div class="col-md-6">
                   <label for="gothram">{{translate('Gothram')}}</label>
                   @php
-                      $db_gothrams = \App\Models\Gothram::orderBy('name', 'asc')->pluck('name')->toArray();
+                      $db_gothrams = \Illuminate\Support\Facades\Schema::hasTable('gothrams') 
+                          ? \App\Models\Gothram::orderBy('name', 'asc')->pluck('name')->toArray() 
+                          : [];
                       $gothram_options = !empty($db_gothrams) ? $db_gothrams : [
                           'Agastya', 'Angirasa', 'Atri', 'Bharadwaja', 'Bhrigu',
                           'Dhananjaya', 'Gargya', 'Gautama', 'Harita', 'Jamadagni',

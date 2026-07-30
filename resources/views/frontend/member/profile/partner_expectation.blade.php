@@ -199,7 +199,9 @@
                 <div class="col-md-6">
                     <label for="partner_manglik">{{translate('Manglik')}}</label>
                     @php
-                        $manglik_options = \App\Models\Manglik::all();
+                        $manglik_options = \Illuminate\Support\Facades\Schema::hasTable('mangliks') 
+                            ? \App\Models\Manglik::all() 
+                            : collect();
                         $partner_manglik = !empty($member->partner_expectations->manglik) ? $member->partner_expectations->manglik : "";
                     @endphp
                     <select class="form-control aiz-selectpicker" name="partner_manglik" required>
