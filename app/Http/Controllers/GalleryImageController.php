@@ -124,13 +124,14 @@ class GalleryImageController extends Controller
      */
     public function destroy($id)
     {
-        if(GalleryImage::destroy($id)){
-            flash(translate('Image deleted successfully'))->success();
-            return redirect()->route('gallery-image.index');
+        $gallery_image = GalleryImage::find($id);
+        if ($gallery_image && (Auth::user()->user_type == 'admin' || $gallery_image->user_id == Auth::user()->id)) {
+            if ($gallery_image->delete()) {
+                flash(translate('Image deleted successfully'))->success();
+                return redirect()->route('gallery-image.index');
+            }
         }
-        else {
-            flash(translate('Sorry! Something went wrong.'))->error();
-            return back();
-        }
+        flash(translate('Sorry! Something went wrong.'))->error();
+        return back();
     }
 }

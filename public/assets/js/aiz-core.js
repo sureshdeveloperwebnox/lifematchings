@@ -63,67 +63,63 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
             });
         },
         deleteUploaderFile: function () {
-            $(".aiz-uploader-delete").each(function () {
-                $(this).on("click", function (e) {
-                    e.preventDefault();
-                    var id = $(this).data("id");
-                    AIZ.uploader.data.clickedForDelete = id;
-                    $("#aizUploaderDelete").modal("show");
+            $(".aiz-uploader-delete").off("click").on("click", function (e) {
+                e.preventDefault();
+                var id = $(this).data("id");
+                AIZ.uploader.data.clickedForDelete = id;
+                $("#aizUploaderDelete").modal("show");
+            });
 
-                    $(".aiz-uploader-confirmed-delete").on("click", function (
-                        e
-                    ) {
-                        e.preventDefault();
-                        if (e.detail === 1) {
-                            var clickedForDeleteObject =
-                                AIZ.uploader.data.allFiles[
-                                    AIZ.uploader.data.allFiles.findIndex(
-                                        (x) =>
-                                            x.id ===
-                                            AIZ.uploader.data.clickedForDelete
-                                    )
-                                ];
-                            $.ajax({
-                                url:
-                                    AIZ.data.appUrl +
-                                    "/aiz-uploader/destroy/" +
-                                    AIZ.uploader.data.clickedForDelete,
-                                type: "DELETE",
-                                dataType: "JSON",
-                                data: {
-                                    id: AIZ.uploader.data.clickedForDelete,
-                                    _method: "DELETE",
-                                    _token: AIZ.data.csrf,
-                                },
-                                success: function () {
-                                    AIZ.uploader.data.selectedFiles = AIZ.uploader.data.selectedFiles.filter(
-                                        function (item) {
-                                            return (
-                                                item !==
-                                                AIZ.uploader.data
-                                                    .clickedForDelete
-                                            );
-                                        }
+            $(".aiz-uploader-confirmed-delete").off("click").on("click", function (e) {
+                e.preventDefault();
+                if (AIZ.uploader.data.clickedForDelete) {
+                    var clickedForDeleteObject =
+                        AIZ.uploader.data.allFiles[
+                            AIZ.uploader.data.allFiles.findIndex(
+                                (x) =>
+                                    x.id ===
+                                    AIZ.uploader.data.clickedForDelete
+                            )
+                        ];
+                    $.ajax({
+                        url:
+                            AIZ.data.appUrl +
+                            "/aiz-uploader/destroy/" +
+                            AIZ.uploader.data.clickedForDelete,
+                        type: "DELETE",
+                        dataType: "JSON",
+                        data: {
+                            id: AIZ.uploader.data.clickedForDelete,
+                            _method: "DELETE",
+                            _token: AIZ.data.csrf,
+                        },
+                        success: function () {
+                            AIZ.uploader.data.selectedFiles = AIZ.uploader.data.selectedFiles.filter(
+                                function (item) {
+                                    return (
+                                        item !==
+                                        AIZ.uploader.data
+                                            .clickedForDelete
                                     );
-                                    AIZ.uploader.data.selectedFilesObject = AIZ.uploader.data.selectedFilesObject.filter(
-                                        function (item) {
-                                            return (
-                                                item !== clickedForDeleteObject
-                                            );
-                                        }
+                                }
+                            );
+                            AIZ.uploader.data.selectedFilesObject = AIZ.uploader.data.selectedFilesObject.filter(
+                                function (item) {
+                                    return (
+                                        item !== clickedForDeleteObject
                                     );
-                                    AIZ.uploader.updateUploaderSelected();
-                                    AIZ.uploader.getAllUploads(
-                                        AIZ.data.appUrl +
-                                            "/aiz-uploader/get_uploaded_files"
-                                    );
-                                    AIZ.uploader.data.clickedForDelete = null;
-                                    $("#aizUploaderDelete").modal("hide");
-                                },
-                            });
-                        }
+                                }
+                            );
+                            AIZ.uploader.updateUploaderSelected();
+                            AIZ.uploader.getAllUploads(
+                                AIZ.data.appUrl +
+                                    "/aiz-uploader/get_uploaded_files"
+                            );
+                            AIZ.uploader.data.clickedForDelete = null;
+                            $("#aizUploaderDelete").modal("hide");
+                        },
                     });
-                });
+                }
             });
         },
         uploadSelect: function () {
@@ -413,24 +409,24 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                             data[i].selected +
                             '">' +
                             '<div class="aiz-file-box">' +
-                            // '<div class="dropdown-file">' +
-                            // '<a class="dropdown-link" data-toggle="dropdown">' +
-                            // '<i class="la la-ellipsis-v"></i>' +
-                            // "</a>" +
-                            // '<div class="dropdown-menu dropdown-menu-right">' +
-                            // '<a href="' +
-                            // AIZ.data.fileBaseUrl +
-                            // data[i].file_name +
-                            // '" target="_blank" download="' +
-                            // data[i].file_original_name +
-                            // "." +
-                            // data[i].extension +
-                            // '" class="dropdown-item"><i class="la la-download mr-2"></i>Download</a>' +
-                            // '<a href="#" class="dropdown-item aiz-uploader-delete" data-id="' +
-                            // data[i].id +
-                            // '"><i class="la la-trash mr-2"></i>Delete</a>' +
-                            // "</div>" +
-                            // "</div>" +
+                            '<div class="dropdown-file">' +
+                            '<a class="dropdown-link" data-toggle="dropdown">' +
+                            '<i class="la la-ellipsis-v"></i>' +
+                            "</a>" +
+                            '<div class="dropdown-menu dropdown-menu-right">' +
+                            '<a href="' +
+                            AIZ.data.fileBaseUrl +
+                            data[i].file_name +
+                            '" target="_blank" download="' +
+                            data[i].file_original_name +
+                            "." +
+                            data[i].extension +
+                            '" class="dropdown-item"><i class="la la-download mr-2"></i>Download</a>' +
+                            '<a href="#" class="dropdown-item aiz-uploader-delete text-danger" data-id="' +
+                            data[i].id +
+                            '"><i class="la la-trash mr-2 text-danger"></i>Delete</a>' +
+                            "</div>" +
+                            "</div>" +
                             '<div class="card card-file aiz-uploader-select" title="' +
                             data[i].file_original_name +
                             "." +

@@ -1906,10 +1906,7 @@
                                                                         {{ $user->families->mother_occupation ?? '' }}
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <th class="py-1">{{ translate('Sibling') }}</th>
-                                                                    <td class="py-1">{{ $user->families->sibling ?? '' }}</td>
-                                                                </tr>
+
                                                                 <tr>
                                                                     <th class="py-1">{{ translate('No. of Brother') }}</th>
                                                                     <td class="py-1">{{ $user->families->no_of_brothers ?? '' }}</td>

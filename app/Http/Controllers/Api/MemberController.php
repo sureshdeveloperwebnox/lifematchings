@@ -84,17 +84,13 @@ class MemberController extends Controller
             $age = $age_from + 1;
             $start = date('Y-m-d', strtotime("- $age years"));
             $user_ids = Member::where('birthday', '<=', $start)->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
         if (!empty($age_to)) {
             $age = $age_to + 1;
             $end = date('Y-m-d', strtotime("- $age years +1 day"));
             $user_ids = Member::where('birthday', '>=', $end)->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
 
         // Search by Member Code
@@ -105,9 +101,7 @@ class MemberController extends Controller
         // Sort by Matital Status
         if ($marital_status != null) {
             $user_ids = Member::where('marital_status_id', $marital_status)->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
 
         // Sort By religion
@@ -121,8 +115,9 @@ class MemberController extends Controller
             $user_ids = SpiritualBackground::where('religion_id', $religion_id)->pluck('user_id')->toArray();
             $users_query->whereIn('id', $user_ids);
         }
+
         // Profession
-        elseif (!empty($profession)) {
+        if (!empty($profession)) {
             $user_ids = Career::where('designation', 'like', '%' . $profession . '%')->pluck('user_id')->toArray();
             $users_query->whereIn('id', $user_ids);
         }
@@ -142,23 +137,17 @@ class MemberController extends Controller
         // Sort By Mother Tongue
         if ($mother_tongue != null) {
             $user_ids = Member::where('mothere_tongue', $mother_tongue)->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
 
         // Sort by Height
         if (!empty($min_height)) {
             $user_ids = PhysicalAttribute::where('height', '>=', $min_height)->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
         if (!empty($max_height)) {
             $user_ids = PhysicalAttribute::where('height', '<=', $max_height)->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
 
         // Sort by Sun Sign (Rasi)
@@ -172,9 +161,7 @@ class MemberController extends Controller
                     $query->orWhere('sun_sign', $sun_sign_name);
                 }
             })->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
 
         // Sort by Moon Sign (Natchathiram)
@@ -188,9 +175,7 @@ class MemberController extends Controller
                     $query->orWhere('moon_sign', $moon_sign_name);
                 }
             })->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
 
         // Sort by Lagnam
@@ -204,9 +189,7 @@ class MemberController extends Controller
                     $query->orWhere('lagnam', $lagnam_name);
                 }
             })->pluck('user_id')->toArray();
-            if (count($user_ids) > 0) {
-                $users_query->whereIn('id', $user_ids);
-            }
+            $users_query->whereIn('id', $user_ids);
         }
 
         $users_query = $users_query->get();

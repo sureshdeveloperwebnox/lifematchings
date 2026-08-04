@@ -188,19 +188,40 @@ class AizUploadController extends Controller
 
     public function destroy($id)
     {
-        try{
-            if(env('FILESYSTEM_DRIVER') == 's3'){
-                Storage::disk('s3')->delete(Upload::where('id', $id)->first()->file_name);
+        $upload = Upload::find($id);
+
+        if ($upload != null) {
+            if (Auth::user()->user_type == 'admin' || $upload->user_id == Auth::user()->id) {
+                try {
+                    if (env('FILESYSTEM_DRIVER') == 's3') {
+                        Storage::disk('s3')->delete($upload->file_name);
+                    } else {
+                        $file_path = public_path() . '/' . $upload->file_name;
+                        if (file_exists($file_path)) {
+                            @unlink($file_path);
+                        }
+                    }
+                    Upload::destroy($id);
+                    if (request()->ajax() || request()->wantsJson()) {
+                        return response()->json(['status' => 1, 'message' => translate('File deleted successfully')]);
+                    }
+                    flash(translate('File deleted successfully'))->success();
+                } catch (\Exception $e) {
+                    Upload::destroy($id);
+                    if (request()->ajax() || request()->wantsJson()) {
+                        return response()->json(['status' => 1, 'message' => translate('File deleted successfully')]);
+                    }
+                    flash(translate('File deleted successfully'))->success();
+                }
+            } else {
+                if (request()->ajax() || request()->wantsJson()) {
+                    return response()->json(['status' => 0, 'message' => translate('Unauthorized')], 403);
+                }
+                flash(translate('Unauthorized'))->error();
             }
-            else{
-                unlink(public_path().'/'.Upload::where('id', $id)->first()->file_name);
-            }
-            Upload::destroy($id);
-            flash(translate('File deleted successfully'))->success();
         }
-        catch(\Exception $e){
-            Upload::destroy($id);
-            flash(translate('File deleted successfully'))->success();
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json(['status' => 1]);
         }
         return back();
     }

@@ -612,17 +612,10 @@
                                 <th>{{ translate('Mother') }}</th>
                                 <td>{{ $member->families->mother ?? '' }}</td>
 
-                                <th>{{ translate('Mpther Occupation') }}</th>
+                                <th>{{ translate('Mother Occupation') }}</th>
                                 <td>{{ $member->families->mother_occupation ?? '' }}</td>
                             </tr>
 
-                            <tr>
-                                <th>{{ translate('Sibling') }}</th>
-                                <td>{{ $member->families->sibling ?? '' }}</td>
-
-                                <th>{{ translate('No. of Married') }}</th>
-                                <td>{{ $member->families->no_of_married ?? '' }}</td>
-                            </tr>
                             <tr>
                                 <th>{{ translate('No. of Brothers') }}</th>
                                 <td>{{ $member->families->no_of_brothers ?? '' }}</td>
@@ -631,18 +624,18 @@
                                 <td>{{ $member->families->no_of_sisters ?? '' }}</td>
                             </tr>
                             <tr>
+                                <th>{{ translate('No. of Married') }}</th>
+                                <td>{{ $member->families->no_of_married ?? '' }}</td>
+
                                 <th>{{ translate('No. of Unmarried') }}</th>
                                 <td>{{ $member->families->no_of_unmarried ?? '' }}</td>
-
-                                <th>{{ translate('Family Value') }}</th>
-                                <td>{{ $member->families->family_value ?? '' }}</td>
                             </tr>
                             <tr>
+                                <th>{{ translate('Family Value') }}</th>
+                                <td>{{ $member->families->family_value ?? '' }}</td>
+
                                 <th>{{ translate('Family Status') }}</th>
                                 <td>{{ $member->families->family_status ?? '' }}</td>
-
-                                <th></th>
-                                <td></td>
                             </tr>
 
                             <tr>

@@ -36,20 +36,27 @@
             </a>
         </div>
     </div>
-    <div class="card-columns">
+    <div class="row gutters-10">
         @foreach ($gallery_images as $key => $gallery_image)
-          <div class="card hov-overlay">
-            <img src="{{ uploaded_asset($gallery_image->image) }}" class="card-img" alt="{{ translate('Image') }}">
-            <div class="overlay">
-                <div class="absolute-center">
-                    <a target="_blank" href="{{ uploaded_asset($gallery_image->image) }}" class="btn btn-light btn-icon btn-circle btn-sm" title="{{ translate('View') }}">
-                        <i class="las la-search"></i>
-                    </a>
-                    <a onclick="remove_shortlist('{{ route('gallery_image.destroy', $gallery_image->id) }}')" class="btn btn-light btn-icon btn-circle btn-sm" title="{{ translate('Remove') }}">
-                        <i class="las la-trash-alt"></i>
-                    </a>
-                </div>
-            </div>
+          <div class="col-md-4 col-sm-6 mb-3">
+              <div class="card shadow-sm hov-shadow-lg position-relative overflow-hidden">
+                  <div class="card-file-thumb position-relative" style="height: 220px; overflow: hidden; background: #f5f6fa;">
+                      <img src="{{ uploaded_asset($gallery_image->image) }}" class="img-fit" alt="{{ translate('Image') }}" style="width: 100%; height: 100%; object-fit: cover;">
+                      <div class="position-absolute" style="top: 8px; right: 8px; z-index: 2;">
+                          <button type="button" onclick="remove_shortlist('{{ route('gallery_image.destroy', $gallery_image->id) }}')" class="btn btn-danger btn-icon btn-circle btn-sm shadow" title="{{ translate('Delete Image') }}">
+                              <i class="las la-trash-alt"></i>
+                          </button>
+                      </div>
+                  </div>
+                  <div class="card-footer p-2 text-center bg-white border-top-0 d-flex justify-content-between align-items-center">
+                      <a target="_blank" href="{{ uploaded_asset($gallery_image->image) }}" class="btn btn-soft-primary btn-sm btn-block mr-1">
+                          <i class="las la-search mr-1"></i>{{ translate('View') }}
+                      </a>
+                      <button type="button" onclick="remove_shortlist('{{ route('gallery_image.destroy', $gallery_image->id) }}')" class="btn btn-soft-danger btn-sm btn-block ml-1 mt-0">
+                          <i class="las la-trash-alt mr-1"></i>{{ translate('Delete') }}
+                      </button>
+                  </div>
+              </div>
           </div>
         @endforeach
     </div>

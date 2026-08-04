@@ -39,6 +39,34 @@
             </div>
 
             <div class="col-md-6 mt-3">
+                <label for="no_of_brothers">{{translate('No. of Brothers')}}</label>
+                @php
+                    $sel_brothers = isset($member->families->no_of_brothers) && $member->families->no_of_brothers !== '' ? $member->families->no_of_brothers : 0;
+                @endphp
+                <select class="form-control aiz-selectpicker" name="no_of_brothers" id="no_of_brothers" onchange="totalSibling()" data-live-search="true" data-selected="{{ $sel_brothers }}" required>
+                    @for($i=0; $i<=20; $i++)
+                        <option value="{{ $i }}" {{ (string)$sel_brothers === (string)$i ? 'selected' : '' }}>{{ $i }}</option>
+                    @endfor
+                </select>
+                @error('no_of_brothers')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="col-md-6 mt-3">
+                <label for="no_of_sisters">{{translate('No. of Sister')}}</label>
+                @php
+                    $sel_sisters = isset($member->families->no_of_sisters) && $member->families->no_of_sisters !== '' ? $member->families->no_of_sisters : 0;
+                @endphp
+                <select class="form-control aiz-selectpicker" name="no_of_sisters" id="no_of_sisters" onchange="totalSibling()" data-live-search="true" data-selected="{{ $sel_sisters }}" required>
+                    @for($i=0; $i<=20; $i++)
+                        <option value="{{ $i }}" {{ (string)$sel_sisters === (string)$i ? 'selected' : '' }}>{{ $i }}</option>
+                    @endfor
+                </select>
+                @error('no_of_sisters')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="col-md-6 mt-3">
                 <label for="no_of_married">{{translate('No. of Married')}}</label>
                 @php
                     $sel_married = isset($member->families->no_of_married) && $member->families->no_of_married !== '' ? $member->families->no_of_married : 0;
@@ -93,34 +121,6 @@
                     <option value="Affluent" {{ $sel_fam_status == 'Affluent' ? 'selected' : '' }}>{{translate('Affluent')}}</option>
                 </select>
                 @error('family_status')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="col-md-6 mt-3">
-                <label for="no_of_brothers">{{translate('No. of Brothers')}}</label>
-                @php
-                    $sel_brothers = isset($member->families->no_of_brothers) && $member->families->no_of_brothers !== '' ? $member->families->no_of_brothers : 0;
-                @endphp
-                <select class="form-control aiz-selectpicker" name="no_of_brothers" id="no_of_brothers" onchange="totalSibling()" data-live-search="true" data-selected="{{ $sel_brothers }}" required>
-                    @for($i=0; $i<=20; $i++)
-                        <option value="{{ $i }}" {{ (string)$sel_brothers === (string)$i ? 'selected' : '' }}>{{ $i }}</option>
-                    @endfor
-                </select>
-                @error('no_of_brothers')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="col-md-6 mt-3">
-                <label for="no_of_sisters">{{translate('No. of Sister')}}</label>
-                @php
-                    $sel_sisters = isset($member->families->no_of_sisters) && $member->families->no_of_sisters !== '' ? $member->families->no_of_sisters : 0;
-                @endphp
-                <select class="form-control aiz-selectpicker" name="no_of_sisters" id="no_of_sisters" onchange="totalSibling()" data-live-search="true" data-selected="{{ $sel_sisters }}" required>
-                    @for($i=0; $i<=20; $i++)
-                        <option value="{{ $i }}" {{ (string)$sel_sisters === (string)$i ? 'selected' : '' }}>{{ $i }}</option>
-                    @endfor
-                </select>
-                @error('no_of_sisters')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
