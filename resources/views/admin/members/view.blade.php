@@ -671,7 +671,7 @@
                             </tr>
 
                             <tr>
-                                @if(optional(optional($member->partner_expectations)->marital_status)->name != 'Never Married')
+                                @if(strtolower(optional(optional($member->partner_expectations)->marital_status)->name) != 'never married')
                                     <th>{{ translate('Children Acceptable') }}</th>
                                     <td>{{ !empty($member->partner_expectations->children_acceptable) ? attribute_text_format($member->partner_expectations->children_acceptable) : '' }}</td>
                                 @else
