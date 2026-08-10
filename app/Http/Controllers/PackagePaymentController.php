@@ -192,6 +192,7 @@ class PackagePaymentController extends Controller
         } else {
             $member->package_validity = date('Y-m-d', strtotime($member->package_validity . ' +' . $package->validity . 'days'));
         }
+        $member->expiry_notified = 0;
 
         if ($member->save()) {
             $user->membership = 2;

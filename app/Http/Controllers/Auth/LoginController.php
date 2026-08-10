@@ -298,7 +298,13 @@ class LoginController extends Controller
 
     public function authenticated()
     {
-        if (auth()->user()->user_type == 'admin' || auth()->user()->user_type == 'staff') {
+        $user = auth()->user();
+        if ($user) {
+            $user->last_login_at = date('Y-m-d H:i:s');
+            $user->save();
+        }
+
+        if ($user->user_type == 'admin' || $user->user_type == 'staff') {
             CoreComponentRepository::instantiateShopRepository();
             return redirect()->route('admin.dashboard');
         } else {

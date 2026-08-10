@@ -19,10 +19,13 @@
   				<div class="col text-center text-md-left">
   					<h5 class="mb-md-0 h6">{{ translate('All members') }}</h5>
   				</div>
-  				<div class="col-md-3">
+  				<div class="col-md-5 d-flex align-items-center justify-content-end">
+  					<a href="javascript:void(0);" data-toggle="modal" data-target="#export-members-modal" class="btn btn-sm btn-outline-primary mr-2">
+  						<i class="las la-file-export mr-1"></i>{{ translate('Export Members CSV') }}
+  					</a>
   					<form class="" id="sort_members" action="" method="GET">
   						<div class="input-group input-group-sm">
-  					  		<input type="text" class="form-control" id="search" name="search"@isset($sort_search) value="{{ $sort_search }}" @endisset placeholder="{{ translate('Type first name / last name / ID & Enter') }}">
+  					  		<input type="text" class="form-control" id="search" name="search"@isset($sort_search) value="{{ $sort_search }}" @endisset placeholder="{{ translate('Type name / ID & Enter') }}">
   						</div>
   					</form>
   				</div>
@@ -264,6 +267,47 @@
     </div>
 
     @include('modals.create_edit_modal')
+    <div class="modal fade" id="export-members-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h6">{{ translate('Export Members CSV') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                </div>
+                <form action="{{ route('members.export') }}" method="GET">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>{{ translate('Filter by Month') }}</label>
+                            <input type="month" name="month" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ translate('Filter by Caste') }}</label>
+                            @php $castes = \App\Models\Caste::all(); @endphp
+                            <select name="caste_id" class="form-control aiz-selectpicker" data-live-search="true">
+                                <option value="">{{ translate('All Castes') }}</option>
+                                @foreach($castes as $caste)
+                                    <option value="{{ $caste->id }}">{{ $caste->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ translate('Filter by Membership') }}</label>
+                            <select name="membership" class="form-control aiz-selectpicker">
+                                <option value="">{{ translate('All Memberships') }}</option>
+                                <option value="1">{{ translate('Free') }}</option>
+                                <option value="2">{{ translate('Premium') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">{{ translate('Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ translate('Export CSV') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     @include('modals.delete_modal')
 @endsection
 

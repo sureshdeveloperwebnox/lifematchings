@@ -1,21 +1,8 @@
--- Database Update Script for Production
+-- Database Update Script for Today's Changes
 -- Project: Life Matchings
--- Date: 2026-07-29
+-- Date: 2026-08-10
 
--- 1. Add Contact No 2 (phone2) column to users table if not exists
-ALTER TABLE `users` ADD COLUMN `phone2` VARCHAR(255) NULL AFTER `phone`;
-
--- 2. Modify height column in physical_attributes table to VARCHAR(50) for string values (e.g. 5' 6")
-ALTER TABLE `physical_attributes` MODIFY COLUMN `height` VARCHAR(50) NULL;
-
--- 3. Add Gothram column to spiritual_backgrounds table
-ALTER TABLE `spiritual_backgrounds` ADD COLUMN `gothram` VARCHAR(255) NULL AFTER `sub_caste_id`;
-
--- 4. Add additional_sub_caste and about_partner columns to partner_expectations table
-ALTER TABLE `partner_expectations` ADD COLUMN `additional_sub_caste` VARCHAR(255) NULL AFTER `sub_caste_id`;
-ALTER TABLE `partner_expectations` ADD COLUMN `about_partner` TEXT NULL AFTER `manglik`;
-
--- 5. Create gothrams and mangliks tables for Admin Profile Attributes
+-- 1. Create gothrams and mangliks tables for Admin Profile Attributes
 CREATE TABLE IF NOT EXISTS `gothrams` (
   `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL,
@@ -32,13 +19,13 @@ CREATE TABLE IF NOT EXISTS `mangliks` (
   `deleted_at` TIMESTAMP NULL
 );
 
--- Initial seed for mangliks
+-- Seed initial values for mangliks
 INSERT IGNORE INTO `mangliks` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Yes', NOW(), NOW()),
 (2, 'No', NOW(), NOW()),
 (3, 'Does not matter', NOW(), NOW());
 
--- Initial seed for gothrams
+-- Seed initial values for gothrams
 INSERT IGNORE INTO `gothrams` (`name`, `created_at`, `updated_at`) VALUES
 ('Agastya', NOW(), NOW()),
 ('Angirasa', NOW(), NOW()),
@@ -71,14 +58,14 @@ INSERT IGNORE INTO `gothrams` (`name`, `created_at`, `updated_at`) VALUES
 ('Vishnuvardhana', NOW(), NOW()),
 ('Viswamitra', NOW(), NOW()),
 ('Other / Don\'t Know', NOW(), NOW());
--- 8. Add expiry_notified column to members table if not exists
+
+-- 2. Add expiry_notified column to members table if not exists
 ALTER TABLE `members` ADD COLUMN `expiry_notified` TINYINT DEFAULT 0 AFTER `package_validity`;
 
--- 9. Insert Email Templates for Package Expiration
+-- 3. Insert Email Templates for Package Expiration
 INSERT IGNORE INTO `email_templates` (`identifier`, `subject`, `body`, `status`, `created_at`, `updated_at`) VALUES
 ('package_expired_user_email', 'Your Package Has Expired - Life Matchings', '<p>Dear [[name]],</p><p>Your subscription package (<strong>[[package_name]]</strong>) on [[site_name]] has expired on [[expiry_date]].</p><p>Please upgrade or renew your package to continue enjoying premium services.</p><p>Regards,<br>[[from]]</p>', 1, NOW(), NOW()),
 ('package_expired_admin_email', 'Member Package Expired Alert - [[member_name]]', '<p>Hello Admin,</p><p>The package for member <strong>[[member_name]]</strong> (Email: [[email]]) has expired on [[expiry_date]].</p><p>You can view member details here: <a href="[[profile_link]]">[[profile_link]]</a></p><p>Regards,<br>[[from]]</p>', 1, NOW(), NOW());
 
--- 10. Add last_login_at timestamp column to users table if not exists
+-- 4. Add last_login_at timestamp column to users table
 ALTER TABLE `users` ADD COLUMN `last_login_at` TIMESTAMP NULL AFTER `remember_token`;
-

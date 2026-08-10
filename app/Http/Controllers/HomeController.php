@@ -129,6 +129,33 @@ class HomeController extends Controller
         $user = auth()->user();
         if ($user->user_type == 'member') {
             
+            if ($user->member && $user->member->package_validity && $user->member->package_validity < date('Y-m-d') && !$user->member->expiry_notified) {
+                \App\Utility\EmailUtility::package_expired_user_email($user);
+                \App\Utility\NotificationUtility::set_notification(
+                    'package_expired',
+                    'Your subscription package has expired. Please renew to access all features.',
+                    route('packages.index'),
+                    $user->id,
+                    $user->id,
+                    'member'
+                );
+
+                $admins = \App\Models\User::where('user_type', 'admin')->get();
+                foreach ($admins as $admin) {
+                    \App\Utility\EmailUtility::package_expired_admin_email($user, $admin);
+                    \App\Utility\NotificationUtility::set_notification(
+                        'package_expired_admin',
+                        'Package expired for member: ' . $user->first_name . ' ' . $user->last_name,
+                        route('members.show', $user->id),
+                        $user->id,
+                        $admin->id,
+                        'admin'
+                    );
+                }
+                $user->member->expiry_notified = 1;
+                $user->member->save();
+            }
+
             if($user->blocked == 1){
                 return redirect()->route('user.blocked');
             }

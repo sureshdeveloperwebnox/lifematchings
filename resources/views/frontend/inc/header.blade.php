@@ -63,22 +63,25 @@
                             @endphp
                             <a href="javascript:void(0)" class="dropdown-toggle text-reset no-arrow p-0"
                                 data-toggle="dropdown" data-display="static">
-                                <i class="las la-bell fs-16 opacity-60"></i>
+                                <i class="las la-bell fs-20 font-weight-bold opacity-100 text-primary"></i>
                                 @if($unseen_notification > 0)
                                 <span class="badge badge-dot badge-sm badge-status no-border badge-primary"></span>
                                 @endif
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg py-0">
-                                <div class="p-3 bg-light border-bottom">
-                                    <h6 class="mb-0">{{ translate('Notifications') }}</h6>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg p-0 shadow-lg border-0" style="width: 340px; max-width: 90vw;">
+                                <div class="p-3 bg-light border-bottom d-flex align-items-center justify-content-between">
+                                    <h6 class="mb-0 font-weight-bold text-dark fs-14">{{ translate('Notifications') }}</h6>
+                                    @if($unseen_notification > 0)
+                                    <span class="badge badge-soft-primary badge-pill">{{ $unseen_notification }} {{ translate('New') }}</span>
+                                    @endif
                                 </div>
-                                <ul class="list-group list-group-raw c-scrollbar-light"
-                                    style="overflow-y:auto;max-height:300px;">
+                                <ul class="list-group list-group-raw c-scrollbar-light m-0 p-0"
+                                    style="overflow-y:auto; overflow-x:hidden; max-height:350px;">
                                     @include('frontend.inc.notification')
                                 </ul>
-                                <div class="border-top">
+                                <div class="p-2 border-top bg-light text-center">
                                     <a href="{{ route('frontend.notifications') }}"
-                                        class="btn text-reset btn-block">{{ translate('View All Notifications') }}</a>
+                                        class="btn btn-sm btn-link text-primary font-weight-bold py-1">{{ translate('View All Notifications') }}</a>
                                 </div>
                             </div>
                         </li>
@@ -89,7 +92,7 @@
                         <li class="list-inline-item dropdown d-flex align-items-center ml-3">
                             <a href="javascript:void(0)" class="dropdown-toggle text-reset no-arrow p-0"
                                 data-toggle="dropdown" data-display="static">
-                                <i class="las la-envelope fs-16 opacity-60"></i>
+                                <i class="las la-envelope fs-20 font-weight-bold opacity-100 text-primary"></i>
                                 @if($unseen_chat_thread_count > 0)
                                 <span class="badge badge-dot badge-sm badge-status no-border badge-primary"></span>
                                 @endif

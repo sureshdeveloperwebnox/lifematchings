@@ -68,6 +68,35 @@
                 </div>
             </div>
         </div>
+
+        <div class="row gutters-10 mb-3">
+            <div class="col-md-6">
+                <div class="bg-white p-3 rounded shadow-sm d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="opacity-60 fs-13 d-block text-uppercase fw-600">{{ translate('Daily Active Member Logins') }}</span>
+                        <div class="h3 fw-700 mb-0 text-primary">
+                            {{ \App\Models\User::where('user_type','member')->whereDate('last_login_at', \Carbon\Carbon::today())->count() }}
+                        </div>
+                    </div>
+                    <div class="btn btn-soft-primary btn-icon btn-circle lg">
+                        <i class="las la-user-check fs-24"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="bg-white p-3 rounded shadow-sm d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="opacity-60 fs-13 d-block text-uppercase fw-600">{{ translate('Weekly Active Member Logins') }}</span>
+                        <div class="h3 fw-700 mb-0 text-info">
+                            {{ \App\Models\User::where('user_type','member')->where('last_login_at', '>=', \Carbon\Carbon::now()->subDays(7))->count() }}
+                        </div>
+                    </div>
+                    <div class="btn btn-soft-info btn-icon btn-circle lg">
+                        <i class="las la-users fs-24"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row gutters-10">
             <div class="col-xxl-8 col-xl-7">
                 <div class="card shadow-sm">

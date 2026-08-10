@@ -15,9 +15,9 @@
                 @endphp
             @endif
             @if ($check == 'done' && !empty($user_data))
-                <li class="list-group-item d-flex justify-content-between align-items-start hov-bg-soft-primary">
-                    <a href="{{ route('notification_view', $notification->id) }}" class="media text-inherit">
-                        <span class="avatar avatar-sm mr-3">
+                <li class="list-group-item p-3 hov-bg-soft-primary border-bottom">
+                    <a href="{{ route('notification_view', $notification->id) }}" class="d-flex align-items-center text-inherit w-100 text-decoration-none">
+                        <span class="avatar avatar-sm mr-3 flex-shrink-0">
                             @php
                                 $avatar_image = $user_data->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
                                 $profile_picture_show = show_profile_picture($user_data);
@@ -25,20 +25,20 @@
                             <img @if ($profile_picture_show) src="{{ uploaded_asset($user_data->photo) }}"
                             @else
                             src="{{ static_asset($avatar_image) }}" @endif
+                                class="rounded-circle"
+                                style="width:40px;height:40px;object-fit:cover;"
                                 onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';">
                         </span>
-                        <div class="media-body">
-                            <p class="mb-1">{{ $user_data->first_name . ' ' . $user_data->last_name }}</p>
-                            <small class="text-muted">
+                        <div class="flex-grow-1 minw-0 pr-2">
+                            <h6 class="mb-1 fs-13 font-weight-bold text-dark text-truncate">{{ $user_data->first_name . ' ' . $user_data->last_name }}</h6>
+                            <p class="mb-0 fs-12 text-muted text-wrap" style="line-height:1.4;word-break:break-word;">
                                 {{ $notify_data->message }}
-                            </small>
+                            </p>
                         </div>
+                        @if ($notification->read_at == null)
+                            <span class="badge badge-dot badge-circle badge-primary flex-shrink-0 ml-auto" style="width:8px;height:8px;"></span>
+                        @endif
                     </a>
-                    @if ($notification->read_at == null)
-                        <button class="btn p-0">
-                            <span class="badge badge-md  badge-dot badge-circle badge-primary"></span>
-                        </button>
-                    @endif
                 </li>
             @endif
         @endforeach

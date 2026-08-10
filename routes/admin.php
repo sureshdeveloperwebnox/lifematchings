@@ -79,6 +79,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::resource('members', MemberController::class)->except(['index', 'destroy']);
     Route::controller(MemberController::class)->group(function () {
         Route::get('/members/member_list/{id}', 'index')->name('members.index');
+        Route::get('/members/export', 'export')->name('members.export');
         Route::post('/members/block', 'block')->name('members.block');
         Route::post('/members/blocking_reason', 'blocking_reason')->name('members.blocking_reason');
         Route::get('/members/login/{id}', 'login')->name('members.login');

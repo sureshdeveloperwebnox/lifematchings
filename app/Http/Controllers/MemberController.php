@@ -131,6 +131,64 @@ class MemberController extends Controller
         return view('admin.members.index', compact('members', 'sort_search'));
     }
 
+    public function export(Request $request)
+    {
+        $members = User::latest()->where('user_type', 'member');
+
+        if ($request->filled('month')) {
+            $month = $request->month; // YYYY-MM
+            $dateParts = explode('-', $month);
+            if (count($dateParts) == 2) {
+                $members->whereYear('created_at', $dateParts[0])->whereMonth('created_at', $dateParts[1]);
+            }
+        }
+
+        if ($request->filled('caste_id')) {
+            $caste_id = $request->caste_id;
+            $user_ids = SpiritualBackground::where('caste_id', $caste_id)->pluck('user_id')->toArray();
+            $members->whereIn('id', $user_ids);
+        }
+
+        if ($request->filled('membership')) {
+            $members->where('membership', $request->membership);
+        }
+
+        $list = $members->get();
+
+        $fileName = 'members_export_' . date('Y-m-d_H-i-s') . '.csv';
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $callback = function() use ($list) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['ID', 'Member Code', 'Name', 'Email', 'Phone', 'Gender', 'Religion', 'Caste', 'Membership', 'Registered On', 'Last Login']);
+
+            foreach ($list as $user) {
+                fputcsv($file, [
+                    $user->id,
+                    $user->code,
+                    $user->first_name . ' ' . $user->last_name,
+                    $user->email,
+                    $user->phone,
+                    optional($user->member)->gender == 1 ? 'Male' : (optional($user->member)->gender == 2 ? 'Female' : ''),
+                    optional(optional($user->spiritual_backgrounds)->religion)->name ?? '',
+                    optional(optional($user->spiritual_backgrounds)->caste)->name ?? '',
+                    $user->membership == 2 ? 'Premium' : 'Free',
+                    $user->created_at ? $user->created_at->format('Y-m-d H:i:s') : '',
+                    $user->last_login_at ? date('Y-m-d H:i:s', strtotime($user->last_login_at)) : 'Never'
+                ]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

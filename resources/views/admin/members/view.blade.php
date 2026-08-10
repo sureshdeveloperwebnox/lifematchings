@@ -640,19 +640,8 @@
 
                             <tr>
                                 <th>{{ translate('About Parents') }}</th>
-                                <td>{{ $member->families->about_parents ?? '' }}</td>
-
-                                <th>{{ translate('About Siblings') }}</th>
-                                <td>{{ $member->families->about_siblings ?? '' }}</td>
+                                <td colspan="3">{{ $member->families->about_parents ?? '' }}</td>
                             </tr>
-                            <tr>
-                                <th>{{ translate('About Relatives') }}</th>
-                                <td>{{ $member->families->about_relatives ?? '' }}</td>
-
-                                <th></th>
-                                <td></td>
-                            </tr>
-
                         </table>
                     </div>
                 </div>
@@ -682,9 +671,13 @@
                             </tr>
 
                             <tr>
-                                <th>{{ translate('Children Acceptable') }}</th>
-                                <td>{{ !empty($member->partner_expectations->children_acceptable) ? attribute_text_format($member->partner_expectations->children_acceptable) : '' }}
-                                </td>
+                                @if(optional(optional($member->partner_expectations)->marital_status)->name != 'Never Married')
+                                    <th>{{ translate('Children Acceptable') }}</th>
+                                    <td>{{ !empty($member->partner_expectations->children_acceptable) ? attribute_text_format($member->partner_expectations->children_acceptable) : '' }}</td>
+                                @else
+                                    <th></th>
+                                    <td></td>
+                                @endif
 
                                 <th>{{ translate('Religion') }}</th>
                                 <td>{{ $member->partner_expectations->religion->name ?? '' }}</td>
