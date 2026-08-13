@@ -76,10 +76,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::get('/contact-us/destroy/{id}', [ContactUsController::class, 'destroy'])->name('contact-us.delete');
 
     // Member Manage
-    Route::resource('members', MemberController::class)->except(['index', 'destroy']);
     Route::controller(MemberController::class)->group(function () {
-        Route::get('/members/member_list/{id}', 'index')->name('members.index');
         Route::get('/members/export', 'export')->name('members.export');
+        Route::get('/members/member_list/{id}', 'index')->name('members.index');
         Route::post('/members/block', 'block')->name('members.block');
         Route::post('/members/blocking_reason', 'blocking_reason')->name('members.blocking_reason');
         Route::get('/members/login/{id}', 'login')->name('members.login');
@@ -96,13 +95,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
         Route::get('/member/approve-verification/{id}', 'approve_verification')->name('member.approve_verification');
         Route::get('/member/reject-verification/{id}', 'reject_verification')->name('member.reject_verification');
 
-
         // member's package manage
         Route::post('/members/package_info', 'package_info')->name('members.package_info');
         Route::post('/members/get_package', 'get_package')->name('members.get_package');
         Route::post('/members/package_do_update/{id}', 'package_do_update')->name('members.package_do_update');
         Route::post('/members/wallet-balance-update', 'member_wallet_balance_update')->name('member.wallet_balance_update');
     });
+    Route::resource('members', MemberController::class)->except(['index', 'destroy']);
 
     Route::controller(ReportedUserController::class)->group(function () {
         Route::get('/reported-members/{id}', 'reported_members')->name('reported_members');

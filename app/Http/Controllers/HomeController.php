@@ -125,9 +125,12 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-      
         $user = auth()->user();
-        if ($user->user_type == 'member') {
+        if ($user && ($user->user_type == 'admin' || $user->user_type == 'staff')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if ($user && $user->user_type == 'member') {
             
             if ($user->member && $user->member->package_validity && $user->member->package_validity < date('Y-m-d') && !$user->member->expiry_notified) {
                 \App\Utility\EmailUtility::package_expired_user_email($user);
@@ -462,7 +465,7 @@ class HomeController extends Controller
                     // Profile viewed Notification for member
                     try {
                         $notify_type = 'profile_viewed';
-                        $id = unique_notify_id();
+                        $notify_id = unique_notify_id();
                         $notify_by = $authUser->id;
                         $info_id = $user->id;
                         $message = $authUser->first_name . ' ' . $authUser->last_name . ' ' . translate(' has viewed your profile.');
@@ -475,8 +478,8 @@ class HomeController extends Controller
                         }
                         // end of fcm
         
-                        Notification::send($user, new DbStoreNotification($notify_type, $id, $notify_by, $info_id, $message, $route));
-                    } catch (\Exception $e) {
+                        Notification::send($user, new DbStoreNotification($notify_type, $notify_id, $notify_by, $info_id, $message, $route));
+                    } catch (\Throwable $e) {
                         //
                     }
                 //}

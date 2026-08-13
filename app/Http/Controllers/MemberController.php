@@ -133,60 +133,91 @@ class MemberController extends Controller
 
     public function export(Request $request)
     {
-        $members = User::latest()->where('user_type', 'member');
+        try {
+            $members = User::latest()
+                ->where('user_type', 'member')
+                ->with(['member', 'spiritual_backgrounds.religion', 'spiritual_backgrounds.caste']);
 
-        if ($request->filled('month')) {
-            $month = $request->month; // YYYY-MM
-            $dateParts = explode('-', $month);
-            if (count($dateParts) == 2) {
-                $members->whereYear('created_at', $dateParts[0])->whereMonth('created_at', $dateParts[1]);
+            if ($request->filled('month')) {
+                $month = $request->month; // YYYY-MM
+                $dateParts = explode('-', $month);
+                if (count($dateParts) == 2) {
+                    $members->whereYear('created_at', $dateParts[0])->whereMonth('created_at', $dateParts[1]);
+                }
             }
-        }
 
-        if ($request->filled('caste_id')) {
-            $caste_id = $request->caste_id;
-            $user_ids = SpiritualBackground::where('caste_id', $caste_id)->pluck('user_id')->toArray();
-            $members->whereIn('id', $user_ids);
-        }
-
-        if ($request->filled('membership')) {
-            $members->where('membership', $request->membership);
-        }
-
-        $list = $members->get();
-
-        $fileName = 'members_export_' . date('Y-m-d_H-i-s') . '.csv';
-        $headers = [
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$fileName",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        ];
-
-        $callback = function() use ($list) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, ['ID', 'Member Code', 'Name', 'Email', 'Phone', 'Gender', 'Religion', 'Caste', 'Membership', 'Registered On', 'Last Login']);
-
-            foreach ($list as $user) {
-                fputcsv($file, [
-                    $user->id,
-                    $user->code,
-                    $user->first_name . ' ' . $user->last_name,
-                    $user->email,
-                    $user->phone,
-                    optional($user->member)->gender == 1 ? 'Male' : (optional($user->member)->gender == 2 ? 'Female' : ''),
-                    optional(optional($user->spiritual_backgrounds)->religion)->name ?? '',
-                    optional(optional($user->spiritual_backgrounds)->caste)->name ?? '',
-                    $user->membership == 2 ? 'Premium' : 'Free',
-                    $user->created_at ? $user->created_at->format('Y-m-d H:i:s') : '',
-                    $user->last_login_at ? date('Y-m-d H:i:s', strtotime($user->last_login_at)) : 'Never'
-                ]);
+            if ($request->filled('caste_id')) {
+                $caste_id = $request->caste_id;
+                $user_ids = SpiritualBackground::where('caste_id', $caste_id)->pluck('user_id')->toArray();
+                $members->whereIn('id', $user_ids);
             }
-            fclose($file);
-        };
 
-        return response()->stream($callback, 200, $headers);
+            if ($request->filled('membership')) {
+                $members->where('membership', $request->membership);
+            }
+
+            $list = $members->get();
+            $fileName = 'members_export_' . date('Y-m-d_H-i-s') . '.csv';
+
+            $callback = function() use ($list) {
+                $file = fopen('php://output', 'w');
+                // UTF-8 BOM for Excel compatibility
+                fputs($file, "\xEF\xBB\xBF");
+                fputcsv($file, ['ID', 'Member Code', 'Name', 'Email', 'Phone', 'Gender', 'Religion', 'Caste', 'Membership', 'Registered On', 'Last Login']);
+
+                foreach ($list as $user) {
+                    $gender = '';
+                    if ($user->member) {
+                        if ($user->member->gender == 1) {
+                            $gender = 'Male';
+                        } elseif ($user->member->gender == 2) {
+                            $gender = 'Female';
+                        }
+                    }
+
+                    $religion = optional(optional($user->spiritual_backgrounds)->religion)->name ?? '';
+                    $caste = optional(optional($user->spiritual_backgrounds)->caste)->name ?? '';
+
+                    $registered_on = '';
+                    if (!empty($user->created_at)) {
+                        $registered_on = $user->created_at instanceof \Carbon\CarbonInterface 
+                            ? $user->created_at->format('Y-m-d H:i:s') 
+                            : date('Y-m-d H:i:s', strtotime((string)$user->created_at));
+                    }
+
+                    $last_login = 'Never';
+                    if (!empty($user->last_login_at)) {
+                        $last_login = $user->last_login_at instanceof \Carbon\CarbonInterface 
+                            ? $user->last_login_at->format('Y-m-d H:i:s') 
+                            : date('Y-m-d H:i:s', strtotime((string)$user->last_login_at));
+                    }
+
+                    fputcsv($file, [
+                        (string) $user->id,
+                        (string) ($user->code ?? ''),
+                        trim((string) ($user->first_name ?? '') . ' ' . (string) ($user->last_name ?? '')),
+                        (string) ($user->email ?? ''),
+                        (string) ($user->phone ?? ''),
+                        (string) $gender,
+                        (string) $religion,
+                        (string) $caste,
+                        $user->membership == 2 ? 'Premium' : 'Free',
+                        (string) $registered_on,
+                        (string) $last_login
+                    ]);
+                }
+                fclose($file);
+            };
+
+            return response()->streamDownload($callback, $fileName, [
+                "Content-Type" => "text/csv; charset=UTF-8",
+                "Cache-Control" => "no-store, no-cache",
+            ]);
+        } catch (\Throwable $e) {
+            \Log::error('Member Export Exception: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+            flash(translate('Export failed: ') . $e->getMessage())->error();
+            return back();
+        }
     }
 
     /**

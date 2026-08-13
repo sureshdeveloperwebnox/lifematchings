@@ -18,7 +18,7 @@
                                         $profile_match = \App\Models\ProfileMatch::where('user_id', Auth::user()->id)
                                             ->where('match_id', $user->id)
                                             ->first();
-                                        if (!empty($profile_match) && Auth::user()->member->auto_profile_match == 1) {
+                                        if (!empty($profile_match) && !empty(Auth::user()->member) && Auth::user()->member->auto_profile_match == 1) {
                                             echo '(' .
                                                 translate('Matched') .
                                                 ' - ' .
@@ -37,23 +37,23 @@
                                 <tbody>
                                     <tr>
                                         <td width="50%">
-                                            {{ !empty($user->member->birthday) ? \Carbon\Carbon::parse($user->member->birthday)->age : '' }}
+                                            {{ (!empty($user->member) && !empty($user->member->birthday)) ? \Carbon\Carbon::parse($user->member->birthday)->age : '' }}
                                             {{ translate('yrs') }}
-                                            {{ !empty($user->physical_attributes->height) ? ', ' . $user->physical_attributes->height : '' }}
+                                            {{ (!empty($user->physical_attributes) && !empty($user->physical_attributes->height)) ? ', ' . $user->physical_attributes->height : '' }}
                                         </td>
                                         <td width="50%">
-                                            {{ !empty($user->member->marital_status->name) ? $user->member->marital_status->name : '' }}
+                                            {{ optional(optional($user->member)->marital_status)->name ?? '' }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            {{ $user->spiritual_backgrounds->religion->name ?? '' }}
-                                            {{ !empty($user->spiritual_backgrounds->caste->name) ? ', ' . $user->spiritual_backgrounds->caste->name : '' }}
+                                            {{ optional(optional($user->spiritual_backgrounds)->religion)->name ?? '' }}
+                                            {{ (!empty($user->spiritual_backgrounds) && !empty($user->spiritual_backgrounds->caste) && !empty($user->spiritual_backgrounds->caste->name)) ? ', ' . $user->spiritual_backgrounds->caste->name : '' }}
                                         </td>
-                                        @if (!empty($present_address->country->name))
+                                        @if (!empty($present_address) && !empty($present_address->country) && !empty($present_address->country->name))
                                             <td>
                                                 {{ translate('Lives in') }}
-                                                {{ $present_address->country->name ?? '' }}
+                                                {{ $present_address->country->name }}
                                             </td>
                                         @endif
                                     </tr>
@@ -95,7 +95,7 @@
                                 <div class="py-4 text-center border-md-left border-gray-600">
                                     @if (
                                         (empty($do_expressed_interest) && empty($received_expressed_interest)) ||
-                                            !empty($received_expressed_interest && $received_expressed_interest->status == 0))
+                                            (!empty($received_expressed_interest) && $received_expressed_interest->status == 0))
                                         <div class="fs-18 fw-500">{{ translate('Like this Profile ?') }}</div>
                                     @endif
                                     <a @if ($interest_onclick == 1) onclick="express_interest({{ $user->id }})"
@@ -149,7 +149,7 @@
                                     ->where('requested_by', $auth_user->id)
                                     ->first();
                                 $avatar_image =
-                                    $user->member->gender == 1
+                                    (optional($user->member)->gender == 1)
                                         ? 'assets/img/avatar-place.png'
                                         : 'assets/img/female-avatar-place.png';
                                 $profile_picture_show = show_profile_picture($user);
@@ -259,7 +259,7 @@
                                 </div>
                             @endif
                         </div>
-                        @if (Auth::user()->member->auto_profile_match == 1)
+                        @if (!empty(Auth::user()->member) && Auth::user()->member->auto_profile_match == 1)
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between">
                                     <h3 class="fs-18 mb-3">{{ translate('Similar Profiles') }}</h3>
@@ -271,13 +271,14 @@
                                                 class="text-reset border rounded row no-gutters align-items-center mb-3">
                                                 <div class="col-auto w-120px">
                                                     @php
+                                                        $similar_member = optional($similar_profile->user)->member;
                                                         $avatar_image =
-                                                            $similar_profile->user->member->gender == 1
+                                                            ($similar_member && $similar_member->gender == 1)
                                                                 ? 'assets/img/avatar-place.png'
                                                                 : 'assets/img/female-avatar-place.png';
-                                                        $profile_picture_show = show_profile_picture(
+                                                        $profile_picture_show = $similar_profile->user ? show_profile_picture(
                                                             $similar_profile->user,
-                                                        );
+                                                        ) : false;
                                                     @endphp
 
                                                     <img @if ($profile_picture_show) src="{{ uploaded_asset($similar_profile->user->photo) }}"
@@ -293,31 +294,31 @@
                                                         </h5>
                                                         <div class="fs-12 text-truncate-3">
                                                             <span class="mr-1 d-inline-block">
-                                                                @if (!empty($similar_profile->user->member->birthday))
+                                                                @if (!empty($similar_profile->user) && !empty($similar_profile->user->member) && !empty($similar_profile->user->member->birthday))
                                                                     {{ \Carbon\Carbon::parse($similar_profile->user->member->birthday)->age }}
                                                                     {{ translate('yrs') }},
                                                                 @endif
                                                             </span>
                                                             <span class="mr-1 d-inline-block">
-                                                                @if (!empty($similar_profile->user->physical_attributes->height))
+                                                                @if (!empty($similar_profile->user) && !empty($similar_profile->user->physical_attributes) && !empty($similar_profile->user->physical_attributes->height))
                                                                     {{ $similar_profile->user->physical_attributes->height }}
                                                                     {{ translate('Feet') }},
                                                                 @endif
                                                             </span>
                                                             <span class="mr-1 d-inline-block">
-                                                                @if (!empty($similar_profile->user->member->marital_status->name))
+                                                                @if (!empty($similar_profile->user) && !empty($similar_profile->user->member) && !empty($similar_profile->user->member->marital_status) && !empty($similar_profile->user->member->marital_status->name))
                                                                     {{ $similar_profile->user->member->marital_status->name }},
                                                                 @endif
                                                             </span>
                                                             <span class="mr-1 d-inline-block">
-                                                                {{ !empty($similar_profile->user->spiritual_backgrounds->religion->name) ? $similar_profile->user->spiritual_backgrounds->religion->name . ', ' : '' }}
+                                                                {{ optional(optional(optional($similar_profile->user)->spiritual_backgrounds)->religion)->name ? optional($similar_profile->user->spiritual_backgrounds->religion)->name . ', ' : '' }}
                                                             </span>
                                                             <span class="mr-1 d-inline-block">
-                                                                {{ !empty($similar_profile->user->spiritual_backgrounds->caste->name) ? $similar_profile->user->spiritual_backgrounds->caste->name . ', ' : '' }}
+                                                                {{ optional(optional(optional($similar_profile->user)->spiritual_backgrounds)->caste)->name ? optional($similar_profile->user->spiritual_backgrounds->caste)->name . ', ' : '' }}
                                                             </span>
                                                             <span class="mr-1 d-inline-block">
                                                                 <td class="py-1">
-                                                                    {{ !empty($similar_profile->user->spiritual_backgrounds->sub_caste->name) ? $similar_profile->user->spiritual_backgrounds->sub_caste->name : '' }}
+                                                                    {{ optional(optional(optional($similar_profile->user)->spiritual_backgrounds)->sub_caste)->name ?? '' }}
                                                                 </td>
                                                             </span>
                                                         </div>
@@ -480,13 +481,13 @@
                                                 <span>{{ translate('Member ID: ') }} {{ $user->code }}</span>
                                                 <span class="mx-2">|</span>
                                                 <span>{{ translate('On Behalf:') }}
-                                                    {{ $user->member->on_behalves->name ?? '' }}</span>
+                                                    {{ optional(optional($user->member)->on_behalves)->name ?? '' }}</span>
                                             </span>
                                         </div>
                                     </div>
                                     <div id="about" class="collapse show accordion-body ml-3 ml-md-5 pl-25px lh-1-8"
                                         data-parent="#profile-accordion">
-                                        {{ $user->member->introduction }}
+                                        {{ optional($user->member)->introduction ?? '' }}
                                     </div>
                                 </div>
 
@@ -530,9 +531,9 @@
                                                                 <td class="py-1 fw-600" style="width:55%">
                                                                     {{ translate('Gender') }}</td>
                                                                 <td class="py-1">
-                                                                    @if ($user->member->gender == 1)
+                                                                    @if (!empty($user->member) && $user->member->gender == 1)
                                                                         {{ translate('Male') }}
-                                                                    @elseif($user->member->gender == 2)
+                                                                    @elseif(!empty($user->member) && $user->member->gender == 2)
                                                                         {{ translate('Female') }}
                                                                     @endif
                                                                 </td>
@@ -541,14 +542,14 @@
                                                                 <td class="py-1 fw-600" style="width:55%">
                                                                     {{ translate('Age') }}</td>
                                                                 <td class="py-1">
-                                                                    {{ \Carbon\Carbon::parse($user->member->birthday)->age ?? '' }}
+                                                                    {{ (!empty($user->member) && !empty($user->member->birthday)) ? \Carbon\Carbon::parse($user->member->birthday)->age : '' }}
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="py-1 fw-600" style="width:55%">
                                                                     {{ translate('Religion') }}</th>
                                                                 <td class="py-1">
-                                                                    {{ $user->spiritual_backgrounds->religion->name ?? '' }}
+                                                                    {{ optional(optional($user->spiritual_backgrounds)->religion)->name ?? '' }}
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -556,7 +557,7 @@
                                                                     {{ translate('First Language') }}
                                                                 </td>
                                                                 <td class="py-1">
-                                                                    @if (!empty($user->member->mothere_tongue) && $user->member->mothereTongue != null)
+                                                                    @if (!empty($user->member) && !empty($user->member->mothere_tongue) && $user->member->mothereTongue != null)
                                                                         {{ $user->member->mothereTongue->name }}
                                                                     @endif
                                                                 </td>
@@ -584,14 +585,14 @@
                                                                     {{ translate('Date of Birth') }}
                                                                 </td>
                                                                 <td class="py-1">
-                                                                    {{ date('d/m/Y', strtotime($user->member->birthday)) ?? '' }}
+                                                                    {{ (!empty($user->member) && !empty($user->member->birthday)) ? date('d/m/Y', strtotime($user->member->birthday)) : '' }}
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="py-1 fw-600" style="width:55%">
                                                                     {{ translate('Caste') }}</th>
                                                                 <td class="py-1">
-                                                                    {{ $user->spiritual_backgrounds->caste->name ?? '' }}
+                                                                    {{ optional(optional($user->spiritual_backgrounds)->caste)->name ?? '' }}
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -599,14 +600,14 @@
                                                                     {{ translate('Marital Status') }}
                                                                 </td>
                                                                 <td class="py-1">
-                                                                    {{ $user->member->marital_status->name ?? '' }}
+                                                                    {{ optional(optional($user->member)->marital_status)->name ?? '' }}
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="py-1 fw-600" style="width:55%">
                                                                     {{ translate('No. of  Children') }}
                                                                 </td>
-                                                                <td class="py-1">{{ $user->member->children }}
+                                                                <td class="py-1">{{ optional($user->member)->children ?? '' }}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -896,24 +897,12 @@
                                                     <tr>
                                                         <th>{{ translate('Degree') }}</th>
                                                         <th>{{ translate('Institution') }}</th>
-                                                        {{-- <th>{{ translate('Start') }}</th>
-                                                        <th>{{ translate('End') }}</th>
-                                                        <th>{{ translate('Status') }}</th> --}}
                                                     </tr>
                                                     @php $educations = \App\Models\Education::where('user_id', $user->id)->orderBy('is_highest_degree', 'desc')->get(); @endphp
                                                     @foreach ($educations as $key => $education)
                                                         <tr>
                                                             <td>{{ $education->degree }}</td>
                                                             <td>{{ $education->institution }}</td>
-                                                            {{-- <td>{{ $education->start }}</td>
-                                                            <td>{{ $education->end }}</td>
-                                                            <td>
-                                                                @if ($education->present == 1)
-                                                                    <span class="badge badge-inline badge-success">{{ translate('Running') }}</span>
-                                                                @else
-                                                                    <span class="badge badge-inline badge-danger">{{ translate('Completed') }}</span>
-                                                                @endif
-                                                            </td> --}}
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -949,8 +938,6 @@
                                                         <th>{{ translate('company') }}</th>
                                                         <th>{{ translate('Annual Income') }}</th>
                                                         <th>{{ translate('Additional Income') }}</th>
-                                                        {{-- <th>{{ translate('Start') }}</th>
-                                                        <th>{{ translate('End') }}</th>
                                                     </tr>
                                                     @php $careers = \App\Models\Career::where('user_id', $user->id)->orderBy('present', 'desc')->get(); @endphp
                                                     @foreach ($careers as $key => $career)
@@ -959,11 +946,6 @@
                                                             <td>{{ $career->company }}</td>
                                                             <td>{{ $career->annual_income }}</td>
                                                             <td>{{ $career->additional_income }}</td>
-                                                            {{-- <td>
-                                                                @if ($career->present == 1)
-                                                                    <span class="badge badge-inline badge-success">{{ translate('Running') }}</span>
-                                                                @endif
-                                                            </td> --}}
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -1134,7 +1116,7 @@
                                                                 <tr>
                                                                     <th>{{ translate('Mother Tangue') }}</th>
                                                                     <td class="py-1">
-                                                                        @if (!empty($user->member->mothere_tongue) && $user->member->mothereTongue != null)
+                                                                        @if (!empty($user->member) && !empty($user->member->mothere_tongue) && $user->member->mothereTongue != null)
                                                                             {{ $user->member->mothereTongue->name }}
                                                                         @endif
                                                                     </td>
@@ -1142,7 +1124,7 @@
                                                                 <tr>
                                                                     <th>{{ translate('Known Languages') }}</th>
                                                                     <td class="py-1">
-                                                                        @if (!empty($user->member->known_languages))
+                                                                        @if (!empty($user->member) && !empty($user->member->known_languages) && is_array(json_decode($user->member->known_languages)))
                                                                             @foreach (json_decode($user->member->known_languages) as $key => $value)
                                                                                 {{ optional(\App\Models\MemberLanguage::where('id', $value)->first())->name }},
                                                                             @endforeach
@@ -1381,8 +1363,8 @@
                                                                     <th class="py-1">
                                                                         {{ translate('Birth Country') }}</th>
                                                                     <td class="py-1">
-                                                                        @if (!empty($user->recidency->birth_country_id))
-                                                                            {{ App\Models\Country::where('id', $user->recidency->birth_country_id)->first()->name }}
+                                                                        @if (!empty($user->recidency) && !empty($user->recidency->birth_country_id))
+                                                                            {{ optional(App\Models\Country::find($user->recidency->birth_country_id))->name }}
                                                                         @endif
                                                                     </td>
                                                                 </tr>
@@ -1390,8 +1372,8 @@
                                                                     <th class="py-1">
                                                                         {{ translate('Citizenship') }}</th>
                                                                     <td class="py-1">
-                                                                        @if (!empty($user->recidency->growup_country_id))
-                                                                            {{ App\Models\Country::where('id', $user->recidency->growup_country_id)->first()->name }}
+                                                                        @if (!empty($user->recidency) && !empty($user->recidency->growup_country_id))
+                                                                            {{ optional(App\Models\Country::find($user->recidency->growup_country_id))->name }}
                                                                         @endif
                                                                     </td>
                                                                 </tr>
@@ -1405,8 +1387,8 @@
                                                                     <th class="py-1">
                                                                         {{ translate('Residency Country') }}</th>
                                                                     <td class="py-1">
-                                                                        @if (!empty($user->recidency->recidency_country_id))
-                                                                            {{ App\Models\Country::where('id', $user->recidency->recidency_country_id)->first()->name }}
+                                                                        @if (!empty($user->recidency) && !empty($user->recidency->recidency_country_id))
+                                                                            {{ optional(App\Models\Country::find($user->recidency->recidency_country_id))->name }}
                                                                         @endif
                                                                     </td>
                                                                 </tr>
@@ -1414,7 +1396,7 @@
                                                                     <th class="py-1">
                                                                         {{ translate('Immigration Status') }}</th>
                                                                     <td class="py-1">
-                                                                        {{ !empty($user->recidency->immigration_status) ? $user->recidency->immigration_status : '' }}
+                                                                        {{ (!empty($user->recidency) && !empty($user->recidency->immigration_status)) ? $user->recidency->immigration_status : '' }}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -1977,7 +1959,7 @@
                                                             <div class="col-md-6 mb-3">
                                                                 <div class="row">
                                                                     <div class="col-6 fs-13 fw-700">{{ $attribute->title }}</div>
-                                                                    <div class="col-6 fs-13">{{ $attribute->additional_member_info()->where('user_id', $user->id)->first()->value ?? null}}</div>
+                                                                    <div class="col-6 fs-13">{{ optional($attribute->additional_member_info()->where('user_id', $user->id)->first())->value }}</div>
                                                                 </div>
                                                             </div>
                                                         @endforeach
@@ -1995,97 +1977,99 @@
                                 <h2 class="text-primary fs-24 mb-5 pb-4 border-bottom">
                                     {{ translate('Partner Expectation') }}</h2>
                                 <div class="">
-                                    <table class="table table-responsive">
-                                        <tr>
-                                            <th>{{ translate('Age From') }}</th>
-                                            <td>{{ $user->partner_expectations->age_from ?? '' }} @if(!empty($user->partner_expectations->age_from)) {{translate('Yrs')}} @endif
-                                            </td>
+                                    @if (!empty($user->partner_expectations))
+                                        <table class="table table-responsive">
+                                            <tr>
+                                                <th>{{ translate('Age From') }}</th>
+                                                <td>{{ $user->partner_expectations->age_from ?? '' }} @if(!empty($user->partner_expectations->age_from)) {{translate('Yrs')}} @endif
+                                                </td>
 
-                                            <th>{{ translate('Age To') }}</th>
-                                            <td>{{ $user->partner_expectations->age_to ?? '' }} @if(!empty($user->partner_expectations->age_to)) {{translate('Yrs')}} @endif
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ translate('Height') }}</th>
-                                            <td>{{ $user->partner_expectations->height ?? '' }}
-                                            </td>
+                                                <th>{{ translate('Age To') }}</th>
+                                                <td>{{ $user->partner_expectations->age_to ?? '' }} @if(!empty($user->partner_expectations->age_to)) {{translate('Yrs')}} @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ translate('Height') }}</th>
+                                                <td>{{ $user->partner_expectations->height ?? '' }}
+                                                </td>
 
-                                            <th>{{ translate('Marital Status') }}</th>
-                                            <td>{{ $user->partner_expectations->marital_status->name ?? '' }}
-                                            </td>
-                                        </tr>
+                                                <th>{{ translate('Marital Status') }}</th>
+                                                <td>{{ optional($user->partner_expectations->marital_status)->name ?? '' }}
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <th>{{ translate('Children Acceptable') }}</th>
-                                            <td>{{ !empty($user->partner_expectations->children_acceptable) ? attribute_text_format($user->partner_expectations->children_acceptable) : '' }}
-                                            </td>
+                                            <tr>
+                                                <th>{{ translate('Children Acceptable') }}</th>
+                                                <td>{{ !empty($user->partner_expectations->children_acceptable) ? attribute_text_format($user->partner_expectations->children_acceptable) : '' }}
+                                                </td>
 
-                                            <th>{{ translate('Religion') }}</th>
-                                            <td>{{ $user->partner_expectations->religion->name ?? '' }}
-                                            </td>
-                                        </tr>
+                                                <th>{{ translate('Religion') }}</th>
+                                                <td>{{ optional($user->partner_expectations->religion)->name ?? '' }}
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <th>{{ translate('Caste') }}</th>
-                                            <td>{{ $user->partner_expectations->caste->name ?? '' }}
-                                            </td>
+                                            <tr>
+                                                <th>{{ translate('Caste') }}</th>
+                                                <td>{{ optional($user->partner_expectations->caste)->name ?? '' }}
+                                                </td>
 
-                                            <th>{{ translate('Sub Caste') }}</th>
-                                            <td>{{ $user->partner_expectations->sub_caste->name ?? '' }}
-                                            </td>
-                                        </tr>
-                                        @if(!empty($user->partner_expectations->additional_sub_caste))
-                                        <tr>
-                                            <th>{{ translate('Additional Sub Caste') }}</th>
-                                            <td colspan="3">{{ $user->partner_expectations->additional_sub_caste }}
-                                            </td>
-                                        </tr>
-                                        @endif
+                                                <th>{{ translate('Sub Caste') }}</th>
+                                                <td>{{ optional($user->partner_expectations->sub_caste)->name ?? '' }}
+                                                </td>
+                                            </tr>
+                                            @if(!empty($user->partner_expectations->additional_sub_caste))
+                                            <tr>
+                                                <th>{{ translate('Additional Sub Caste') }}</th>
+                                                <td colspan="3">{{ $user->partner_expectations->additional_sub_caste }}
+                                                </td>
+                                            </tr>
+                                            @endif
 
-                                        <tr>
-                                            <th>{{ translate('Education') }}</th>
-                                            <td>{{ $user->partner_expectations->education ?? '' }}
-                                            </td>
+                                            <tr>
+                                                <th>{{ translate('Education') }}</th>
+                                                <td>{{ $user->partner_expectations->education ?? '' }}
+                                                </td>
 
-                                            <th>{{ translate('Profession') }}</th>
-                                            <td>{{ $user->partner_expectations->profession ?? '' }}
-                                            </td>
-                                        </tr>
+                                                <th>{{ translate('Profession') }}</th>
+                                                <td>{{ $user->partner_expectations->profession ?? '' }}
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <th>{{ translate('Smoking Acceptable') }}</th>
-                                            <td>{{ !empty($user->partner_expectations->smoking_acceptable) ? attribute_text_format($user->partner_expectations->smoking_acceptable) : '' }}
-                                            </td>
+                                            <tr>
+                                                <th>{{ translate('Smoking Acceptable') }}</th>
+                                                <td>{{ !empty($user->partner_expectations->smoking_acceptable) ? attribute_text_format($user->partner_expectations->smoking_acceptable) : '' }}
+                                                </td>
 
-                                            <th>{{ translate('Drinking Acceptable') }}</th>
-                                            <td>{{ !empty($user->partner_expectations->drinking_acceptable) ? attribute_text_format($user->partner_expectations->drinking_acceptable) : '' }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ translate('Diet') }}</th>
-                                            <td>{{ !empty($user->partner_expectations->diet) ? attribute_text_format($user->partner_expectations->diet) : '' }}
-                                            </td>
+                                                <th>{{ translate('Drinking Acceptable') }}</th>
+                                                <td>{{ !empty($user->partner_expectations->drinking_acceptable) ? attribute_text_format($user->partner_expectations->drinking_acceptable) : '' }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ translate('Diet') }}</th>
+                                                <td>{{ !empty($user->partner_expectations->diet) ? attribute_text_format($user->partner_expectations->diet) : '' }}
+                                                </td>
 
-                                            <th>{{ translate('Body Type') }}</th>
-                                            <td>{{ $user->partner_expectations->body_type ?? '' }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ translate('Manglik') }}</th>
-                                            <td>{{ !empty($user->partner_expectations->manglik) ? attribute_text_format($user->partner_expectations->manglik) : '' }}
-                                            </td>
+                                                <th>{{ translate('Body Type') }}</th>
+                                                <td>{{ $user->partner_expectations->body_type ?? '' }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ translate('Manglik') }}</th>
+                                                <td>{{ !empty($user->partner_expectations->manglik) ? attribute_text_format($user->partner_expectations->manglik) : '' }}
+                                                </td>
 
-                                            <th></th>
-                                            <td></td>
-                                        </tr>
-                                        @if(!empty($user->partner_expectations->about_partner))
-                                        <tr>
-                                            <th>{{ translate('About Partner') }}</th>
-                                            <td colspan="3">{{ $user->partner_expectations->about_partner }}
-                                            </td>
-                                        </tr>
-                                        @endif
-                                    </table>
+                                                <th></th>
+                                                <td></td>
+                                            </tr>
+                                            @if(!empty($user->partner_expectations->about_partner))
+                                            <tr>
+                                                <th>{{ translate('About Partner') }}</th>
+                                                <td colspan="3">{{ $user->partner_expectations->about_partner }}
+                                                </td>
+                                            </tr>
+                                            @endif
+                                        </table>
+                                    @endif
                                 </div>
                             </div>
                         @endif

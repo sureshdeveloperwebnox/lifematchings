@@ -367,8 +367,8 @@ if (!function_exists('sendSMS')) {
 if (!function_exists('get_remaining_package_value')) {
     function get_remaining_package_value($id, $colmn_name)
     {
-        $value = Member::where('user_id', $id)->first()->$colmn_name;
-        return $value;
+        $member = Member::where('user_id', $id)->first();
+        return $member ? $member->$colmn_name : 0;
     }
 }
 
@@ -376,8 +376,8 @@ if (!function_exists('get_remaining_package_value')) {
 if (!function_exists('package_validity')) {
     function package_validity($id)
     {
-        $package_validity = Member::where('user_id', $id)->first()->package_validity;
-        if ($package_validity == null || ($package_validity < date('Y-m-d'))) {
+        $member = Member::where('user_id', $id)->first();
+        if (!$member || $member->package_validity == null || ($member->package_validity < date('Y-m-d'))) {
             return false;
         } else {
             return true;
@@ -452,8 +452,15 @@ if (!function_exists('unique_code')) {
 if (!function_exists('unique_notify_id')) {
     function unique_notify_id()
     {
-        $id = (Notification::all()->count() > 0) ? (Notification::latest('id')->first()->id + 1) : 1;
-        return $id;
+        try {
+            $latest = Notification::latest('created_at')->first();
+            if ($latest && is_numeric($latest->id)) {
+                return (int)$latest->id + 1;
+            }
+        } catch (\Throwable $e) {
+            // ignore
+        }
+        return (string) \Illuminate\Support\Str::uuid();
     }
 }
 
