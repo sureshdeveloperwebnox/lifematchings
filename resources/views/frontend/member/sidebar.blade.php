@@ -176,12 +176,14 @@
                         <span class="aiz-side-nav-text">{{ translate('Change Password') }}</span>
                     </a>
                 </li>
+                @if (get_setting('member_verification') == 1)
                 <li class="aiz-side-nav-item">
                     <a href="{{ route('member.verification') }}" class="aiz-side-nav-link {{ areActiveRoutes(['member.verification']) }}">
                         <i class="las la-file-alt aiz-side-nav-icon"></i>
                         <span class="aiz-side-nav-text">{{ translate('Aadhar Verification') }}</span>
                     </a>
                 </li>
+                @endif
                 <li class="aiz-side-nav-item">
                     <a href="{{ route('profile_settings') }}" class="aiz-side-nav-link">
                         <i class="las la-user aiz-side-nav-icon"></i>
