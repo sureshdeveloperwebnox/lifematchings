@@ -35,6 +35,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\SubCasteController;
 use App\Http\Controllers\SunSignController;
 use App\Http\Controllers\MoonSignController;
 use App\Http\Controllers\GothramController;
