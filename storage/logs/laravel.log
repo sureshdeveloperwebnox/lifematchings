@@ -5267,3 +5267,62 @@
 #59 D:\\PHP-Projects\\lifematchings\\httpdocs\\server.php(46): require_once('D:\\\\PHP-Projects...')
 #60 {main}
 "} 
+[2026-08-17 12:21:56] production.ERROR: The use statement with non-compound name 'DB' has no effect {"exception":"[object] (ErrorException(code: 0): The use statement with non-compound name 'DB' has no effect at D:\\PHP-Projects\\lifematchings\\httpdocs\\database\\migrations\\2026_08_10_000001_add_package_expiry_email_templates.php:6)
+[stacktrace]
+#0 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(270): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'The use stateme...', 'D:\\\\PHP-Projects...', 6)
+#1 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(134): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'The use stateme...', 'D:\\\\PHP-Projects...', 6)
+#2 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(134): require_once('D:\\\\PHP-Projects...')
+#3 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(135): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(569): Illuminate\\Filesystem\\Filesystem->requireOnce('D:\\\\PHP-Projects...')
+#5 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(117): Illuminate\\Database\\Migrations\\Migrator->requireFiles(Array)
+#6 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(88): Illuminate\\Database\\Migrations\\Migrator->run(Array, Array)
+#7 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(628): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#8 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(81): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
+#9 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#10 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#11 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#12 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#13 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(661): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#14 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(183): Illuminate\\Container\\Container->call(Array)
+#15 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Command\\Command.php(291): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#16 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(152): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#17 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(1014): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#18 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(301): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#19 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#20 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(102): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#21 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(155): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#22 D:\\PHP-Projects\\lifematchings\\httpdocs\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#23 {main}
+"} 
+[2026-08-17 12:32:11] production.ERROR: The "--force" option does not exist. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): The \"--force\" option does not exist. at D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\ArgvInput.php:220)
+[stacktrace]
+#0 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\ArgvInput.php(149): Symfony\\Component\\Console\\Input\\ArgvInput->addLongOption('force', NULL)
+#1 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\ArgvInput.php(82): Symfony\\Component\\Console\\Input\\ArgvInput->parseLongOption('--force')
+#2 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\ArgvInput.php(71): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken('--force', true)
+#3 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\Input.php(55): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#4 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Command\\Command.php(250): Symfony\\Component\\Console\\Input\\Input->bind(Object(Symfony\\Component\\Console\\Input\\InputDefinition))
+#5 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(152): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#6 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(1014): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#7 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(301): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\StatusCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#9 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(102): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(155): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#11 D:\\PHP-Projects\\lifematchings\\httpdocs\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#12 {main}
+"} 
+[2026-08-17 12:32:24] production.ERROR: The "--force" option does not exist. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): The \"--force\" option does not exist. at D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\ArgvInput.php:220)
+[stacktrace]
+#0 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\ArgvInput.php(149): Symfony\\Component\\Console\\Input\\ArgvInput->addLongOption('force', NULL)
+#1 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\ArgvInput.php(82): Symfony\\Component\\Console\\Input\\ArgvInput->parseLongOption('--force')
+#2 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\ArgvInput.php(71): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken('--force', true)
+#3 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Input\\Input.php(55): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#4 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Command\\Command.php(250): Symfony\\Component\\Console\\Input\\Input->bind(Object(Symfony\\Component\\Console\\Input\\InputDefinition))
+#5 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(152): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#6 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(1014): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#7 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(301): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\StatusCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#9 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(102): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(155): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#11 D:\\PHP-Projects\\lifematchings\\httpdocs\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#12 {main}
+"} 
