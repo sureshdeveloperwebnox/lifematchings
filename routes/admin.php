@@ -79,6 +79,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     // Member Manage
     Route::controller(MemberController::class)->group(function () {
         Route::get('/members/export', 'export')->name('members.export');
+        Route::get('/members/{id}/profile-pdf', 'downloadProfilePdf')->name('members.profile_pdf');
         Route::get('/members/member_list/{id}', 'index')->name('members.index');
         Route::post('/members/block', 'block')->name('members.block');
         Route::post('/members/blocking_reason', 'blocking_reason')->name('members.blocking_reason');

@@ -19,13 +19,18 @@
   				<div class="col text-center text-md-left">
   					<h5 class="mb-md-0 h6">{{ translate('All members') }}</h5>
   				</div>
-  				<div class="col-md-5 d-flex align-items-center justify-content-end">
+  				<div class="col-md-6 d-flex align-items-center justify-content-end">
   					<a href="javascript:void(0);" data-toggle="modal" data-target="#export-members-modal" class="btn btn-sm btn-outline-primary mr-2">
   						<i class="las la-file-export mr-1"></i>{{ translate('Export Members CSV') }}
   					</a>
   					<form class="" id="sort_members" action="" method="GET">
   						<div class="input-group input-group-sm">
-  					  		<input type="text" class="form-control" id="search" name="search"@isset($sort_search) value="{{ $sort_search }}" @endisset placeholder="{{ translate('Type name / ID & Enter') }}">
+  					  		<input type="text" class="form-control" id="search" name="search"@isset($sort_search) value="{{ $sort_search }}" @endisset placeholder="{{ translate('Type name / ID / phone / email') }}">
+  					  		<div class="input-group-append">
+  					  			<button type="submit" class="btn btn-primary">
+  					  				<i class="las la-search"></i>
+  					  			</button>
+  					  		</div>
   						</div>
   					</form>
   				</div>
@@ -119,7 +124,6 @@
                                                     <a class="dropdown-item" href="{{ route('uploadAstrologyReport', encrypt($member->id)) }}">
                                                         {{ translate('Upload Astrology Report') }}
                                                     </a>
-
                                                 @endcan
                                                 @can ('block_member')
                                                     @if($member->blocked == 0)
@@ -131,7 +135,6 @@
                                                 @can ('approve_member')
                                                     <a class="dropdown-item" href="{{ route('member.show_verification_info', encrypt($member->id)) }}">{{translate('Verify Document (Aadhar)')}}</a>
                                                 @endcan
-
                                                 @can ('update_member_package')
                                                     <a class="dropdown-item" onclick="package_info({{$member->id}})" href="javascript:void(0);" >{{translate('Package')}}</a>
                                                 @endcan
@@ -228,7 +231,6 @@
                     <button type="button" class="close" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-
                   <div class="row">
                       <div class="col-md-4">
                           <label>{{ translate('Current Banalce')}}</label>
@@ -333,7 +335,6 @@
         });
     }
 
-
     function approve_member(id){
         $('.member-approval-modal').modal('show');
         $('#member_id').val(id);
@@ -359,6 +360,5 @@
         $('#user_id_wallet_balance').val(id);
         $('#member_wallet_balance').val(balance);
     }
-
 </script>
 @endsection

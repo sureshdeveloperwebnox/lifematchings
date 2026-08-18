@@ -124,7 +124,18 @@ class MemberController extends Controller
 
         if ($request->has('search')) {
             $sort_search  = $request->search;
-            $members  = $members->where('code', $sort_search)->orwhere('first_name', 'like', '%' . $sort_search . '%')->orWhere('last_name', 'like', '%' . $sort_search . '%');
+            // Normalize search: strip leading + or spaces for phone matching
+            $phone_search = preg_replace('/[^0-9]/', '', $sort_search);
+            $members = $members->where(function($query) use ($sort_search, $phone_search) {
+                $query->where('code', $sort_search)
+                      ->orWhere('first_name', 'like', '%' . $sort_search . '%')
+                      ->orWhere('last_name', 'like', '%' . $sort_search . '%')
+                      ->orWhere('email', 'like', '%' . $sort_search . '%')
+                      ->orWhere('phone', 'like', '%' . $sort_search . '%');
+                if (!empty($phone_search)) {
+                    $query->orWhere('phone', 'like', '%' . $phone_search . '%');
+                }
+            });
         }
 
         $members = $members->paginate(10);
@@ -1475,6 +1486,53 @@ class MemberController extends Controller
             \Log::error('PDF Generation Error for member '.$memberId.': '.$e->getMessage());
             $status['error'] = $e->getMessage();
             return $status;
+        }
+    }
+
+    public function downloadProfilePdf(Request $request, $id)
+    {
+        try {
+            $member = User::findOrFail(decrypt($id));
+            $showContact = ($request->get('type', 'full') === 'full');
+
+            $present_address  = Address::where('user_id', $member->id)->where('type', 'present')->first();
+            $educations       = Education::where('user_id', $member->id)->orderBy('is_highest_degree', 'desc')->get();
+            $careers          = Career::where('user_id', $member->id)->orderBy('present', 'desc')->get();
+
+            $html = view('admin.members.profile_pdf', compact(
+                'member', 'showContact', 'present_address', 'educations', 'careers'
+            ))->render();
+
+            $defaultFontDirs = (new \Mpdf\Config\ConfigVariables())->getDefaults()['fontDir'];
+            $defaultFontData = (new \Mpdf\Config\FontVariables())->getDefaults()['fontdata'];
+
+            $mpdf = new Mpdf([
+                'mode'         => 'utf-8',
+                'format'       => 'A4',
+                'margin_top'   => 0,
+                'margin_right' => 10,
+                'margin_bottom'=> 10,
+                'margin_left'  => 10,
+                'tempDir'      => base_path('temp/'),
+                'fontDir'      => array_merge($defaultFontDirs, [base_path('public/assets/fonts/')]),
+                'fontdata'     => $defaultFontData,
+                'default_font' => 'arial',
+            ]);
+
+            $mpdf->WriteHTML($html);
+
+            $type     = $showContact ? 'full' : 'biodata';
+            $filename = 'profile_' . $member->code . '_' . $type . '_' . date('Ymd') . '.pdf';
+
+            return response($mpdf->Output($filename, 'S'), 200, [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Profile PDF Error: ' . $e->getMessage());
+            flash(translate('PDF generation failed: ' . $e->getMessage()))->error();
+            return back();
         }
     }
 

@@ -46,6 +46,12 @@
                                 class="btn btn-dark btn-sm add-tooltip">{{ translate('Unblock') }}</i></a>
                         @endif
                         <br><br>
+                        <!-- Download Profile PDF -->
+                        <a href="javascript:void(0);" data-toggle="modal" data-target="#pdf-download-modal"
+                            class="btn btn-sm btn-soft-primary mt-1">
+                            <i class="las la-file-pdf"></i> {{ translate('Download PDF') }}
+                        </a>
+                        <br><br>
                         @if ($member->deactivated == 0)
                             <span class="badge badge-inline badge-success">{{ translate('Active Account') }}</span>
                         @else
@@ -842,6 +848,40 @@
     </div>
 
     @include('modals.create_edit_modal')
+
+    {{-- PDF Download Modal --}}
+    <div class="modal fade" id="pdf-download-modal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#bd099d;">
+                    <h5 class="modal-title h6 text-white">
+                        <i class="las la-file-pdf mr-1"></i> {{ translate('Download Profile PDF') }}
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p class="text-muted mb-4" style="font-size:13px;">
+                        {{ translate('Choose which version of the profile PDF to download.') }}
+                    </p>
+                    <a href="{{ route('members.profile_pdf', ['id' => encrypt($member->id), 'type' => 'full']) }}"
+                        class="btn btn-block mb-3"
+                        style="background:#bd099d; color:#fff; border:none;">
+                        <i class="las la-id-card mr-1"></i>
+                        {{ translate('Full Profile') }}<br>
+                        <small style="opacity:0.85;">{{ translate('Includes phone, email & address') }}</small>
+                    </a>
+                    <a href="{{ route('members.profile_pdf', ['id' => encrypt($member->id), 'type' => 'shared']) }}"
+                        class="btn btn-block"
+                        style="background:#6c757d; color:#fff; border:none;">
+                        <i class="las la-share-alt mr-1"></i>
+                        {{ translate('Biodata / Shareable') }}<br>
+                        <small style="opacity:0.85;">{{ translate('Phone, email & address hidden') }}</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('script')
