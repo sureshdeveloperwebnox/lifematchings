@@ -51,10 +51,9 @@
         </div>
 
         <div class="form-group row">
-            <input type="hidden" name="email" value="{{ $member->email }}">
             <div class="col-md-6">
                 <label for="email" >{{translate('Email')}}</label>
-                <input type="email" name="email" value="{{ $member->email }}" class="form-control" placeholder="{{translate('Email')}}" disabled>
+                <input type="email" name="email" id="email" value="{{ $member->email }}" class="form-control" placeholder="{{translate('Email')}}">
                 @error('email')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror

@@ -481,6 +481,7 @@ class MemberController extends Controller
             'date_of_birth' => ['required'],
             'on_behalf'     => ['required'],
             'marital_status' => ['required'],
+            'email'         => ['nullable', 'email', 'max:255', 'unique:users,email,' . $request->id],
         ];
         $this->messages = [
             'first_name.required'             => translate('First Name is required'),
@@ -491,6 +492,8 @@ class MemberController extends Controller
             'date_of_birth.required'          => translate('Date Of Birth is required'),
             'on_behalf.required'              => translate('On Behalf is required'),
             'marital_status.required'         => translate('Marital Status is required'),
+            'email.unique'                    => translate('Email already exists.'),
+            'email.email'                     => translate('Please enter a valid email address.'),
         ];
 
         $rules = $this->rules;
@@ -509,6 +512,7 @@ class MemberController extends Controller
         $user               = User::findOrFail($request->id);
         $user->first_name   = $request->first_name;
         $user->last_name    = $request->last_name;
+        $user->email        = $request->email;
 
         if (get_setting('profile_picture_approval_by_admin') && $request->photo != $user->photo && auth()->user()->user_type == 'member') {
             $user->photo_approved = 0;
