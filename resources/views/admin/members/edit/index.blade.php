@@ -94,6 +94,10 @@
                                         aria-selected="false">{{ get_setting('additional_profile_section_name') }}</a>
                                 @endif
 
+                                <a class="nav-link" id="v-pills-tab-gallery" data-toggle="pill"
+                                    href="#gallery_images" role="tab" aria-controls="v-pills-settings"
+                                    aria-selected="false">{{ translate('Gallery Images') }}</a>
+
                             </div>
                         </div>
                         <div class="col-9">
@@ -234,6 +238,14 @@
                                         @include('admin.members.edit.additional_attributes')
                                     </div>
                                 </div>
+
+                                <div class="tab-pane fade" id="gallery_images" role="tabpanel"
+                                    aria-labelledby="v-pills-tab-gallery">
+                                    <div class="card">
+                                        @include('admin.members.gallery.index')
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

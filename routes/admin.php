@@ -4,6 +4,7 @@ use App\Http\Controllers\AdditionalAttributeController;
 use App\Http\Controllers\AddonController;
 use App\Http\Controllers\AizUploadController;
 use App\Http\Controllers\AnnualSalaryRangeyController;
+use App\Http\Controllers\GalleryImageController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\CasteController;
@@ -104,6 +105,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
         Route::post('/members/wallet-balance-update', 'member_wallet_balance_update')->name('member.wallet_balance_update');
     });
     Route::resource('members', MemberController::class)->except(['index', 'destroy']);
+
+    // Admin Gallery Image Management
+    Route::controller(GalleryImageController::class)->group(function () {
+        Route::post('/member/gallery/store', 'adminStore')->name('admin.member.gallery.store');
+        Route::get('/member/gallery/destroy/{id}', 'adminDestroy')->name('admin.member.gallery.destroy');
+    });
 
     Route::controller(ReportedUserController::class)->group(function () {
         Route::get('/reported-members/{id}', 'reported_members')->name('reported_members');

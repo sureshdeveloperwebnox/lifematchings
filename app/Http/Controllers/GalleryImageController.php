@@ -134,4 +134,37 @@ class GalleryImageController extends Controller
         flash(translate('Sorry! Something went wrong.'))->error();
         return back();
     }
+
+    // Admin: upload gallery image for any member
+    public function adminStore(Request $request)
+    {
+        $request->validate([
+            'user_id'       => 'required|exists:users,id',
+            'gallery_image' => 'required',
+        ]);
+
+        $gallery_image          = new GalleryImage;
+        $gallery_image->user_id = $request->user_id;
+        $gallery_image->image   = $request->gallery_image;
+
+        if ($gallery_image->save()) {
+            flash(translate('Gallery image uploaded successfully.'))->success();
+        } else {
+            flash(translate('Sorry! Something went wrong.'))->error();
+        }
+
+        return back();
+    }
+
+    // Admin: delete gallery image for any member
+    public function adminDestroy($id)
+    {
+        $gallery_image = GalleryImage::findOrFail($id);
+        if ($gallery_image->delete()) {
+            flash(translate('Image deleted successfully.'))->success();
+        } else {
+            flash(translate('Sorry! Something went wrong.'))->error();
+        }
+        return back();
+    }
 }
