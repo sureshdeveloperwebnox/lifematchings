@@ -116,6 +116,8 @@ class AuthController extends Controller
 
         if ($user != null) {
             if (Hash::check($request->password, $user->password)) {
+                $user->last_login_at = date('Y-m-d H:i:s');
+                $user->save();
                 return $this->authResponse($user);
             }
             return response()->json(['result' => false, 'message' => translate('Unauthorized'), 'user' => null], 401);
@@ -162,6 +164,8 @@ class AuthController extends Controller
             if ($existingUserByProviderId->approved == 0) {
                 return response()->json(['result' => false, 'message' => translate('Please wait for admin approval'), 'user' => null], 401);
             } else {
+                $existingUserByProviderId->last_login_at = date('Y-m-d H:i:s');
+                $existingUserByProviderId->save();
                 return $this->authResponse($existingUserByProviderId);
             }
         } else {

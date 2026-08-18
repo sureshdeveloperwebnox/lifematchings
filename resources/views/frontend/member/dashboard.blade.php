@@ -12,6 +12,13 @@
             $col++;
         }
     @endphp
+    <div class="d-flex justify-content-end mb-2">
+        <small class="text-muted">
+            <i class="las la-clock mr-1"></i>
+            {{ translate('Last Login') }}:
+            <strong>{{ $user->last_login_at ? \Carbon\Carbon::parse($user->last_login_at)->setTimezone(config('app.timezone', 'Asia/Kolkata'))->format('d-m-Y H:i') : translate('Never') }}</strong>
+        </small>
+    </div>
     <div class="row gutters-5 mt-4 row-cols-xl-{{ $col }} row-cols-2">
         <div class="col mx-auto mb-3" >
             <div class="bg-light rounded overflow-hidden text-center p-3">

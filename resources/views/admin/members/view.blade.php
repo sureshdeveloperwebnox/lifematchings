@@ -117,6 +117,13 @@
                             <th>{{ translate('Contact Number 2') }}</th>
                             <td>{{ $member->phone2 }}</td>
                         </tr>
+                        <tr>
+                            <th>{{ translate('Member Since') }}</th>
+                            <td>{{ \Carbon\Carbon::parse($member->created_at)->setTimezone(config('app.timezone', 'Asia/Kolkata'))->format('d-m-Y H:i') }}</td>
+
+                            <th>{{ translate('Last Login') }}</th>
+                            <td>{{ $member->last_login_at ? \Carbon\Carbon::parse($member->last_login_at)->setTimezone(config('app.timezone', 'Asia/Kolkata'))->format('d-m-Y H:i') : translate('Never') }}</td>
+                        </tr>
                     </table>
                 </div>
             </div>

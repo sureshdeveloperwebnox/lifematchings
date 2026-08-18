@@ -44,6 +44,7 @@
                             @endif
                             <th data-breakpoints="md">{{translate('Profile Reported')}}</th>
                             <th data-breakpoints="md">{{translate('Member Since')}}</th>
+                            <th data-breakpoints="md">{{translate('Last Login')}}</th>
                             <th data-breakpoints="md">{{translate('Member Status')}}</th>
                             <th class="text-right">{{translate('Options')}}</th>
                         </tr>
@@ -94,6 +95,7 @@
                                   @endif
                                 </td>
                                 <td>{{ date('d-m-Y', strtotime($member->created_at)) }}</td>
+                                <td>{{ $member->last_login_at ? \Carbon\Carbon::parse($member->last_login_at)->setTimezone(config('app.timezone', 'Asia/Kolkata'))->format('d-m-Y H:i') : translate('Never') }}</td>
                                 <td>
                                     @if($member->deactivated == 0)
                                         <span class="badge badge-inline badge-success">{{translate('Active')}}</span>
