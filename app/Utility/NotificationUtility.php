@@ -2,87 +2,59 @@
 
 namespace App\Utility;
 
-use App\Models\Notification;
+use App\Models\User;
+use App\Notifications\DbStoreNotification;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification as NotificationFacade;
+use Illuminate\Support\Facades\Log;
 
 class NotificationUtility
 {
+    /**
+     * Store and dispatch an in-app database notification.
+     *
+     * @param string $type
+     * @param string $message
+     * @param string $link
+     * @param int|bool $sender
+     * @param int $receiver
+     * @param string|null $showing_panel
+     * @return void
+     */
     public static function set_notification($type, $message = '', $link = '/', $sender = false, $receiver = 0, $showing_panel = null)
     {
         try {
-            $notification                       = new Notification;
-            $notification->notification_type    = $type;
-            $notification->sender_id            = $sender ? $sender : (Auth::check() ? Auth::user()->id : 0);
-            $notification->receiver_id          = $receiver;
-            $notification->message              = translate($message);
-            $notification->link                 = $link;
-            $notification->seen_by_receiver     = 0;
-            $notification->showing_panel        = $showing_panel;
-            $notification->save();
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
-
-    }
-
-    public static function get_my_notifications($limit = 0, $only_unseen = true, $only_count = false, $paginated = false)
-    {
-        $list = array();
-        $count = 0;
-
-        if (!Auth::check() && !$only_count) {
-            return $list;
-        } elseif (!Auth::check() && $only_count) {
-            return $count;
-        }
-
-        $panel = '';
-        if (Auth::user()->user_type == 'member') {
-            $panel = 'member';
-        }
-        else{
-            $panel = 'admin';
-        }
-
-
-        $notifications_query = Notification::where('receiver_id', Auth::user()->id)->latest();
-
-        if ($panel == 'admin') {
-            $notifications_query->orWhere('showing_panel', $panel);
-        }
-        if ($only_unseen == true) {
-            $notifications_query->where('seen_by_receiver', 0);
-        }
-
-        //return only the numbers of notifications
-        if ($only_count) {
-            return $notifications_query->count();
-        } else if ($paginated) {
-            //return paginated data for all notifications page
-            return $notifications_query->paginate($limit);
-        }
-        $notifications = $notifications_query->limit($limit)->get();
-
-        foreach ($notifications as $notification) {
-            if($notification->sender != null){
-                $item                           = array();
-                $item['notification_id']        = $notification->id;
-                $item['notification_type']      = $notification->notification_type;
-                $item['message']                = $notification->message;
-                $item['link']                   = url($notification->link);
-                $item['sender_name']            = $notification->sender->first_name.' '. $notification->sender->last_name;
-                $item['sender_photo']           = $notification->sender->photo > 0 ? uploaded_asset($notification->sender->photo) : static_asset(($notification->sender->member && $notification->sender->member->gender == 2 ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png'));
-                $item['seen']                   = $notification->seen_by_receiver == 1 ? true : false;
-                $item['date']                   = Carbon::parse($notification->created_at)->diffForHumans();
-                $item['express_interest_id']    = $notification->express_interest_id;
-                $item['express_interest_status']= $notification->express_interest_status;
-
-                $list[] = $item;
+            $receiverId = (int) $receiver;
+            if ($receiverId <= 0) {
+                return;
             }
+
+            $recipient = User::find($receiverId);
+            if (!$recipient) {
+                return;
+            }
+
+            $notify_by = $sender ? (int) $sender : (Auth::check() ? Auth::id() : 0);
+            $id = unique_notify_id();
+
+            NotificationFacade::send(
+                $recipient,
+                new DbStoreNotification(
+                    $type,
+                    $id,
+                    $notify_by,
+                    $receiverId,
+                    translate($message),
+                    $link
+                )
+            );
+        } catch (\Throwable $e) {
+            Log::error('NotificationUtility::set_notification error: ' . $e->getMessage(), [
+                'type' => $type,
+                'receiver' => $receiver,
+                'sender' => $sender
+            ]);
         }
-
-        return $list;
     }
-
 }
+

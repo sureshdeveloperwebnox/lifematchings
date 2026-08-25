@@ -54,39 +54,43 @@ class CheckPackageExpiration extends Command
         $admins = User::where('user_type', 'admin')->get();
 
         foreach ($expiredMembers as $member) {
-            $user = $member->user;
-            if ($user) {
-                // Send email to user
-                EmailUtility::package_expired_user_email($user);
+            try {
+                $user = $member->user;
+                if ($user) {
+                    // Send email to user
+                    EmailUtility::package_expired_user_email($user);
 
-                // In-app notification for user
-                \App\Utility\NotificationUtility::set_notification(
-                    'package_expired',
-                    'Your subscription package has expired. Please renew to access all features.',
-                    route('packages.index'),
-                    $user->id,
-                    $user->id,
-                    'member'
-                );
-
-                // Send email & in-app notification to admins
-                foreach ($admins as $admin) {
-                    EmailUtility::package_expired_admin_email($user, $admin);
-
+                    // In-app notification for user
                     \App\Utility\NotificationUtility::set_notification(
-                        'package_expired_admin',
-                        'Package expired for member: ' . $user->first_name . ' ' . $user->last_name,
-                        route('members.show', $user->id),
+                        'package_expired',
+                        'Your subscription package has expired. Please renew to access all features.',
+                        'packages',
                         $user->id,
-                        $admin->id,
-                        'admin'
+                        $user->id,
+                        'member'
                     );
-                }
-            }
 
-            // Mark member as notified
-            $member->expiry_notified = 1;
-            $member->save();
+                    // Send email & in-app notification to admins
+                    foreach ($admins as $admin) {
+                        EmailUtility::package_expired_admin_email($user, $admin);
+
+                        \App\Utility\NotificationUtility::set_notification(
+                            'package_expired_admin',
+                            'Package expired for member: ' . $user->first_name . ' ' . $user->last_name,
+                            route('member_profile', $user->id),
+                            $user->id,
+                            $admin->id,
+                            'admin'
+                        );
+                    }
+                }
+
+                // Mark member as notified
+                $member->expiry_notified = 1;
+                $member->save();
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error('CheckPackageExpiration error for member ID ' . $member->id . ': ' . $e->getMessage());
+            }
         }
 
         $this->info('Checked package expirations: ' . count($expiredMembers) . ' members processed.');

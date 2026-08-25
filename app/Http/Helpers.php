@@ -453,10 +453,13 @@ if (!function_exists('unique_notify_id')) {
     function unique_notify_id()
     {
         try {
-            $latest = Notification::latest('created_at')->first();
-            if ($latest && is_numeric($latest->id)) {
-                return (int)$latest->id + 1;
+            static $lastAssignedId = 0;
+            $maxId = (int) Notification::max('id');
+            if ($maxId > $lastAssignedId) {
+                $lastAssignedId = $maxId;
             }
+            $lastAssignedId++;
+            return $lastAssignedId;
         } catch (\Throwable $e) {
             // ignore
         }

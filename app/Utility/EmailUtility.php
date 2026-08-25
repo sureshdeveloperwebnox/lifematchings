@@ -193,6 +193,10 @@ class EmailUtility
 
     public static function package_expired_user_email($user = '')
     {
+        if (!$user || empty($user->email)) {
+            return;
+        }
+
         $subject    = get_email_template('package_expired_user_email','subject');
         $email_body = get_email_template('package_expired_user_email','body');
         $package_name = optional(optional($user->member)->package)->name ?? 'Package';
@@ -207,28 +211,32 @@ class EmailUtility
         try{
             Notification::send($user, new EmailNotification($subject, $email_body));
         }
-        catch(\Exception $e){
-            // dd($e);
+        catch(\Throwable $e){
+            \Illuminate\Support\Facades\Log::error('package_expired_user_email failed: ' . $e->getMessage());
         }
     }
 
     public static function package_expired_admin_email($user = '', $admin = '')
     {
+        if (!$admin || empty($admin->email)) {
+            return;
+        }
+
         $subject    = get_email_template('package_expired_admin_email','subject');
         $email_body = get_email_template('package_expired_admin_email','body');
-        $expiry_date  = optional($user->member)->package_validity ?? date('Y-m-d');
+        $expiry_date  = optional(optional($user)->member)->package_validity ?? date('Y-m-d');
 
-        $email_body = str_replace('[[member_name]]', $user->first_name.' '.$user->last_name, $email_body);
-        $email_body = str_replace('[[email]]', $user->email, $email_body);
+        $email_body = str_replace('[[member_name]]', optional($user)->first_name.' '.optional($user)->last_name, $email_body);
+        $email_body = str_replace('[[email]]', optional($user)->email ?? '', $email_body);
         $email_body = str_replace('[[expiry_date]]', date('d-m-Y', strtotime($expiry_date)), $email_body);
-        $email_body = str_replace('[[profile_link]]', env('APP_URL').'/admin/members/'.$user->id, $email_body);
+        $email_body = str_replace('[[profile_link]]', env('APP_URL').'/admin/members/'.optional($user)->id, $email_body);
         $email_body = str_replace('[[from]]', env('MAIL_FROM_NAME'), $email_body);
 
         try{
             Notification::send($admin, new EmailNotification($subject, $email_body));
         }
-        catch(\Exception $e){
-            // dd($e);
+        catch(\Throwable $e){
+            \Illuminate\Support\Facades\Log::error('package_expired_admin_email failed: ' . $e->getMessage());
         }
     }
 

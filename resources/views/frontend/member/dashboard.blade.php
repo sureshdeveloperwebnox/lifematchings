@@ -80,40 +80,40 @@
                 </div>
                 <div class="card-body">
                     <div class="text-center mb-4 mt-3">
-                        <img class="mw-100 mx-auto mb-4" src="{{ uploaded_asset($user->member->package->image) }}" height="130">
-                        <h5 class="mb-3 h5 fw-600">{{$user->member->package->name}}</h5>
+                        <img class="mw-100 mx-auto mb-4" src="{{ uploaded_asset(optional(optional($user->member)->package)->image) }}" height="130">
+                        <h5 class="mb-3 h5 fw-600">{{ optional(optional($user->member)->package)->name ?? translate('No Package') }}</h5>
                     </div>
                     <ul class="list-group list-group-raw fs-15 mb-4 pb-4 border-bottom">
                         <li class="list-group-item py-2">
                             <i class="las la-check text-success mr-2"></i>
-                            {{ $user->member->package->express_interest }} {{ translate('Express Interests') }}
+                            {{ optional(optional($user->member)->package)->express_interest ?? 0 }} {{ translate('Express Interests') }}
                         </li>
                         <li class="list-group-item py-2">
                             <i class="las la-check text-success mr-2"></i>
-                            {{ $user->member->package->photo_gallery }} {{ translate('Gallery Photo Upload') }}
+                            {{ optional(optional($user->member)->package)->photo_gallery ?? 0 }} {{ translate('Gallery Photo Upload') }}
                         </li>
                         <li class="list-group-item py-2">
                             <i class="las la-check text-success mr-2"></i>
-                            {{ $user->member->package->contact }} {{ translate('Contact Info View') }}
+                            {{ optional(optional($user->member)->package)->contact ?? 0 }} {{ translate('Contact Info View') }}
                         </li>
                         <li class="list-group-item py-2">
                             <i class="las la-check text-success mr-2"></i>
-                            {{ $user->member->package->profile_viewers_view }} {{ translate('Profile Viewer View') }}
+                            {{ optional(optional($user->member)->package)->profile_viewers_view ?? 0 }} {{ translate('Profile Viewer View') }}
                         </li>
                         @if($profile_picture_privacy == 'only_me')
                             <li class="list-group-item py-2">
                                 <i class="las la-check text-success mr-2"></i>
-                                {{ $user->member->package->profile_image_view }} {{ translate('Profile Image View') }}
+                                {{ optional(optional($user->member)->package)->profile_image_view ?? 0 }} {{ translate('Profile Image View') }}
                             </li>
                         @endif
                         @if($gallery_image_privacy == 'only_me')
                             <li class="list-group-item py-2">
                                 <i class="las la-check text-success mr-2"></i>
-                                {{ $user->member->package->gallery_image_view }} {{ translate('Gallery Image View') }}
+                                {{ optional(optional($user->member)->package)->gallery_image_view ?? 0 }} {{ translate('Gallery Image View') }}
                             </li>
                         @endif
                         <li class="list-group-item py-2 text-line-through">
-                            @if( $user->member->package->auto_profile_match == 0 )
+                            @if( optional(optional($user->member)->package)->auto_profile_match == 0 )
                                 <i class="las la-times text-danger mr-2"></i>
                                 <del class="opacity-60">{{ translate('Show Auto Profile Match') }}</del>
                             @else
@@ -125,7 +125,7 @@
                     <h4 class="fs-18 mb-3">
                       {{ translate('Package expiry date') }}:
                       @if(package_validity($user->id))
-                        {{ $user->member->package_validity }}
+                        {{ optional($user->member)->package_validity }}
                       @else
                           <span class="text-danger">{{translate('Expired')}}</span>
                       @endif
@@ -165,14 +165,14 @@
                     <h2 class="fs-16 mb-0">{{  translate('Matched profile') }}</h2>
                 </div>
                 <div class="card-body">
-                    @if(Auth::user()->member->auto_profile_match == 1)
+                    @if(optional($user->member)->auto_profile_match == 1)
                     <div>
                         @forelse ($similar_profiles->shuffle()->take(5) as $similar_profile)
                           @if($similar_profile->user != null)
                             <a href="{{ route('member_profile', $similar_profile->match_id) }}" class="text-reset border rounded row no-gutters align-items-center mb-3">
                                 <div class="col-auto w-100px">
                                   @php
-                                      $avatar_image = $similar_profile->user->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
+                                      $avatar_image = optional($similar_profile->user->member)->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
                                       $profile_picture_show = show_profile_picture($similar_profile->user);
                                   @endphp
                                   <img
@@ -190,28 +190,28 @@
                                       <h5 class="fs-16 text-body text-truncate">{{ $similar_profile->user->first_name.' '.$similar_profile->user->last_name }}</h5>
                                       <div class="fs-12 text-truncate-3">
                                           <span class="mr-1 d-inline-block">
-                                            @if(!empty($similar_profile->user->member->birthday))
+                                            @if(!empty(optional($similar_profile->user->member)->birthday))
                                               {{ \Carbon\Carbon::parse($similar_profile->user->member->birthday)->age }} {{ translate('yrs') }},
                                             @endif
                                           </span>
                                           <span class="mr-1 d-inline-block">
-                                            @if(!empty($similar_profile->user->physical_attributes->height))
+                                            @if(!empty(optional($similar_profile->user->physical_attributes)->height))
                                               {{ $similar_profile->user->physical_attributes->height }} {{ translate('Feet') }},
                                             @endif
                                           </span>
                                           <span class="mr-1 d-inline-block">
-                                            @if(!empty($similar_profile->user->member->marital_status->name))
+                                            @if(!empty(optional(optional($similar_profile->user->member)->marital_status)->name))
                                               {{ $similar_profile->user->member->marital_status->name }},
                                             @endif
                                           </span>
                                           <span class="mr-1 d-inline-block">
-                                            {{ !empty($similar_profile->user->spiritual_backgrounds->religion->name) ? $similar_profile->user->spiritual_backgrounds->religion->name.', ' : "" }}
+                                            {{ !empty(optional(optional($similar_profile->user->spiritual_backgrounds)->religion)->name) ? $similar_profile->user->spiritual_backgrounds->religion->name.', ' : "" }}
                                           </span>
                                           <span class="mr-1 d-inline-block">
-                                            {{ !empty($similar_profile->user->spiritual_backgrounds->caste->name) ? $similar_profile->user->spiritual_backgrounds->caste->name.', ' : "" }}
+                                            {{ !empty(optional(optional($similar_profile->user->spiritual_backgrounds)->caste)->name) ? $similar_profile->user->spiritual_backgrounds->caste->name.', ' : "" }}
                                           </span>
                                           <span class="mr-1 d-inline-block">
-                                            <td class="py-1">{{ !empty($similar_profile->user->spiritual_backgrounds->sub_caste->name) ? $similar_profile->user->spiritual_backgrounds->sub_caste->name : "" }}</td>
+                                            <td class="py-1">{{ !empty(optional(optional($similar_profile->user->spiritual_backgrounds)->sub_caste)->name) ? $similar_profile->user->spiritual_backgrounds->sub_caste->name : "" }}</td>
                                           </span>
                                       </div>
                                   </div>
@@ -406,7 +406,7 @@
 </style>             
                 
 
-@if($user->member->current_package_id != 1)
+@if(optional($user->member)->current_package_id != 1)
 <div class="reportContent">
   @if($report)
     <div class="report-header">
@@ -444,7 +444,7 @@
         <div class="info-item">
           <div class="info-label">Birth Date</div>
           <div class="info-value">
-            @if(!empty($member->member->birthday)) 
+            @if(!empty(optional($member->member)->birthday)) 
               {{date('d-m-Y', strtotime($member->member->birthday))}} 
             @else
               
@@ -457,7 +457,7 @@
         </div>
         <div class="info-item">
           <div class="info-label">Birth Time</div>
-          <div class="info-value">{{ $member->astrologies->time_of_birth ?? "" }}</div>
+          <div class="info-value">{{ optional($member->astrologies)->time_of_birth ?? "" }}</div>
         </div>
         <div class="info-item">
           <div class="info-label">Dosham</div>
@@ -465,7 +465,7 @@
         </div>
         <div class="info-item">
           <div class="info-label">Birth Place</div>
-          <div class="info-value">{{ $member->astrologies->city_of_birth ?? '' }}</div>
+          <div class="info-value">{{ optional($member->astrologies)->city_of_birth ?? '' }}</div>
         </div>
         <div class="info-item">
           <div class="info-label">Parigaram</div>

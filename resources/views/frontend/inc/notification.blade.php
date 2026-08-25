@@ -19,7 +19,8 @@
                     <a href="{{ route('notification_view', $notification->id) }}" class="d-flex align-items-center text-inherit w-100 text-decoration-none">
                         <span class="avatar avatar-sm mr-3 flex-shrink-0">
                             @php
-                                $avatar_image = $user_data->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
+                                $gender = optional($user_data->member)->gender;
+                                $avatar_image = $gender == 2 ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
                                 $profile_picture_show = show_profile_picture($user_data);
                             @endphp
                             <img @if ($profile_picture_show) src="{{ uploaded_asset($user_data->photo) }}"

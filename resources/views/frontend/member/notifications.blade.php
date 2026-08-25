@@ -41,8 +41,9 @@
                             <li class="list-group-item d-flex justify-content-between align-items-start hov-bg-soft-primary">
                                 <a href="{{ route('notification_view', $notification->id) }}" class="media text-inherit">
                                     @php
+                                        $avatar_image = 'assets/img/avatar-place.png';
                                         if($user->user_type == 'member'){
-                                            $avatar_image = $user->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
+                                            $avatar_image = optional($user->member)->gender == 2 ? 'assets/img/female-avatar-place.png' : 'assets/img/avatar-place.png';
                                         }
                                         $profile_picture_show = show_profile_picture($user);
                                     @endphp

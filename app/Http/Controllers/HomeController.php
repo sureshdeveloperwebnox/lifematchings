@@ -133,30 +133,34 @@ class HomeController extends Controller
         if ($user && $user->user_type == 'member') {
             
             if ($user->member && $user->member->package_validity && $user->member->package_validity < date('Y-m-d') && !$user->member->expiry_notified) {
-                \App\Utility\EmailUtility::package_expired_user_email($user);
-                \App\Utility\NotificationUtility::set_notification(
-                    'package_expired',
-                    'Your subscription package has expired. Please renew to access all features.',
-                    route('packages.index'),
-                    $user->id,
-                    $user->id,
-                    'member'
-                );
-
-                $admins = \App\Models\User::where('user_type', 'admin')->get();
-                foreach ($admins as $admin) {
-                    \App\Utility\EmailUtility::package_expired_admin_email($user, $admin);
+                try {
+                    \App\Utility\EmailUtility::package_expired_user_email($user);
                     \App\Utility\NotificationUtility::set_notification(
-                        'package_expired_admin',
-                        'Package expired for member: ' . $user->first_name . ' ' . $user->last_name,
-                        route('members.show', $user->id),
+                        'package_expired',
+                        'Your subscription package has expired. Please renew to access all features.',
+                        'packages',
                         $user->id,
-                        $admin->id,
-                        'admin'
+                        $user->id,
+                        'member'
                     );
+
+                    $admins = \App\Models\User::where('user_type', 'admin')->get();
+                    foreach ($admins as $admin) {
+                        \App\Utility\EmailUtility::package_expired_admin_email($user, $admin);
+                        \App\Utility\NotificationUtility::set_notification(
+                            'package_expired_admin',
+                            'Package expired for member: ' . $user->first_name . ' ' . $user->last_name,
+                            route('member_profile', $user->id),
+                            $user->id,
+                            $admin->id,
+                            'admin'
+                        );
+                    }
+                    $user->member->expiry_notified = 1;
+                    $user->member->save();
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::error('Package expiration notification failed in dashboard: ' . $e->getMessage());
                 }
-                $user->member->expiry_notified = 1;
-                $user->member->save();
             }
 
             if($user->blocked == 1){
