@@ -11,6 +11,8 @@ class GothramController extends Controller
 {
     public function __construct()
     {
+        $this->ensureTableExists();
+
         $this->rules = [
             'name' => ['required', 'max:255'],
         ];
@@ -22,12 +24,49 @@ class GothramController extends Controller
     }
 
     /**
+     * Ensure gothrams table exists and is seeded with defaults
+     */
+    private function ensureTableExists()
+    {
+        try {
+            if (!\Illuminate\Support\Facades\Schema::hasTable('gothrams')) {
+                \Illuminate\Support\Facades\Schema::create('gothrams', function ($table) {
+                    $table->id();
+                    $table->string('name');
+                    $table->timestamps();
+                    $table->softDeletes();
+                });
+
+                $default_gothrams = [
+                    'Agastya', 'Angirasa', 'Atri', 'Bharadwaja', 'Bhrigu',
+                    'Dhananjaya', 'Gargya', 'Gautama', 'Harita', 'Jamadagni',
+                    'Kanva', 'Kapila', 'Kashyapa', 'Kaundinya', 'Kutsasa',
+                    'Moudgalya', 'Naidhruva', 'Nithyandhana', 'Parashara', 'Sandilya',
+                    'Sankriti', 'Shatamarshana', 'Siva', 'Srivastava', 'Upamanyu',
+                    'Vadoolas', 'Vashishta', 'Vatsa', 'Vishnuvardhana', 'Viswamitra',
+                    'Other / Don\'t Know'
+                ];
+
+                $now = now();
+                $records = array_map(function ($name) use ($now) {
+                    return ['name' => $name, 'created_at' => $now, 'updated_at' => $now];
+                }, $default_gothrams);
+
+                \App\Models\Gothram::insert($records);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error ensuring gothrams table exists: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
+        $this->ensureTableExists();
         $sort_search = null;
         $gothrams    = Gothram::latest();
 

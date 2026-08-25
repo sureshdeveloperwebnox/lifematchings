@@ -11,6 +11,8 @@ class ManglikController extends Controller
 {
     public function __construct()
     {
+        $this->ensureTableExists();
+
         $this->rules = [
             'name' => ['required', 'max:255'],
         ];
@@ -22,12 +24,40 @@ class ManglikController extends Controller
     }
 
     /**
+     * Ensure mangliks table exists and is seeded with defaults
+     */
+    private function ensureTableExists()
+    {
+        try {
+            if (!\Illuminate\Support\Facades\Schema::hasTable('mangliks')) {
+                \Illuminate\Support\Facades\Schema::create('mangliks', function ($table) {
+                    $table->id();
+                    $table->string('name');
+                    $table->timestamps();
+                    $table->softDeletes();
+                });
+
+                $default_mangliks = ['Yes', 'No', 'Does not matter'];
+                $now = now();
+                $records = array_map(function ($name) use ($now) {
+                    return ['name' => $name, 'created_at' => $now, 'updated_at' => $now];
+                }, $default_mangliks);
+
+                \App\Models\Manglik::insert($records);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error ensuring mangliks table exists: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
+        $this->ensureTableExists();
         $sort_search = null;
         $mangliks    = Manglik::latest();
 
