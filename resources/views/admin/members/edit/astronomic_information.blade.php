@@ -105,22 +105,18 @@
             <div class="col-md-6">
                 <label for="manglik">{{translate('Manglik')}}</label>
                 @php
-                    $manglik_options = [
-                        'No Dosham',
-                        'Rahu / Kedu Dosham',
-                        'Sevvai Dosham',
-                        'Parrigara Sevvai',
-                        'Don’t Know'
-                    ];
+                    $manglik_options = \Illuminate\Support\Facades\Schema::hasTable('mangliks') 
+                        ? \App\Models\Manglik::all() 
+                        : collect();
                     $selected_manglik = $member->astrologies->manglik ?? "";
                 @endphp
                 <select name="manglik" id="manglik" class="form-control aiz-selectpicker" data-live-search="true">
                     <option value="">{{translate('Select One (Optional)')}}</option>
-                    @if($selected_manglik && !in_array($selected_manglik, $manglik_options))
+                    @if($selected_manglik && !$manglik_options->contains(function($opt) use ($selected_manglik) { return strtolower($opt->name) == strtolower($selected_manglik); }))
                         <option value="{{ $selected_manglik }}" selected>{{ $selected_manglik }}</option>
                     @endif
                     @foreach ($manglik_options as $m_opt)
-                        <option value="{{ $m_opt }}" @if($selected_manglik == $m_opt) selected @endif>{{ translate($m_opt) }}</option>
+                        <option value="{{ $m_opt->name }}" @if(strtolower($selected_manglik) == strtolower($m_opt->name)) selected @endif>{{ translate($m_opt->name) }}</option>
                     @endforeach
                 </select>
                 @error('manglik')

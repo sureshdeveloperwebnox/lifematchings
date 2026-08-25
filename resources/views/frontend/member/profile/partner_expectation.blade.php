@@ -207,6 +207,9 @@
                     <select class="form-control aiz-selectpicker" name="partner_manglik" required>
                         <option value="">{{ translate('Select One') }}</option>
                         @if($manglik_options->count() > 0)
+                            @if($partner_manglik && !$manglik_options->contains(function($opt) use ($partner_manglik) { return strtolower($opt->name) == strtolower($partner_manglik) || ($partner_manglik == 'dose_not_matter' && strtolower($opt->name) == 'does not matter'); }))
+                                <option value="{{ $partner_manglik }}" selected>{{ $partner_manglik }}</option>
+                            @endif
                             @foreach($manglik_options as $m_opt)
                                 <option value="{{ $m_opt->name }}" @if(strtolower($partner_manglik) == strtolower($m_opt->name) || ($partner_manglik == 'dose_not_matter' && strtolower($m_opt->name) == 'does not matter')) selected @endif>{{ translate($m_opt->name) }}</option>
                             @endforeach

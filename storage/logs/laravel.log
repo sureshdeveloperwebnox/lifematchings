@@ -8537,3 +8537,8 @@
 [2026-08-25 09:46:34] production.ERROR: package_expired_admin_email failed: Failed to authenticate on SMTP server with username "lifematchings@gmail.com" using the following authenticators: "LOGIN", "PLAIN", "XOAUTH2". Authenticator "LOGIN" returned "Expected response code "235" but got code "454", with message "454-4.7.0 Too many login attempts, please try again later. For more information,
 454-4.7.0 go to
 454 4.7.0  https://support.google.com/mail/answer/7126229 98e67ed59e1d1-3964319f170sm847961a91.3 - gsmtp".". Authenticator "PLAIN" returned "Expected response code "235" but got empty code.". Authenticator "XOAUTH2" returned "Expected response code "235" but got empty code.".  
+[2026-08-25 10:04:30] production.ERROR: Method App\Http\Controllers\MemberController::member_profile_settings does not exist. {"userId":714,"exception":"[object] (BadMethodCallException(code: 0): Method App\\Http\\Controllers\\MemberController::member_profile_settings does not exist. at D:\\PHP-Projects\\lifematchings\\httpdocs\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php:68)
+[stacktrace]
+#0 C:\\Users\\sures\\.gemini\\antigravity-ide\\brain\\c57c527b-fdf0-4412-96a5-1a1c46145bcb\\scratch\\test_frontend_member_profile.php(14): Illuminate\\Routing\\Controller->__call('member_profile_...', Array)
+#1 {main}
+"} 
